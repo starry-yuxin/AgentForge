@@ -36,6 +36,11 @@
 
 公共节点属性包括 `node_type`、`name`、`description`、`version`、`source_document` 和 `source_section`。能力节点还可包含 `inputs`、`outputs`、`applicable_tasks`、`applicable_conditions`、`constraints`、`dependencies`、`metrics`。ValidationRun 保存时间、随机种子、最佳算法和免责声明；指标值保存在 `ACHIEVED_METRIC` 边上。
 
+阶段四受控执行运行还保存 `repair_attempts`、`repaired` 和 `failure_types`。修复过的
+ValidationRun 通过 `FAILED_BECAUSE` 关联既有 FailureExperience；既有 FailureExperience
+到预处理能力的 `IMPROVED_BY` 关系记录确定性修复依据。`USED_ALGORITHM` 边只保存相对
+代码版本（如 `attempt-0/candidate.py`），不持久化用户主目录绝对路径。
+
 GraphML 只可靠支持标量属性，因此 list、dict 和 null 在导出前编码为带前缀的 JSON 字符串，加载时恢复原类型。可读 JSON 图谱使用 node-link 结构保存复杂属性。
 
 ## Example triples
@@ -54,4 +59,3 @@ NetworkX 无需外部服务，适合两天原型、离线评分环境和小规�
 ## Future responsibility split
 
 知识图谱负责语义关系、可解释检索、能力与失败经验关联；SQLite 未来负责结构化运行事实、完整日志、代码版本和事务性历史。SQLite 是运行记录事实源，图谱保存适合检索的摘要与关系，两者通过稳定 ID 关联。
-

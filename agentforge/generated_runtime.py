@@ -6,6 +6,9 @@ import pickle
 from pathlib import Path
 
 import pandas as pd
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 from agentforge.pipeline import (
     ID_COLUMN,
@@ -41,6 +44,25 @@ def train_candidate(algorithm: str, data_path: str, model_path: str) -> dict:
             "validation_f1": validation_f1, "model_path": str(destination)}
 
 
+def train_candidate_missing_imputer(algorithm: str, data_path: str, model_path: str) -> dict:
+    """Intentional stage-four fault: fit without imputers so real NaN handling fails."""
+    frame = pd.read_csv(data_path)
+    features = frame.drop(columns=[TARGET_COLUMN, ID_COLUMN])
+    target = frame[TARGET_COLUMN].astype(int)
+    split = split_dataset(features, target)
+    numeric_columns = split.x_train.select_dtypes(include="number").columns.tolist()
+    categorical_columns = split.x_train.select_dtypes(exclude="number").columns.tolist()
+    unsafe_preprocessor = ColumnTransformer([
+        ("numeric", StandardScaler(), numeric_columns),
+        ("categorical", OneHotEncoder(handle_unknown="ignore", sparse_output=False),
+         categorical_columns),
+    ])
+    estimator = _models(42).get(algorithm)
+    pipeline = Pipeline([("preprocessor", unsafe_preprocessor), ("model", estimator)])
+    pipeline.fit(split.x_train, split.y_train)
+    raise AssertionError("fault injection unexpectedly completed without a missing-value error")
+
+
 def _load_bundle(model_path: str) -> dict:
     with Path(model_path).open("rb") as stream:
         return pickle.load(stream)  # noqa: S301 - only project-created trusted artifacts are allowed.
@@ -59,5 +81,20 @@ def evaluate_candidate_model(model_path: str, data_path: str) -> dict:
     frame = pd.read_csv(data_path)
     labels = frame[TARGET_COLUMN].astype(int)
     features = frame.drop(columns=[TARGET_COLUMN, ID_COLUMN])
-    probabilities = bundle["pipeline"].predict_proba(features)[:, 1]
-    return _final_metrics(labels, probabilities, bundle["threshold"], 0.0)
+    split = split_dataset(features, labels)
+    validation_probabilities = bundle["pipeline"].predict_proba(split.x_validation)[:, 1]
+    test_probabilities = bundle["pipeline"].predict_proba(split.x_test)[:, 1]
+    validation = _final_metrics(
+        split.y_validation, validation_probabilities, bundle["threshold"], 0.0
+    )
+    test = _final_metrics(split.y_test, test_probabilities, bundle["threshold"], 0.0)
+    return {
+        "algorithm": bundle["algorithm"],
+        "selected_threshold": bundle["threshold"],
+        "validation_metrics": validation,
+        "test_metrics": test,
+        "split_sizes": {
+            "train": len(split.y_train), "validation": len(split.y_validation),
+            "test": len(split.y_test),
+        },
+    }

@@ -111,6 +111,84 @@ class GeneratedArtifact(WorkflowModel):
     interface_spec: list[str]
     source_plan: CandidatePlan
     syntax_valid: bool
+    attempt: int = Field(default=0, ge=0, le=2)
+    failure_injection: str | None = None
+
+
+class SecurityFinding(WorkflowModel):
+    rule_id: str
+    severity: Literal["low", "medium", "high", "critical"]
+    category: str
+    message: str
+    line_number: int | None = Field(default=None, ge=1)
+    symbol: str | None = None
+    blocking: bool = True
+
+
+class SecurityCheckResult(WorkflowModel):
+    passed: bool
+    findings: list[SecurityFinding] = Field(default_factory=list)
+    checked_file: str
+    checker_version: str = "1.0"
+    limitations: list[str] = Field(default_factory=lambda: [
+        "Static AST checks cannot detect all dynamic or runtime behavior.",
+        "This check is not a production-grade security sandbox.",
+    ])
+
+
+class InterfaceCheckResult(WorkflowModel):
+    passed: bool
+    required_functions: list[str]
+    discovered_functions: list[str]
+    missing_functions: list[str] = Field(default_factory=list)
+    signature_errors: list[str] = Field(default_factory=list)
+    messages: list[str] = Field(default_factory=list)
+
+
+class ExecutionResult(WorkflowModel):
+    attempt: int = Field(ge=0, le=2)
+    command: list[str]
+    cwd: str
+    return_code: int | None = None
+    timed_out: bool = False
+    duration_seconds: float = Field(default=0.0, ge=0.0)
+    stdout: str = Field(default="", max_length=8000)
+    stderr: str = Field(default="", max_length=8000)
+    result_json_path: str
+    model_path: str
+    process_status: Literal["completed", "failed", "timed_out", "not_started"]
+
+
+class ValidationCheck(WorkflowModel):
+    name: str
+    category: Literal[
+        "syntax", "security", "interface", "execution", "functionality",
+        "metrics", "stability", "resource",
+    ]
+    passed: bool
+    expected: Any = None
+    actual: Any = None
+    message: str = ""
+
+
+class RepairRecord(WorkflowModel):
+    repair_id: str
+    plan_id: str
+    attempt: int = Field(ge=1, le=2)
+    failure_type: str
+    error_summary: str
+    retrieved_experience_ids: list[str] = Field(default_factory=list)
+    repair_strategy: str
+    repair_mode: Literal["deterministic_rule"] = "deterministic_rule"
+    source_code_path: str
+    repaired_code_path: str
+    diff_path: str
+    validation_before: list[ValidationCheck] = Field(default_factory=list)
+    validation_after: list[ValidationCheck] = Field(default_factory=list)
+    status: Literal["created", "validated", "failed"] = "created"
+    started_at: datetime
+    finished_at: datetime
+    duration_seconds: float = Field(ge=0.0)
 
 
 class CandidateResult(WorkflowModel):
@@ -127,6 +205,14 @@ class CandidateResult(WorkflowModel):
     selection_metric_value: float | None = None
     error: str | None = None
     validation_messages: list[str] = Field(default_factory=list)
+    attempts: list[ExecutionResult] = Field(default_factory=list)
+    security_result: SecurityCheckResult | None = None
+    interface_result: InterfaceCheckResult | None = None
+    validation_checks: list[ValidationCheck] = Field(default_factory=list)
+    repair_records: list[RepairRecord] = Field(default_factory=list)
+    final_code_path: str | None = None
+    execution_logs: list[str] = Field(default_factory=list)
+    failure_type: str | None = None
 
 
 class WorkflowEvent(WorkflowModel):
@@ -156,3 +242,8 @@ class WorkflowState(WorkflowModel):
     final_report_paths: dict[str, str] = Field(default_factory=dict)
     knowledge_persisted: bool = False
     errors: list[str] = Field(default_factory=list)
+    total_repair_attempts: int = Field(default=0, ge=0)
+    repaired_candidates: list[str] = Field(default_factory=list)
+    unrepaired_failures: list[str] = Field(default_factory=list)
+    security_summary: dict[str, Any] = Field(default_factory=dict)
+    failure_injection: str | None = None

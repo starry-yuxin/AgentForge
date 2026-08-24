@@ -21,6 +21,8 @@ class ReportAgent:
             "# AgentForge deterministic workflow report", "", f"- Run ID: `{state.run_id}`",
             f"- Status: `{state.status}`", f"- Original request: {request.raw_text if request else ''}",
             f"- Generator mode: `deterministic_template`", "",
+            "- Execution mode: `timeout_bounded_subprocess`",
+            f"- Failure injection: `{state.failure_injection}`",
             "## Structured requirement", "",
             f"- Task: `{request.task_type}`", f"- Dataset: `{request.dataset_path}`",
             f"- Target: `{request.target_column}`", f"- Primary metric: `{request.primary_metric}`",
@@ -53,6 +55,18 @@ class ReportAgent:
                 f"- Selected threshold: `{result.selected_threshold if result else None}`",
                 f"- Minimum score met: `{result.minimum_score_met if result else False}`", "",
             ])
+            if result:
+                lines.extend([
+                    f"- Attempts: `{len(result.attempts)}`",
+                    f"- Security passed: `{result.security_result.passed if result.security_result else None}`",
+                    f"- Interface passed: `{result.interface_result.passed if result.interface_result else None}`",
+                    f"- Failure type: `{result.failure_type}`",
+                    f"- Final code: `{result.final_code_path}`",
+                    f"- Validation checks: `{[check.model_dump() for check in result.validation_checks]}`",
+                    f"- Subprocess summary: `{[attempt.model_dump() for attempt in result.attempts]}`",
+                    f"- Repair history: `{[repair.model_dump(mode='json') for repair in result.repair_records]}`",
+                    "",
+                ])
         lines.extend([
             "## Selection", "",
             f"- Best candidate: `{state.best_candidate.algorithm if state.best_candidate else None}`",
@@ -68,8 +82,14 @@ class ReportAgent:
         lines.extend([
             "", "## Persistence and limitations", "",
             f"- Knowledge persisted: `{state.knowledge_persisted}`",
+            f"- Security summary: `{state.security_summary}`",
+            f"- Total repair attempts: `{state.total_repair_attempts}`",
+            f"- Repaired candidates: `{state.repaired_candidates}`",
+            f"- Unresolved failures: `{state.unrepaired_failures}`",
             "- Generated code uses deterministic trusted templates; it is not LLM-generated.",
-            "- No subprocess sandbox, AST security policy, automatic repair, real LLM, SQLite, or Web UI.",
+            "- Repair mode is deterministic_rule; it is not LLM repair.",
+            "- Subprocess isolation and AST checks reduce accidental risk but do not constitute a production-grade security sandbox.",
+            "- No OS/container sandbox, real LLM, SQLite, or Web UI.",
             "- Metrics use fixed-random-seed synthetic data and do not demonstrate real-business generalization.",
         ])
         markdown_path.write_text("\n".join(lines) + "\n", encoding="utf-8")

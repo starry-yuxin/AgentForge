@@ -192,13 +192,18 @@ class KnowledgeGraphStore:
             raise ValueError(f"validation run already exists: {run_id}")
         dataset_id = "customer_churn_sample"
         self.graph.add_node(
-            dataset_id, node_type="Dataset", name=dataset_id, source_path=dataset_path,
+            dataset_id, node_type="Dataset", name=dataset_id,
+            source_path=Path(dataset_path).name,
             characteristics=["tabular_data", "missing_values", "imbalanced_data"],
         )
         self.graph.add_node(
             run_id, node_type="ValidationRun", name="Stage 3 deterministic agent workflow",
             status="success", best_algorithm=best_algorithm, minimum_score=minimum_score,
             created_at=datetime.now(timezone.utc).isoformat(),
+            repair_attempts=sum(len(result.get("repair_records", [])) for result in results),
+            repaired=any(result.get("repair_records") for result in results),
+            failure_types=sorted({result.get("failure_type") for result in results
+                                  if result.get("failure_type")}),
             disclaimer=("Fixed-random-seed synthetic-data demonstration; results do not "
                         "represent real-business generalization performance."),
         )
@@ -210,7 +215,22 @@ class KnowledgeGraphStore:
                 selected_threshold=result["selected_threshold"],
                 selected_as_best=algorithm == best_algorithm,
                 minimum_score_met=result["minimum_score_met"],
+                repaired=bool(result.get("repair_records")),
+                repair_attempts=len(result.get("repair_records", [])),
+                original_code_version="attempt-0/candidate.py",
+                final_code_version=(
+                    f"attempt-{len(result.get('repair_records', []))}/candidate.py"
+                ),
             )
+            failure_type = result.get("failure_type")
+            failure_ids = {
+                "MissingValueError": "missing_value_error",
+                "CategoricalEncodingError": "categorical_encoding_error",
+                "DataLeakageRisk": "data_leakage_risk",
+            }
+            if failure_type in failure_ids and failure_ids[failure_type] in self.graph:
+                self.add_edge(run_id, failure_ids[failure_type], "FAILED_BECAUSE",
+                              algorithm=algorithm, repaired=True)
             for split_name, metrics in (
                 ("validation", result["validation_metrics"]),
                 ("test", result["test_metrics"]),

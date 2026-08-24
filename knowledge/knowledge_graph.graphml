@@ -1,13 +1,20 @@
 <?xml version='1.0' encoding='utf-8'?>
 <graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
-  <key id="d32" for="edge" attr.name="minimum_score_met" attr.type="boolean" />
-  <key id="d31" for="edge" attr.name="split" attr.type="string" />
-  <key id="d30" for="edge" attr.name="value" attr.type="double" />
-  <key id="d29" for="edge" attr.name="algorithm" attr.type="string" />
-  <key id="d28" for="edge" attr.name="selected_as_best" attr.type="boolean" />
-  <key id="d27" for="edge" attr.name="selected_threshold" attr.type="double" />
-  <key id="d26" for="edge" attr.name="section" attr.type="string" />
-  <key id="d25" for="edge" attr.name="relation" attr.type="string" />
+  <key id="d39" for="edge" attr.name="final_code_version" attr.type="string" />
+  <key id="d38" for="edge" attr.name="original_code_version" attr.type="string" />
+  <key id="d37" for="edge" attr.name="repair_attempts" attr.type="long" />
+  <key id="d36" for="edge" attr.name="repaired" attr.type="boolean" />
+  <key id="d35" for="edge" attr.name="minimum_score_met" attr.type="boolean" />
+  <key id="d34" for="edge" attr.name="split" attr.type="string" />
+  <key id="d33" for="edge" attr.name="value" attr.type="double" />
+  <key id="d32" for="edge" attr.name="algorithm" attr.type="string" />
+  <key id="d31" for="edge" attr.name="selected_as_best" attr.type="boolean" />
+  <key id="d30" for="edge" attr.name="selected_threshold" attr.type="double" />
+  <key id="d29" for="edge" attr.name="section" attr.type="string" />
+  <key id="d28" for="edge" attr.name="relation" attr.type="string" />
+  <key id="d27" for="node" attr.name="failure_types" attr.type="string" />
+  <key id="d26" for="node" attr.name="repaired" attr.type="boolean" />
+  <key id="d25" for="node" attr.name="repair_attempts" attr.type="long" />
   <key id="d24" for="node" attr.name="minimum_score" attr.type="double" />
   <key id="d23" for="node" attr.name="split_sizes" attr.type="string" />
   <key id="d22" for="node" attr.name="created_at" attr.type="string" />
@@ -486,7 +493,7 @@
       <data key="d16">1200</data>
       <data key="d17">0.17666666666666667</data>
       <data key="d18">__json__:["tabular_data", "missing_values", "imbalanced_data"]</data>
-      <data key="d19">/Users/yuxin/Documents/GitHub/AgentForge/data/churn_sample.csv</data>
+      <data key="d19">churn_sample.csv</data>
     </node>
     <node id="stage1_validation">
       <data key="d13">ValidationRun</data>
@@ -507,484 +514,567 @@
       <data key="d22">2026-08-24T03:03:17.275274+00:00</data>
       <data key="d15">Fixed-random-seed synthetic-data demonstration; results do not represent real-business generalization performance.</data>
     </node>
+    <node id="run-20260824T033217129790Z-8374b073">
+      <data key="d13">ValidationRun</data>
+      <data key="d1">Stage 3 deterministic agent workflow</data>
+      <data key="d14">success</data>
+      <data key="d20">logistic_regression</data>
+      <data key="d24">0.6</data>
+      <data key="d22">2026-08-24T03:32:20.356056+00:00</data>
+      <data key="d25">0</data>
+      <data key="d26">False</data>
+      <data key="d27">__json__:[]</data>
+      <data key="d15">Fixed-random-seed synthetic-data demonstration; results do not represent real-business generalization performance.</data>
+    </node>
     <edge source="binary_classification" target="document:classification_model_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">F1 and ROC-AUC</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">F1 and ROC-AUC</data>
     </edge>
     <edge source="binary_classification" target="dependency:scikit_learn" id="0">
-      <data key="d25">DEPENDS_ON</data>
+      <data key="d28">DEPENDS_ON</data>
     </edge>
     <edge source="binary_classification" target="constraint:stratified_split" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="binary_classification" target="constraint:test_isolation" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="binary_classification" target="accuracy" id="0">
-      <data key="d25">EVALUATED_BY</data>
+      <data key="d28">EVALUATED_BY</data>
     </edge>
     <edge source="binary_classification" target="precision" id="0">
-      <data key="d25">EVALUATED_BY</data>
+      <data key="d28">EVALUATED_BY</data>
     </edge>
     <edge source="binary_classification" target="recall" id="0">
-      <data key="d25">EVALUATED_BY</data>
+      <data key="d28">EVALUATED_BY</data>
     </edge>
     <edge source="binary_classification" target="f1" id="0">
-      <data key="d25">EVALUATED_BY</data>
+      <data key="d28">EVALUATED_BY</data>
     </edge>
     <edge source="binary_classification" target="roc_auc" id="0">
-      <data key="d25">EVALUATED_BY</data>
+      <data key="d28">EVALUATED_BY</data>
     </edge>
     <edge source="binary_classification" target="constraint:binary_target" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="logistic_regression" target="document:classification_model_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">Logistic Regression</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">Logistic Regression</data>
     </edge>
     <edge source="logistic_regression" target="dependency:scikit_learn" id="0">
-      <data key="d25">DEPENDS_ON</data>
+      <data key="d28">DEPENDS_ON</data>
     </edge>
     <edge source="logistic_regression" target="standard_scaling" id="0">
-      <data key="d25">REQUIRES</data>
+      <data key="d28">REQUIRES</data>
     </edge>
     <edge source="logistic_regression" target="one_hot_encoding" id="0">
-      <data key="d25">REQUIRES</data>
+      <data key="d28">REQUIRES</data>
     </edge>
     <edge source="logistic_regression" target="class_weight_balancing" id="0">
-      <data key="d25">REQUIRES</data>
+      <data key="d28">REQUIRES</data>
     </edge>
     <edge source="logistic_regression" target="constraint:requires_numeric_features" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="logistic_regression" target="constraint:validation_only_threshold" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="logistic_regression" target="binary_classification" id="0">
-      <data key="d25">SUITABLE_FOR</data>
+      <data key="d28">SUITABLE_FOR</data>
     </edge>
     <edge source="logistic_regression" target="f1" id="0">
-      <data key="d25">EVALUATED_BY</data>
+      <data key="d28">EVALUATED_BY</data>
     </edge>
     <edge source="logistic_regression" target="roc_auc" id="0">
-      <data key="d25">EVALUATED_BY</data>
+      <data key="d28">EVALUATED_BY</data>
     </edge>
     <edge source="logistic_regression" target="constraint:tabular_data" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="logistic_regression" target="constraint:interpretable_baseline" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="logistic_regression" target="constraint:imbalanced_data" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="standard_scaling" target="document:tabular_preprocessing_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">Feature scaling</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">Feature scaling</data>
     </edge>
     <edge source="standard_scaling" target="dependency:scikit_learn" id="0">
-      <data key="d25">DEPENDS_ON</data>
+      <data key="d28">DEPENDS_ON</data>
     </edge>
     <edge source="standard_scaling" target="constraint:fit_on_train_only" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="standard_scaling" target="constraint:linear_model" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="standard_scaling" target="constraint:numeric_features" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="one_hot_encoding" target="document:tabular_preprocessing_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">One-Hot Encoding</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">One-Hot Encoding</data>
     </edge>
     <edge source="one_hot_encoding" target="dependency:scikit_learn" id="0">
-      <data key="d25">DEPENDS_ON</data>
+      <data key="d28">DEPENDS_ON</data>
     </edge>
     <edge source="one_hot_encoding" target="constraint:handle_unknown_ignore" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="one_hot_encoding" target="constraint:fit_on_train_only" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="one_hot_encoding" target="constraint:categorical_features" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="class_weight_balancing" target="document:classification_model_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">Class imbalance and class weight</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">Class imbalance and class weight</data>
     </edge>
     <edge source="class_weight_balancing" target="dependency:scikit_learn" id="0">
-      <data key="d25">DEPENDS_ON</data>
+      <data key="d28">DEPENDS_ON</data>
     </edge>
     <edge source="class_weight_balancing" target="constraint:train_only" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="class_weight_balancing" target="constraint:imbalanced_data" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="class_weight_balancing" target="constraint:low_minority_recall" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="random_forest" target="document:classification_model_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">Random Forest</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">Random Forest</data>
     </edge>
     <edge source="random_forest" target="dependency:scikit_learn" id="0">
-      <data key="d25">DEPENDS_ON</data>
+      <data key="d28">DEPENDS_ON</data>
     </edge>
     <edge source="random_forest" target="one_hot_encoding" id="0">
-      <data key="d25">REQUIRES</data>
+      <data key="d28">REQUIRES</data>
     </edge>
     <edge source="random_forest" target="class_weight_balancing" id="0">
-      <data key="d25">REQUIRES</data>
+      <data key="d28">REQUIRES</data>
     </edge>
     <edge source="random_forest" target="constraint:requires_numeric_features" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="random_forest" target="constraint:validation_only_threshold" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="random_forest" target="binary_classification" id="0">
-      <data key="d25">SUITABLE_FOR</data>
+      <data key="d28">SUITABLE_FOR</data>
     </edge>
     <edge source="random_forest" target="f1" id="0">
-      <data key="d25">EVALUATED_BY</data>
+      <data key="d28">EVALUATED_BY</data>
     </edge>
     <edge source="random_forest" target="roc_auc" id="0">
-      <data key="d25">EVALUATED_BY</data>
+      <data key="d28">EVALUATED_BY</data>
     </edge>
     <edge source="random_forest" target="constraint:tabular_data" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="random_forest" target="constraint:nonlinear_relationships" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="random_forest" target="constraint:imbalanced_data" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="numerical_imputation" target="document:tabular_preprocessing_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">Missing values</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">Missing values</data>
     </edge>
     <edge source="numerical_imputation" target="dependency:scikit_learn" id="0">
-      <data key="d25">DEPENDS_ON</data>
+      <data key="d28">DEPENDS_ON</data>
     </edge>
     <edge source="numerical_imputation" target="constraint:fit_on_train_only" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="numerical_imputation" target="constraint:missing_values" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="numerical_imputation" target="constraint:numeric_features" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="categorical_imputation" target="document:tabular_preprocessing_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">Missing values</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">Missing values</data>
     </edge>
     <edge source="categorical_imputation" target="dependency:scikit_learn" id="0">
-      <data key="d25">DEPENDS_ON</data>
+      <data key="d28">DEPENDS_ON</data>
     </edge>
     <edge source="categorical_imputation" target="constraint:fit_on_train_only" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="categorical_imputation" target="constraint:missing_values" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="categorical_imputation" target="constraint:categorical_features" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="validation_threshold_optimization" target="document:classification_model_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">Validation-based threshold selection</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">Validation-based threshold selection</data>
     </edge>
     <edge source="validation_threshold_optimization" target="dependency:scikit_learn" id="0">
-      <data key="d25">DEPENDS_ON</data>
+      <data key="d28">DEPENDS_ON</data>
     </edge>
     <edge source="validation_threshold_optimization" target="constraint:never_use_test_labels" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="validation_threshold_optimization" target="constraint:validation_only_threshold" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="validation_threshold_optimization" target="constraint:imbalanced_data" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="validation_threshold_optimization" target="constraint:low_f1_at_default_threshold" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="accuracy" target="document:classification_model_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">F1 and ROC-AUC</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">F1 and ROC-AUC</data>
     </edge>
     <edge source="accuracy" target="dependency:scikit_learn" id="0">
-      <data key="d25">DEPENDS_ON</data>
+      <data key="d28">DEPENDS_ON</data>
     </edge>
     <edge source="accuracy" target="constraint:may_hide_minority_failure" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="accuracy" target="constraint:balanced_error_costs" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="precision" target="document:classification_model_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">F1 and ROC-AUC</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">F1 and ROC-AUC</data>
     </edge>
     <edge source="precision" target="dependency:scikit_learn" id="0">
-      <data key="d25">DEPENDS_ON</data>
+      <data key="d28">DEPENDS_ON</data>
     </edge>
     <edge source="precision" target="constraint:false_positive_cost" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="recall" target="document:classification_model_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">F1 and ROC-AUC</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">F1 and ROC-AUC</data>
     </edge>
     <edge source="recall" target="dependency:scikit_learn" id="0">
-      <data key="d25">DEPENDS_ON</data>
+      <data key="d28">DEPENDS_ON</data>
     </edge>
     <edge source="recall" target="constraint:minority_detection" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="recall" target="constraint:imbalanced_data" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="f1" target="document:classification_model_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">F1 and ROC-AUC</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">F1 and ROC-AUC</data>
     </edge>
     <edge source="f1" target="dependency:scikit_learn" id="0">
-      <data key="d25">DEPENDS_ON</data>
+      <data key="d28">DEPENDS_ON</data>
     </edge>
     <edge source="f1" target="constraint:threshold_dependent" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="f1" target="constraint:imbalanced_data" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="f1" target="constraint:precision_recall_tradeoff" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="roc_auc" target="document:classification_model_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">F1 and ROC-AUC</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">F1 and ROC-AUC</data>
     </edge>
     <edge source="roc_auc" target="dependency:scikit_learn" id="0">
-      <data key="d25">DEPENDS_ON</data>
+      <data key="d28">DEPENDS_ON</data>
     </edge>
     <edge source="roc_auc" target="constraint:must_use_probabilities" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="roc_auc" target="constraint:probability_output" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="missing_value_error" target="document:failure_experience_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">MissingValueError</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">MissingValueError</data>
     </edge>
     <edge source="missing_value_error" target="numerical_imputation" id="0">
-      <data key="d25">REQUIRES</data>
+      <data key="d28">REQUIRES</data>
     </edge>
     <edge source="missing_value_error" target="numerical_imputation" id="1">
-      <data key="d25">IMPROVED_BY</data>
+      <data key="d28">IMPROVED_BY</data>
     </edge>
     <edge source="missing_value_error" target="categorical_imputation" id="0">
-      <data key="d25">REQUIRES</data>
+      <data key="d28">REQUIRES</data>
     </edge>
     <edge source="missing_value_error" target="categorical_imputation" id="1">
-      <data key="d25">IMPROVED_BY</data>
+      <data key="d28">IMPROVED_BY</data>
     </edge>
     <edge source="missing_value_error" target="constraint:fit_imputer_on_train_only" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="missing_value_error" target="constraint:missing_values" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="categorical_encoding_error" target="document:failure_experience_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">CategoricalEncodingError</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">CategoricalEncodingError</data>
     </edge>
     <edge source="categorical_encoding_error" target="one_hot_encoding" id="0">
-      <data key="d25">REQUIRES</data>
+      <data key="d28">REQUIRES</data>
     </edge>
     <edge source="categorical_encoding_error" target="one_hot_encoding" id="1">
-      <data key="d25">IMPROVED_BY</data>
+      <data key="d28">IMPROVED_BY</data>
     </edge>
     <edge source="categorical_encoding_error" target="constraint:handle_unknown_ignore" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="categorical_encoding_error" target="constraint:categorical_features" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="categorical_encoding_error" target="constraint:unknown_categories" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="low_minority_recall" target="document:failure_experience_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">LowMinorityRecall</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">LowMinorityRecall</data>
     </edge>
     <edge source="low_minority_recall" target="class_weight_balancing" id="0">
-      <data key="d25">REQUIRES</data>
+      <data key="d28">REQUIRES</data>
     </edge>
     <edge source="low_minority_recall" target="class_weight_balancing" id="1">
-      <data key="d25">IMPROVED_BY</data>
+      <data key="d28">IMPROVED_BY</data>
     </edge>
     <edge source="low_minority_recall" target="validation_threshold_optimization" id="0">
-      <data key="d25">REQUIRES</data>
+      <data key="d28">REQUIRES</data>
     </edge>
     <edge source="low_minority_recall" target="validation_threshold_optimization" id="1">
-      <data key="d25">IMPROVED_BY</data>
+      <data key="d28">IMPROVED_BY</data>
     </edge>
     <edge source="low_minority_recall" target="constraint:evaluate_on_validation" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="low_minority_recall" target="constraint:imbalanced_data" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="low_minority_recall" target="constraint:low_minority_recall" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="low_f1_default_threshold" target="document:failure_experience_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">LowF1AtDefaultThreshold</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">LowF1AtDefaultThreshold</data>
     </edge>
     <edge source="low_f1_default_threshold" target="validation_threshold_optimization" id="0">
-      <data key="d25">REQUIRES</data>
+      <data key="d28">REQUIRES</data>
     </edge>
     <edge source="low_f1_default_threshold" target="validation_threshold_optimization" id="1">
-      <data key="d25">IMPROVED_BY</data>
+      <data key="d28">IMPROVED_BY</data>
     </edge>
     <edge source="low_f1_default_threshold" target="constraint:never_use_test_labels" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="low_f1_default_threshold" target="constraint:low_f1_at_default_threshold" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="low_f1_default_threshold" target="constraint:imbalanced_data" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="data_leakage_risk" target="document:failure_experience_guide.md" id="0">
-      <data key="d25">DERIVED_FROM</data>
-      <data key="d26">DataLeakageRisk</data>
+      <data key="d28">DERIVED_FROM</data>
+      <data key="d29">DataLeakageRisk</data>
     </edge>
     <edge source="data_leakage_risk" target="dependency:scikit_learn" id="0">
-      <data key="d25">DEPENDS_ON</data>
+      <data key="d28">DEPENDS_ON</data>
     </edge>
     <edge source="data_leakage_risk" target="constraint:train_validation_test_isolation" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="data_leakage_risk" target="constraint:pipeline_preprocessing" id="0">
-      <data key="d25">SATISFIES</data>
+      <data key="d28">SATISFIES</data>
     </edge>
     <edge source="data_leakage_risk" target="constraint:data_leakage" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="data_leakage_risk" target="constraint:test_reuse" id="0">
-      <data key="d25">HANDLES</data>
+      <data key="d28">HANDLES</data>
     </edge>
     <edge source="historical_missing_value_failure" target="missing_value_error" id="0">
-      <data key="d25">FAILED_BECAUSE</data>
+      <data key="d28">FAILED_BECAUSE</data>
     </edge>
     <edge source="stage1_validation" target="customer_churn_sample" id="0">
-      <data key="d25">PERFORMED_ON</data>
+      <data key="d28">PERFORMED_ON</data>
     </edge>
     <edge source="stage1_validation" target="logistic_regression" id="0">
-      <data key="d25">USED_ALGORITHM</data>
-      <data key="d27">0.6749999999999998</data>
-      <data key="d28">True</data>
+      <data key="d28">USED_ALGORITHM</data>
+      <data key="d30">0.6749999999999998</data>
+      <data key="d31">True</data>
     </edge>
     <edge source="stage1_validation" target="f1" id="0">
-      <data key="d25">ACHIEVED_METRIC</data>
-      <data key="d29">logistic_regression</data>
-      <data key="d30">0.6739130434782609</data>
-      <data key="d31">test</data>
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">logistic_regression</data>
+      <data key="d33">0.6739130434782609</data>
+      <data key="d34">test</data>
     </edge>
     <edge source="stage1_validation" target="f1" id="1">
-      <data key="d25">ACHIEVED_METRIC</data>
-      <data key="d29">random_forest</data>
-      <data key="d30">0.6046511627906976</data>
-      <data key="d31">test</data>
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">random_forest</data>
+      <data key="d33">0.6046511627906976</data>
+      <data key="d34">test</data>
     </edge>
     <edge source="stage1_validation" target="roc_auc" id="0">
-      <data key="d25">ACHIEVED_METRIC</data>
-      <data key="d29">logistic_regression</data>
-      <data key="d30">0.9145021645021645</data>
-      <data key="d31">test</data>
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">logistic_regression</data>
+      <data key="d33">0.9145021645021645</data>
+      <data key="d34">test</data>
     </edge>
     <edge source="stage1_validation" target="roc_auc" id="1">
-      <data key="d25">ACHIEVED_METRIC</data>
-      <data key="d29">random_forest</data>
-      <data key="d30">0.8857623857623858</data>
-      <data key="d31">test</data>
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">random_forest</data>
+      <data key="d33">0.8857623857623858</data>
+      <data key="d34">test</data>
     </edge>
     <edge source="stage1_validation" target="random_forest" id="0">
-      <data key="d25">USED_ALGORITHM</data>
-      <data key="d27">0.3999999999999999</data>
-      <data key="d28">False</data>
+      <data key="d28">USED_ALGORITHM</data>
+      <data key="d30">0.3999999999999999</data>
+      <data key="d31">False</data>
     </edge>
     <edge source="run-20260824T030317014248Z-fddcbd92" target="customer_churn_sample" id="0">
-      <data key="d25">PERFORMED_ON</data>
+      <data key="d28">PERFORMED_ON</data>
     </edge>
     <edge source="run-20260824T030317014248Z-fddcbd92" target="logistic_regression" id="0">
-      <data key="d25">USED_ALGORITHM</data>
-      <data key="d27">0.6749999999999998</data>
-      <data key="d28">True</data>
-      <data key="d32">True</data>
+      <data key="d28">USED_ALGORITHM</data>
+      <data key="d30">0.6749999999999998</data>
+      <data key="d31">True</data>
+      <data key="d35">True</data>
     </edge>
     <edge source="run-20260824T030317014248Z-fddcbd92" target="f1" id="0">
-      <data key="d25">ACHIEVED_METRIC</data>
-      <data key="d29">logistic_regression</data>
-      <data key="d30">0.6956521739130435</data>
-      <data key="d31">validation</data>
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">logistic_regression</data>
+      <data key="d33">0.6956521739130435</data>
+      <data key="d34">validation</data>
     </edge>
     <edge source="run-20260824T030317014248Z-fddcbd92" target="f1" id="1">
-      <data key="d25">ACHIEVED_METRIC</data>
-      <data key="d29">logistic_regression</data>
-      <data key="d30">0.6739130434782609</data>
-      <data key="d31">test</data>
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">logistic_regression</data>
+      <data key="d33">0.6739130434782609</data>
+      <data key="d34">test</data>
     </edge>
     <edge source="run-20260824T030317014248Z-fddcbd92" target="f1" id="2">
-      <data key="d25">ACHIEVED_METRIC</data>
-      <data key="d29">random_forest</data>
-      <data key="d30">0.631578947368421</data>
-      <data key="d31">validation</data>
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">random_forest</data>
+      <data key="d33">0.631578947368421</data>
+      <data key="d34">validation</data>
     </edge>
     <edge source="run-20260824T030317014248Z-fddcbd92" target="f1" id="3">
-      <data key="d25">ACHIEVED_METRIC</data>
-      <data key="d29">random_forest</data>
-      <data key="d30">0.6046511627906976</data>
-      <data key="d31">test</data>
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">random_forest</data>
+      <data key="d33">0.6046511627906976</data>
+      <data key="d34">test</data>
     </edge>
     <edge source="run-20260824T030317014248Z-fddcbd92" target="roc_auc" id="0">
-      <data key="d25">ACHIEVED_METRIC</data>
-      <data key="d29">logistic_regression</data>
-      <data key="d30">0.9095719095719096</data>
-      <data key="d31">validation</data>
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">logistic_regression</data>
+      <data key="d33">0.9095719095719096</data>
+      <data key="d34">validation</data>
     </edge>
     <edge source="run-20260824T030317014248Z-fddcbd92" target="roc_auc" id="1">
-      <data key="d25">ACHIEVED_METRIC</data>
-      <data key="d29">logistic_regression</data>
-      <data key="d30">0.9145021645021645</data>
-      <data key="d31">test</data>
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">logistic_regression</data>
+      <data key="d33">0.9145021645021645</data>
+      <data key="d34">test</data>
     </edge>
     <edge source="run-20260824T030317014248Z-fddcbd92" target="roc_auc" id="2">
-      <data key="d25">ACHIEVED_METRIC</data>
-      <data key="d29">random_forest</data>
-      <data key="d30">0.8798701298701299</data>
-      <data key="d31">validation</data>
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">random_forest</data>
+      <data key="d33">0.8798701298701299</data>
+      <data key="d34">validation</data>
     </edge>
     <edge source="run-20260824T030317014248Z-fddcbd92" target="roc_auc" id="3">
-      <data key="d25">ACHIEVED_METRIC</data>
-      <data key="d29">random_forest</data>
-      <data key="d30">0.8857623857623858</data>
-      <data key="d31">test</data>
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">random_forest</data>
+      <data key="d33">0.8857623857623858</data>
+      <data key="d34">test</data>
     </edge>
     <edge source="run-20260824T030317014248Z-fddcbd92" target="random_forest" id="0">
-      <data key="d25">USED_ALGORITHM</data>
-      <data key="d27">0.3999999999999999</data>
-      <data key="d28">False</data>
-      <data key="d32">True</data>
+      <data key="d28">USED_ALGORITHM</data>
+      <data key="d30">0.3999999999999999</data>
+      <data key="d31">False</data>
+      <data key="d35">True</data>
+    </edge>
+    <edge source="run-20260824T033217129790Z-8374b073" target="customer_churn_sample" id="0">
+      <data key="d28">PERFORMED_ON</data>
+    </edge>
+    <edge source="run-20260824T033217129790Z-8374b073" target="logistic_regression" id="0">
+      <data key="d28">USED_ALGORITHM</data>
+      <data key="d30">0.6749999999999998</data>
+      <data key="d31">True</data>
+      <data key="d35">True</data>
+      <data key="d36">False</data>
+      <data key="d37">0</data>
+      <data key="d38">attempt-0/candidate.py</data>
+      <data key="d39">attempt-0/candidate.py</data>
+    </edge>
+    <edge source="run-20260824T033217129790Z-8374b073" target="f1" id="0">
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">logistic_regression</data>
+      <data key="d33">0.6956521739130435</data>
+      <data key="d34">validation</data>
+    </edge>
+    <edge source="run-20260824T033217129790Z-8374b073" target="f1" id="1">
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">logistic_regression</data>
+      <data key="d33">0.6739130434782609</data>
+      <data key="d34">test</data>
+    </edge>
+    <edge source="run-20260824T033217129790Z-8374b073" target="f1" id="2">
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">random_forest</data>
+      <data key="d33">0.631578947368421</data>
+      <data key="d34">validation</data>
+    </edge>
+    <edge source="run-20260824T033217129790Z-8374b073" target="f1" id="3">
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">random_forest</data>
+      <data key="d33">0.6046511627906976</data>
+      <data key="d34">test</data>
+    </edge>
+    <edge source="run-20260824T033217129790Z-8374b073" target="roc_auc" id="0">
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">logistic_regression</data>
+      <data key="d33">0.9095719095719096</data>
+      <data key="d34">validation</data>
+    </edge>
+    <edge source="run-20260824T033217129790Z-8374b073" target="roc_auc" id="1">
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">logistic_regression</data>
+      <data key="d33">0.9145021645021645</data>
+      <data key="d34">test</data>
+    </edge>
+    <edge source="run-20260824T033217129790Z-8374b073" target="roc_auc" id="2">
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">random_forest</data>
+      <data key="d33">0.8798701298701299</data>
+      <data key="d34">validation</data>
+    </edge>
+    <edge source="run-20260824T033217129790Z-8374b073" target="roc_auc" id="3">
+      <data key="d28">ACHIEVED_METRIC</data>
+      <data key="d32">random_forest</data>
+      <data key="d33">0.8857623857623858</data>
+      <data key="d34">test</data>
+    </edge>
+    <edge source="run-20260824T033217129790Z-8374b073" target="random_forest" id="0">
+      <data key="d28">USED_ALGORITHM</data>
+      <data key="d30">0.3999999999999999</data>
+      <data key="d31">False</data>
+      <data key="d35">True</data>
+      <data key="d36">False</data>
+      <data key="d37">0</data>
+      <data key="d38">attempt-0/candidate.py</data>
+      <data key="d39">attempt-0/candidate.py</data>
     </edge>
     <data key="d0">AgentForge Knowledge Graph</data>
   </graph>

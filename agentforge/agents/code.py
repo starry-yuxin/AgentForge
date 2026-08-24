@@ -10,14 +10,14 @@ from agentforge.models import CandidatePlan, GeneratedArtifact
 
 TEMPLATE = '''"""Generated deterministic interface for {algorithm}."""
 
-from agentforge.generated_runtime import evaluate_candidate_model, predict_candidate, train_candidate
+from agentforge.generated_runtime import evaluate_candidate_model, predict_candidate, {train_function}
 
 ALGORITHM = "{algorithm}"
 HYPERPARAMETERS = {hyperparameters!r}
 
 
 def train(data_path: str, model_path: str) -> dict:
-    return train_candidate(ALGORITHM, data_path, model_path)
+    return {train_function}(ALGORITHM, data_path, model_path)
 
 
 def predict(model_path: str, data_path: str) -> list:
@@ -30,16 +30,25 @@ def evaluate(model_path: str, data_path: str) -> dict:
 
 
 class CodeAgent:
-    def generate(self, plan: CandidatePlan, run_id: str, run_dir: str | Path) -> GeneratedArtifact:
+    def generate(
+        self, plan: CandidatePlan, run_id: str, run_dir: str | Path,
+        *, attempt: int = 0, failure_injection: str | None = None,
+    ) -> GeneratedArtifact:
         root = Path(run_dir)
-        generated_dir = root / "generated"
-        model_dir = root / "models"
-        result_dir = root / "results"
+        generated_dir = root / "generated" / plan.algorithm / f"attempt-{attempt}"
+        model_dir = root / "models" / plan.algorithm / f"attempt-{attempt}"
+        result_dir = root / "results" / plan.algorithm / f"attempt-{attempt}"
         for directory in (generated_dir, model_dir, result_dir):
             directory.mkdir(parents=True, exist_ok=True)
-        code_path = generated_dir / f"{plan.algorithm}.py"
+        code_path = generated_dir / "candidate.py"
+        train_function = (
+            "train_candidate_missing_imputer"
+            if failure_injection == "missing_imputer" and plan.algorithm == "logistic_regression"
+            else "train_candidate"
+        )
         source = TEMPLATE.format(
-            algorithm=plan.algorithm, hyperparameters=plan.hyperparameters
+            algorithm=plan.algorithm, hyperparameters=plan.hyperparameters,
+            train_function=train_function,
         )
         ast.parse(source)
         code_path.write_text(source, encoding="utf-8")
@@ -48,4 +57,5 @@ class CodeAgent:
             model_output_path=str(model_dir / f"{plan.algorithm}.pkl"),
             result_output_path=str(result_dir / f"{plan.algorithm}.json"),
             interface_spec=plan.expected_interfaces, source_plan=plan, syntax_valid=True,
+            attempt=attempt, failure_injection=failure_injection,
         )
