@@ -9,5 +9,6 @@ outputs/*.json
 outputs/runs/
 /outputs/uci-real-churn/
 /outputs/uci-audit/
+/outputs/nl-fix-audit/
 !outputs/.gitkeep
 /data/external/uci_iranian_churn/
