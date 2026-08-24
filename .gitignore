@@ -6,5 +6,5 @@ __pycache__/
 .coverage
 htmlcov/
 outputs/*.json
+outputs/runs/
 !outputs/.gitkeep
-

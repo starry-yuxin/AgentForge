@@ -812,6 +812,7 @@
         "missing_values",
         "imbalanced_data"
       ],
+      "source_path": "/Users/yuxin/Documents/GitHub/AgentForge/data/churn_sample.csv",
       "id": "customer_churn_sample"
     },
     {
@@ -823,11 +824,21 @@
       "created_at": "2026-08-24T02:38:43.859114+00:00",
       "disclaimer": "Fixed-random-seed synthetic-data demonstration; results do not represent real-business generalization performance.",
       "split_sizes": {
+        "test": 240,
         "train": 720,
-        "validation": 240,
-        "test": 240
+        "validation": 240
       },
       "id": "stage1_validation"
+    },
+    {
+      "node_type": "ValidationRun",
+      "name": "Stage 3 deterministic agent workflow",
+      "status": "success",
+      "best_algorithm": "logistic_regression",
+      "minimum_score": 0.6,
+      "created_at": "2026-08-24T03:03:17.275274+00:00",
+      "disclaimer": "Fixed-random-seed synthetic-data demonstration; results do not represent real-business generalization performance.",
+      "id": "run-20260824T030317014248Z-fddcbd92"
     }
   ],
   "edges": [
@@ -1625,6 +1636,102 @@
       "selected_threshold": 0.3999999999999999,
       "selected_as_best": false,
       "source": "stage1_validation",
+      "target": "random_forest",
+      "key": 0
+    },
+    {
+      "relation": "PERFORMED_ON",
+      "source": "run-20260824T030317014248Z-fddcbd92",
+      "target": "customer_churn_sample",
+      "key": 0
+    },
+    {
+      "relation": "USED_ALGORITHM",
+      "selected_threshold": 0.6749999999999998,
+      "selected_as_best": true,
+      "minimum_score_met": true,
+      "source": "run-20260824T030317014248Z-fddcbd92",
+      "target": "logistic_regression",
+      "key": 0
+    },
+    {
+      "relation": "ACHIEVED_METRIC",
+      "algorithm": "logistic_regression",
+      "value": 0.6956521739130435,
+      "split": "validation",
+      "source": "run-20260824T030317014248Z-fddcbd92",
+      "target": "f1",
+      "key": 0
+    },
+    {
+      "relation": "ACHIEVED_METRIC",
+      "algorithm": "logistic_regression",
+      "value": 0.6739130434782609,
+      "split": "test",
+      "source": "run-20260824T030317014248Z-fddcbd92",
+      "target": "f1",
+      "key": 1
+    },
+    {
+      "relation": "ACHIEVED_METRIC",
+      "algorithm": "random_forest",
+      "value": 0.631578947368421,
+      "split": "validation",
+      "source": "run-20260824T030317014248Z-fddcbd92",
+      "target": "f1",
+      "key": 2
+    },
+    {
+      "relation": "ACHIEVED_METRIC",
+      "algorithm": "random_forest",
+      "value": 0.6046511627906976,
+      "split": "test",
+      "source": "run-20260824T030317014248Z-fddcbd92",
+      "target": "f1",
+      "key": 3
+    },
+    {
+      "relation": "ACHIEVED_METRIC",
+      "algorithm": "logistic_regression",
+      "value": 0.9095719095719096,
+      "split": "validation",
+      "source": "run-20260824T030317014248Z-fddcbd92",
+      "target": "roc_auc",
+      "key": 0
+    },
+    {
+      "relation": "ACHIEVED_METRIC",
+      "algorithm": "logistic_regression",
+      "value": 0.9145021645021645,
+      "split": "test",
+      "source": "run-20260824T030317014248Z-fddcbd92",
+      "target": "roc_auc",
+      "key": 1
+    },
+    {
+      "relation": "ACHIEVED_METRIC",
+      "algorithm": "random_forest",
+      "value": 0.8798701298701299,
+      "split": "validation",
+      "source": "run-20260824T030317014248Z-fddcbd92",
+      "target": "roc_auc",
+      "key": 2
+    },
+    {
+      "relation": "ACHIEVED_METRIC",
+      "algorithm": "random_forest",
+      "value": 0.8857623857623858,
+      "split": "test",
+      "source": "run-20260824T030317014248Z-fddcbd92",
+      "target": "roc_auc",
+      "key": 3
+    },
+    {
+      "relation": "USED_ALGORITHM",
+      "selected_threshold": 0.3999999999999999,
+      "selected_as_best": false,
+      "minimum_score_met": true,
+      "source": "run-20260824T030317014248Z-fddcbd92",
       "target": "random_forest",
       "key": 0
     }

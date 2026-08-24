@@ -178,6 +178,51 @@ class KnowledgeGraphStore:
             self.add_edge(failure_id, improvement, "IMPROVED_BY")
         return failure_id
 
+    def add_workflow_validation_run(
+        self,
+        run_id: str,
+        *,
+        results: list[dict[str, Any]],
+        best_algorithm: str,
+        dataset_path: str,
+        minimum_score: float,
+    ) -> str:
+        """Persist a stage-three run without replacing any historical validation node."""
+        if run_id in self.graph:
+            raise ValueError(f"validation run already exists: {run_id}")
+        dataset_id = "customer_churn_sample"
+        self.graph.add_node(
+            dataset_id, node_type="Dataset", name=dataset_id, source_path=dataset_path,
+            characteristics=["tabular_data", "missing_values", "imbalanced_data"],
+        )
+        self.graph.add_node(
+            run_id, node_type="ValidationRun", name="Stage 3 deterministic agent workflow",
+            status="success", best_algorithm=best_algorithm, minimum_score=minimum_score,
+            created_at=datetime.now(timezone.utc).isoformat(),
+            disclaimer=("Fixed-random-seed synthetic-data demonstration; results do not "
+                        "represent real-business generalization performance."),
+        )
+        self.add_edge(run_id, dataset_id, "PERFORMED_ON")
+        for result in results:
+            algorithm = result["algorithm"]
+            self.add_edge(
+                run_id, algorithm, "USED_ALGORITHM",
+                selected_threshold=result["selected_threshold"],
+                selected_as_best=algorithm == best_algorithm,
+                minimum_score_met=result["minimum_score_met"],
+            )
+            for split_name, metrics in (
+                ("validation", result["validation_metrics"]),
+                ("test", result["test_metrics"]),
+            ):
+                for metric_name in ("f1", "roc_auc"):
+                    if metric_name in metrics:
+                        self.add_edge(
+                            run_id, metric_name, "ACHIEVED_METRIC", algorithm=algorithm,
+                            value=metrics[metric_name], split=split_name,
+                        )
+        return run_id
+
     def export_graphml(self, path: str | Path) -> None:
         destination = Path(path)
         destination.parent.mkdir(parents=True, exist_ok=True)
@@ -209,4 +254,3 @@ class KnowledgeGraphStore:
                 **{name: _decoded_value(value) for name, value in attributes.items()},
             )
         return cls(graph)
-

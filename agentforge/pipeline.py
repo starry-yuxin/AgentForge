@@ -164,6 +164,14 @@ def _final_metrics(
     return metrics
 
 
+def _validation_metrics(
+    labels: pd.Series, probabilities: np.ndarray, threshold: float
+) -> dict[str, float]:
+    """Return validation metrics without a runtime field or test-set access."""
+    metrics = _final_metrics(labels, probabilities, threshold, 0.0)
+    return {name: float(metrics[name]) for name in METRIC_NAMES}
+
+
 def _evaluate_model(name: str, estimator: Any, split: DataSplit) -> dict[str, Any]:
     pipeline = Pipeline(
         [("preprocessor", _preprocessor(split.x_train)), ("model", estimator)]
@@ -181,10 +189,48 @@ def _evaluate_model(name: str, estimator: Any, split: DataSplit) -> dict[str, An
         "algorithm": name,
         "selected_threshold": selected_threshold,
         "validation_f1": validation_f1,
+        "validation_metrics": _validation_metrics(
+            split.y_validation, validation_probabilities, selected_threshold
+        ),
         "metrics": _final_metrics(
             split.y_test, test_probabilities, selected_threshold, runtime
         ),
     }
+
+
+def evaluate_candidate(
+    data_path: str | Path,
+    algorithm: str,
+    *,
+    random_state: int = 42,
+    validation_size: float = 0.20,
+    test_size: float = 0.20,
+) -> dict[str, Any]:
+    """Independently execute one registered candidate on fresh train/validation/test splits."""
+    models = _models(random_state)
+    if algorithm not in models:
+        raise ValueError(f"unsupported registered algorithm: {algorithm}")
+    frame = pd.read_csv(Path(data_path))
+    required = {TARGET_COLUMN, ID_COLUMN}
+    missing = required.difference(frame.columns)
+    if missing:
+        raise ValueError(f"dataset is missing required columns: {sorted(missing)}")
+    features = frame.drop(columns=[TARGET_COLUMN, ID_COLUMN])
+    target = frame[TARGET_COLUMN].astype(int)
+    split = split_dataset(
+        features, target, random_state=random_state,
+        validation_size=validation_size, test_size=test_size,
+    )
+    result = _evaluate_model(algorithm, models[algorithm], split)
+    result.update({
+        "rows": len(frame),
+        "positive_rate": float(target.mean()),
+        "train_size": len(split.y_train),
+        "validation_size": len(split.y_validation),
+        "test_size": len(split.y_test),
+        "random_state": random_state,
+    })
+    return result
 
 
 def run_benchmark(
@@ -244,4 +290,3 @@ def run_benchmark(
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
     return result
-
