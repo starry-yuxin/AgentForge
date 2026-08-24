@@ -1,0 +1,41 @@
+{
+  "export_type": "sanitized_reproducibility_summary",
+  "run_date_utc": "2026-08-24",
+  "mode": "deterministic",
+  "llm_calls": 0,
+  "dataset_path": "data/external/uci_iranian_churn/processed/uci_iranian_churn.csv",
+  "target_column": "churn",
+  "primary_metric": "f1",
+  "minimum_score": 0.6,
+  "knowledge_matches": 13,
+  "candidates": [
+    {
+      "algorithm": "logistic_regression",
+      "generated_code": "generated/logistic_regression/attempt-0/candidate.py",
+      "ast_security_passed": true,
+      "interface_passed": true,
+      "validation_f1": 0.6861924686192469,
+      "test_f1": 0.6694560669456067,
+      "test_roc_auc": 0.9277901424794079,
+      "selected_threshold": 0.625,
+      "runtime_seconds": 0.978773375012679,
+      "minimum_score_met": true
+    },
+    {
+      "algorithm": "random_forest",
+      "generated_code": "generated/random_forest/attempt-0/candidate.py",
+      "ast_security_passed": true,
+      "interface_passed": true,
+      "validation_f1": 0.8613861386138614,
+      "test_f1": 0.8823529411764706,
+      "test_roc_auc": 0.9803496357168674,
+      "selected_threshold": 0.55,
+      "runtime_seconds": 1.2723520840227138,
+      "minimum_score_met": true
+    }
+  ],
+  "best_candidate": "random_forest",
+  "selection_basis": "validation_f1_only",
+  "knowledge_persisted": false,
+  "status": "completed"
+}

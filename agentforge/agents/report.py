@@ -2,9 +2,24 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 from agentforge.models import WorkflowState
+
+ROOT = Path(__file__).resolve().parents[2]
+
+
+def _portable_path(value: str | None) -> str:
+    if not value:
+        return ""
+    path = Path(value)
+    if path.is_absolute():
+        try:
+            return str(path.relative_to(ROOT))
+        except ValueError:
+            return path.name
+    return str(path)
 
 
 class ReportAgent:
@@ -13,7 +28,12 @@ class ReportAgent:
         report_dir.mkdir(parents=True, exist_ok=True)
         json_path = report_dir / "workflow_report.json"
         markdown_path = report_dir / "workflow_report.md"
-        json_path.write_text(state.model_dump_json(indent=2), encoding="utf-8")
+        payload = state.model_dump(mode="json")
+        if payload.get("request"):
+            payload["request"]["dataset_path"] = _portable_path(
+                payload["request"].get("dataset_path")
+            )
+        json_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
         request = state.request
         knowledge = state.retrieved_knowledge
@@ -29,10 +49,26 @@ class ReportAgent:
             f"- Failure injection: `{state.failure_injection}`",
             "## Structured requirement", "",
             f"- Task: `{request.task_type if request else None}`",
-            f"- Dataset: `{request.dataset_path if request else None}`",
+            f"- Dataset: `{_portable_path(request.dataset_path) if request else None}`",
             f"- Target: `{request.target_column if request else None}`",
             f"- Primary metric: `{request.primary_metric if request else None}`",
             f"- Minimum score: `{request.minimum_score if request else None}`", "",
+            "## Dataset provenance", "",
+            f"- Dataset ID: `{state.dataset_metadata.get('dataset_id')}`",
+            f"- Title: {state.dataset_metadata.get('title', '')}",
+            f"- Origin: `{state.dataset_metadata.get('source_name', state.dataset_metadata.get('data_origin'))}`",
+            f"- Source URL: {state.dataset_metadata.get('source_url', '')}",
+            f"- Real-world data: `{state.dataset_metadata.get('real_world_data', False)}`",
+            f"- DOI: `{state.dataset_metadata.get('doi', '')}`",
+            f"- License: `{state.dataset_metadata.get('license_name', '')}`",
+            f"- Rows/features: `{state.dataset_metadata.get('row_count', '')}/{state.dataset_metadata.get('feature_count', '')}`",
+            f"- Target/positive rate: `{state.dataset_metadata.get('target_column', '')}/{state.dataset_metadata.get('positive_rate', '')}`",
+            f"- Missing values: `{state.dataset_metadata.get('missing_value_count', '')}`",
+            f"- Raw SHA-256: `{state.dataset_metadata.get('raw_file_sha256', '')}`",
+            f"- Processed SHA-256: `{state.dataset_metadata.get('processed_file_sha256', '')}`",
+            f"- Transformations: `{state.dataset_metadata.get('transformations', [])}`",
+            f"- Leakage review: `{state.dataset_metadata.get('leakage_review', {})}`",
+            f"- Disclaimer: {state.dataset_metadata.get('disclaimer', '')}", "",
             "### Field sources", "",
         ]
         lines.extend(f"- `{key}`: `{value}`" for key, value in sorted((request.field_sources if request else {}).items()))
@@ -98,7 +134,9 @@ class ReportAgent:
             f"- Repair modes: `{state.repair_modes}`",
             "- Subprocess isolation and AST checks reduce accidental risk but do not constitute a production-grade security sandbox.",
             "- No OS/container sandbox, real LLM, SQLite, or Web UI.",
-            "- Metrics use fixed-random-seed synthetic data and do not demonstrate real-business generalization.",
+            ("- Metrics use a fixed split of public historical data and do not demonstrate "
+             "production or business generalization." if state.dataset_metadata.get("real_world_data")
+             else "- Metrics use fixed-random-seed synthetic data and do not demonstrate real-business generalization."),
         ])
         markdown_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
         return {"json": str(json_path), "markdown": str(markdown_path)}

@@ -1,0 +1,29 @@
+{
+  "dataset_id": "uci_iranian_churn",
+  "title": "Iranian Churn Dataset",
+  "data_origin": "external_public_dataset",
+  "source_name": "UCI Machine Learning Repository",
+  "source_url": "https://archive.ics.uci.edu/dataset/563/iranian+churn+dataset",
+  "doi": "10.24432/C5JW3Z",
+  "license_name": "CC BY 4.0",
+  "real_world_data": true,
+  "raw_file_name": "Customer Churn.csv",
+  "raw_file_sha256": "90d5fb6bd1630cd4de4b4d28fcf8b4cb92a8f6ab7484605b0799d47386f7dbe1",
+  "processed_file_name": "uci_iranian_churn.csv",
+  "processed_file_sha256": "9f4e8df92027e0d7827c9a08e09d1f5c7a29014187e7366ce2b2489adf83b4bf",
+  "row_count": 3150,
+  "feature_count": 13,
+  "total_column_count": 15,
+  "target_column": "churn",
+  "positive_rate": 0.15714285714285714,
+  "missing_value_count": 0,
+  "duplicate_row_count": 300,
+  "transformations": [
+    "Exact schema validation",
+    "Explicit column-name mapping and target rename",
+    "Stable labels for documented integer-coded categorical fields",
+    "Stable customer_id added from row order",
+    "No fitting, imputation, scaling, resampling, or row deletion"
+  ],
+  "disclaimer": "This public-data run demonstrates reproducibility, not production performance or business generalization."
+}

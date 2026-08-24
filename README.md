@@ -159,6 +159,31 @@ python -m agentforge.cli run \
   --no-persist
 ```
 
+## Real-world Dataset Demo / 真实公开数据复现
+
+仓库提供一个受控适配器，可下载并验证 UCI Iranian Churn Dataset（3,150 行、
+13 个特征、二分类目标、CC BY 4.0），再用现有 deterministic 工作流完成两个候选
+的训练、validation 选优和 test 最终评价。真实数据及运行产物保持在 Git 忽略目录；
+报告会记录来源、许可证、转换、泄漏审查和文件 SHA-256。
+
+```bash
+python scripts/prepare_uci_churn.py
+python -m agentforge.cli run \
+  --mode deterministic \
+  --no-persist \
+  --dataset data/external/uci_iranian_churn/processed/uci_iranian_churn.csv \
+  --output-root outputs/uci-real-churn \
+  --request "请为UCI真实电信客户流失数据比较Logistic Regression和Random Forest，以F1作为主要指标。"
+```
+
+详见 [真实数据说明、泄漏审查与复现边界](docs/real-world-data.md)。该结果只证明
+公开数据上的可复现运行，不代表生产性能、业务泛化能力或部署就绪。
+
+2026-08-24 的固定种子复验中，Logistic Regression 的 validation/test F1 为
+0.686192/0.669456，Random Forest 为 0.861386/0.882353；后者仅凭 validation F1
+被选中，test ROC-AUC 为 0.980350。模拟数据继续用于零下载、故障注入和稳定回归；
+真实公开数据用于验证外部 schema 适配能力，两者用途不同。
+
 实际 CLI 参数以以下命令为准：
 
 ```bash

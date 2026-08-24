@@ -19,6 +19,7 @@ from agentforge.validation import AstSecurityChecker, InterfaceChecker, Subproce
 from agentforge.workflow.events import invoke_traced, record_skipped
 from agentforge.config import LLMConfig
 from agentforge.llm import create_llm_client
+from agentforge.datasets import resolve_dataset_metadata
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -115,6 +116,7 @@ class WorkflowOrchestrator:
                     state, "RequirementAgent", "natural-language request and explicit overrides",
                     self.requirement_agent.parse, request_text, overrides,
                 )
+            state.dataset_metadata = resolve_dataset_metadata(state.request.dataset_path)
             store = KnowledgeGraphStore.load_graphml(self.graphml_path)
             knowledge_agent = KnowledgeAgent(KnowledgeRetriever(store))
             state.retrieved_knowledge = invoke_traced(

@@ -238,6 +238,7 @@ class WorkflowState(WorkflowModel):
     run_id: str
     request: AlgorithmRequirement | None = None
     retrieved_knowledge: RetrievedKnowledge | None = None
+    dataset_metadata: dict[str, Any] = Field(default_factory=dict)
     candidate_plans: list[CandidatePlan] = Field(default_factory=list)
     generated_artifacts: list[GeneratedArtifact] = Field(default_factory=list)
     candidate_results: list[CandidateResult] = Field(default_factory=list)

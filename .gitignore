@@ -7,4 +7,7 @@ __pycache__/
 htmlcov/
 outputs/*.json
 outputs/runs/
+/outputs/uci-real-churn/
+/outputs/uci-audit/
 !outputs/.gitkeep
+/data/external/uci_iranian_churn/
