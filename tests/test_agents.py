@@ -36,6 +36,47 @@ def test_requirement_agent_parses_chinese_and_records_sources() -> None:
     assert requirement.field_sources["dataset_path"] == "default_config"
 
 
+def test_requirement_agent_uses_defaults_only_when_no_algorithm_is_named() -> None:
+    requirement = _requirement("请构建客户流失预测模型，以F1作为指标。")
+    assert requirement.candidate_algorithms == ["logistic_regression", "random_forest"]
+    assert requirement.field_sources["candidate_algorithms"] == "default_config"
+
+
+def test_requirement_agent_keeps_single_supported_algorithm() -> None:
+    requirement = _requirement("请使用Random Forest构建客户流失预测模型。")
+    assert requirement.candidate_algorithms == ["random_forest"]
+    assert requirement.field_sources["candidate_algorithms"] == "user_input"
+
+
+@pytest.mark.parametrize("text", [
+    "请使用XGBoost构建客户流失预测模型。",
+    "Use XGBoost for customer churn prediction.",
+    "请比较Random Forest和XGBoost。",
+    "Use LightGBM for customer churn.",
+    "Use SVM for customer churn.",
+    "Use KNN for customer churn.",
+    "Use a Neural Network for customer churn.",
+])
+def test_requirement_agent_rejects_explicit_unsupported_algorithms(text: str) -> None:
+    with pytest.raises(ValueError, match=r"unsupported algorithm.*xgboost|unsupported algorithm") as caught:
+        _requirement(text)
+    message = str(caught.value).lower()
+    assert "supported algorithms" in message
+    assert "logistic_regression" in message and "random_forest" in message
+
+
+def test_unsupported_algorithm_never_reaches_planning_or_generation(tmp_path: Path) -> None:
+    planner = Mock()
+    code_agent = Mock()
+    with pytest.raises(ValueError, match="unsupported algorithm"):
+        requirement = _requirement("请比较Random Forest和XGBoost。")
+        planner.plan(requirement, _knowledge_agent().retrieve(requirement))
+        code_agent.generate()
+    planner.plan.assert_not_called()
+    code_agent.generate.assert_not_called()
+    assert not list(tmp_path.rglob("candidate.py"))
+
+
 def test_requirement_agent_parses_english_and_override_wins() -> None:
     requirement = _requirement(
         "Build a customer churn prediction with logistic regression and random forest, "

@@ -14,7 +14,7 @@ from agentforge.pipeline import (
     ID_COLUMN,
     TARGET_COLUMN,
     _final_metrics,
-    _models,
+    build_estimator,
     _preprocessor,
     select_threshold,
     split_dataset,
@@ -22,14 +22,16 @@ from agentforge.pipeline import (
 from sklearn.pipeline import Pipeline
 
 
-def train_candidate(algorithm: str, data_path: str, model_path: str) -> dict:
+def train_candidate(
+    algorithm: str, data_path: str, model_path: str,
+    hyperparameters: dict | None = None,
+) -> dict:
     frame = pd.read_csv(data_path)
     features = frame.drop(columns=[TARGET_COLUMN, ID_COLUMN])
     target = frame[TARGET_COLUMN].astype(int)
     split = split_dataset(features, target)
-    estimator = _models(42).get(algorithm)
-    if estimator is None:
-        raise ValueError(f"unsupported registered algorithm: {algorithm}")
+    requested = dict(hyperparameters or {})
+    estimator, effective = build_estimator(algorithm, requested)
     pipeline = Pipeline([
         ("preprocessor", _preprocessor(split.x_train)), ("model", estimator)
     ])
@@ -39,12 +41,21 @@ def train_candidate(algorithm: str, data_path: str, model_path: str) -> dict:
     destination = Path(model_path)
     destination.parent.mkdir(parents=True, exist_ok=True)
     with destination.open("wb") as stream:
-        pickle.dump({"pipeline": pipeline, "threshold": threshold, "algorithm": algorithm}, stream)
+        pickle.dump({
+            "pipeline": pipeline, "threshold": threshold, "algorithm": algorithm,
+            "requested_hyperparameters": requested,
+            "effective_hyperparameters": effective,
+        }, stream)
     return {"algorithm": algorithm, "selected_threshold": threshold,
-            "validation_f1": validation_f1, "model_path": str(destination)}
+            "validation_f1": validation_f1, "model_path": str(destination),
+            "requested_hyperparameters": requested,
+            "effective_hyperparameters": effective}
 
 
-def train_candidate_missing_imputer(algorithm: str, data_path: str, model_path: str) -> dict:
+def train_candidate_missing_imputer(
+    algorithm: str, data_path: str, model_path: str,
+    hyperparameters: dict | None = None,
+) -> dict:
     """Intentional stage-four fault: fit without imputers so real NaN handling fails."""
     frame = pd.read_csv(data_path)
     features = frame.drop(columns=[TARGET_COLUMN, ID_COLUMN])
@@ -57,7 +68,7 @@ def train_candidate_missing_imputer(algorithm: str, data_path: str, model_path: 
         ("categorical", OneHotEncoder(handle_unknown="ignore", sparse_output=False),
          categorical_columns),
     ])
-    estimator = _models(42).get(algorithm)
+    estimator, _ = build_estimator(algorithm, dict(hyperparameters or {}))
     pipeline = Pipeline([("preprocessor", unsafe_preprocessor), ("model", estimator)])
     pipeline.fit(split.x_train, split.y_train)
     raise AssertionError("fault injection unexpectedly completed without a missing-value error")
@@ -90,6 +101,8 @@ def evaluate_candidate_model(model_path: str, data_path: str) -> dict:
     test = _final_metrics(split.y_test, test_probabilities, bundle["threshold"], 0.0)
     return {
         "algorithm": bundle["algorithm"],
+        "requested_hyperparameters": bundle.get("requested_hyperparameters", {}),
+        "effective_hyperparameters": bundle.get("effective_hyperparameters", {}),
         "selected_threshold": bundle["threshold"],
         "validation_metrics": validation,
         "test_metrics": test,

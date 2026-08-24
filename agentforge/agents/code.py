@@ -20,7 +20,7 @@ HYPERPARAMETERS = {hyperparameters!r}
 
 
 def train(data_path: str, model_path: str) -> dict:
-    return {train_function}(ALGORITHM, data_path, model_path)
+    return {train_function}(ALGORITHM, data_path, model_path, HYPERPARAMETERS)
 
 
 def predict(model_path: str, data_path: str) -> list:

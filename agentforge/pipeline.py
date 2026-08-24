@@ -32,6 +32,17 @@ TARGET_COLUMN = "churn"
 ID_COLUMN = "customer_id"
 METRIC_NAMES = ("accuracy", "precision", "recall", "f1", "roc_auc")
 THRESHOLDS = tuple(float(value) for value in np.arange(0.15, 0.81, 0.025))
+MODEL_DEFAULTS = {
+    "logistic_regression": {
+        "C": 1.0, "max_iter": 1_000, "class_weight": "balanced",
+        "solver": "lbfgs", "random_state": 42,
+    },
+    "random_forest": {
+        "n_estimators": 240, "max_depth": 10, "min_samples_split": 2,
+        "min_samples_leaf": 3, "max_features": "sqrt",
+        "class_weight": "balanced_subsample", "random_state": 42, "n_jobs": 1,
+    },
+}
 
 
 @dataclass(frozen=True)
@@ -122,22 +133,77 @@ def _preprocessor(features: pd.DataFrame) -> ColumnTransformer:
     )
 
 
+def _plain_int(value: Any) -> bool:
+    return isinstance(value, int) and not isinstance(value, bool)
+
+
+def _plain_number(value: Any) -> bool:
+    return isinstance(value, (int, float)) and not isinstance(value, bool)
+
+
+def validate_hyperparameters(algorithm: str, requested: dict[str, Any] | None) -> dict[str, Any]:
+    """Validate a small, JSON-safe estimator parameter surface and apply trusted defaults."""
+    if algorithm not in MODEL_DEFAULTS:
+        raise ValueError(f"unsupported registered algorithm: {algorithm}")
+    if requested is None:
+        requested = {}
+    if not isinstance(requested, dict):
+        raise TypeError("hyperparameters must be a dictionary")
+    try:
+        json.dumps(requested)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("hyperparameters must be JSON serializable") from exc
+    unknown = sorted(set(requested) - set(MODEL_DEFAULTS[algorithm]))
+    if unknown:
+        raise ValueError(f"unsupported hyperparameter(s) for {algorithm}: {unknown}")
+    effective = {**MODEL_DEFAULTS[algorithm], **requested}
+    if effective["random_state"] != 42 or not _plain_int(effective["random_state"]):
+        raise ValueError("random_state must be the fixed integer 42")
+    if algorithm == "logistic_regression":
+        if not _plain_number(effective["C"]) or not 0.0 < float(effective["C"]) <= 1_000.0:
+            raise ValueError("C must be a number in (0, 1000]")
+        if not _plain_int(effective["max_iter"]) or not 1 <= effective["max_iter"] <= 10_000:
+            raise ValueError("max_iter must be an integer in [1, 10000]")
+        if effective["class_weight"] not in {None, "balanced"}:
+            raise ValueError("class_weight must be null or 'balanced'")
+        if effective["solver"] not in {"lbfgs", "liblinear"}:
+            raise ValueError("solver must be 'lbfgs' or 'liblinear'")
+    else:
+        if not _plain_int(effective["n_estimators"]) or not 1 <= effective["n_estimators"] <= 2_000:
+            raise ValueError("n_estimators must be an integer in [1, 2000]")
+        if effective["max_depth"] is not None and (
+            not _plain_int(effective["max_depth"]) or not 1 <= effective["max_depth"] <= 100
+        ):
+            raise ValueError("max_depth must be null or an integer in [1, 100]")
+        if not _plain_int(effective["min_samples_split"]) or not 2 <= effective["min_samples_split"] <= 100:
+            raise ValueError("min_samples_split must be an integer in [2, 100]")
+        if not _plain_int(effective["min_samples_leaf"]) or not 1 <= effective["min_samples_leaf"] <= 100:
+            raise ValueError("min_samples_leaf must be an integer in [1, 100]")
+        if effective["max_features"] not in {None, "sqrt", "log2"}:
+            raise ValueError("max_features must be null, 'sqrt', or 'log2'")
+        if effective["class_weight"] not in {None, "balanced", "balanced_subsample"}:
+            raise ValueError("invalid random_forest class_weight")
+        if effective["n_jobs"] != 1 or not _plain_int(effective["n_jobs"]):
+            raise ValueError("n_jobs must be the fixed integer 1")
+    return effective
+
+
+def build_estimator(algorithm: str, hyperparameters: dict[str, Any] | None = None) -> tuple[Any, dict[str, Any]]:
+    effective = validate_hyperparameters(algorithm, hyperparameters)
+    estimator = (
+        LogisticRegression(**effective)
+        if algorithm == "logistic_regression"
+        else RandomForestClassifier(**effective)
+    )
+    return estimator, effective
+
+
 def _models(random_state: int) -> dict[str, Any]:
+    if random_state != 42:
+        raise ValueError("random_state must remain fixed at 42")
     return {
-        "logistic_regression": LogisticRegression(
-            max_iter=1_000,
-            class_weight="balanced",
-            random_state=random_state,
-        ),
-        "random_forest": RandomForestClassifier(
-            n_estimators=240,
-            max_depth=10,
-            min_samples_leaf=3,
-            max_features="sqrt",
-            class_weight="balanced_subsample",
-            random_state=random_state,
-            n_jobs=1,
-        ),
+        algorithm: build_estimator(algorithm)[0]
+        for algorithm in MODEL_DEFAULTS
     }
 
 

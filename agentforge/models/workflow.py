@@ -218,6 +218,8 @@ class CandidateResult(WorkflowModel):
     final_code_path: str | None = None
     execution_logs: list[str] = Field(default_factory=list)
     failure_type: str | None = None
+    requested_hyperparameters: dict[str, Any] = Field(default_factory=dict)
+    effective_hyperparameters: dict[str, Any] = Field(default_factory=dict)
 
 
 class WorkflowEvent(WorkflowModel):

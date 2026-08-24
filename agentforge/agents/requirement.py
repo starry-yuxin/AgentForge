@@ -43,6 +43,13 @@ ALGORITHM_ALIASES = {
     "logistic regression": "logistic_regression",
     "random forest": "random_forest",
 }
+UNSUPPORTED_ALGORITHM_PATTERNS = {
+    "xgboost": r"(?<![a-z0-9_])xgboost(?![a-z0-9_])",
+    "lightgbm": r"(?<![a-z0-9_])light(?:[ -]?gbm)(?![a-z0-9_])",
+    "svm": r"(?<![a-z0-9_])(?:svm|support vector machine)(?![a-z0-9_])|支持向量机",
+    "knn": r"(?<![a-z0-9_])(?:knn|k[ -]?nearest neighbou?rs?)(?![a-z0-9_])|k近邻",
+    "neural_network": r"(?<![a-z0-9_])neural network(?![a-z0-9_])|神经网络",
+}
 TASK_ALIASES = {
     "binary classification": "binary_classification",
     "tabular binary classification": "binary_classification",
@@ -116,6 +123,16 @@ class RequirementAgent:
             algorithms.append("logistic_regression")
         if re.search(r"random[ _-]?forest|随机森林", lowered):
             algorithms.append("random_forest")
+        unsupported_algorithms = [
+            name for name, pattern in UNSUPPORTED_ALGORITHM_PATTERNS.items()
+            if re.search(pattern, lowered)
+        ]
+        if unsupported_algorithms:
+            requested = ", ".join(unsupported_algorithms)
+            supported = ", ".join(sorted(ALGORITHM_ALIASES.values()))
+            raise ValueError(
+                f"unsupported algorithm(s): {requested}; supported algorithms: {supported}"
+            )
         if algorithms:
             parsed["candidate_algorithms"] = algorithms
             sources["candidate_algorithms"] = "user_input"

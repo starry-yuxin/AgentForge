@@ -60,6 +60,8 @@ class ReportAgent:
                 f"- Test metrics: `{result.test_metrics if result else {}}`",
                 f"- Selected threshold: `{result.selected_threshold if result else None}`",
                 f"- Minimum score met: `{result.minimum_score_met if result else False}`", "",
+                f"- Requested hyperparameters: `{result.requested_hyperparameters if result else {}}`",
+                f"- Effective hyperparameters: `{result.effective_hyperparameters if result else {}}`", "",
             ])
             if result:
                 lines.extend([

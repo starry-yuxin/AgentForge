@@ -51,6 +51,10 @@ def _execution(artifact, payload: dict | None, *, status="completed", stderr="")
 def _payload(**changes):
     payload = {
         "schema_version": "1.0", "prediction_count": 1200,
+        "train_result": {
+            "requested_hyperparameters": {"max_iter": 1000},
+            "effective_hyperparameters": {"max_iter": 1000, "random_state": 42},
+        },
         "prediction_labels": [0, 1],
         "evaluation": {
             "algorithm": "logistic_regression", "selected_threshold": 0.6,
@@ -77,6 +81,8 @@ def test_unified_validation_accepts_valid_schema_and_uses_validation_minimum(tmp
     assert result.status == "completed" and result.minimum_score_met
     assert result.selection_metric_value == result.validation_metrics["f1"]
     assert result.validation_metrics is not result.test_metrics
+    assert result.requested_hyperparameters == {"max_iter": 1000}
+    assert result.effective_hyperparameters["random_state"] == 42
     assert all(check.category in {
         "syntax", "security", "interface", "execution", "functionality", "metrics", "resource"
     } for check in result.validation_checks)
@@ -181,11 +187,17 @@ def test_fault_injection_really_fails_repairs_and_reports_without_formal_polluti
     assert "NaN" in logistic.attempts[0].stderr
     assert logistic.failure_type == "MissingValueError"
     assert logistic.repair_records[0].status == "validated"
+    assert logistic.requested_hyperparameters == {
+        "max_iter": 1000, "class_weight": "balanced", "random_state": 42,
+    }
+    assert logistic.effective_hyperparameters["max_iter"] == 1000
+    assert logistic.effective_hyperparameters["solver"] == "lbfgs"
     assert Path(logistic.repair_records[0].diff_path).is_file()
     assert "fixed_seed_stability" in {check.name for check in state.best_candidate.validation_checks}
     report = Path(state.final_report_paths["markdown"]).read_text(encoding="utf-8")
     assert "production-grade security sandbox" in report
     assert "MissingValueError" in report
+    assert "Effective hyperparameters" in report
     store = KnowledgeGraphStore.load_graphml(graphml)
     assert store.graph.nodes[state.run_id]["repaired"] is True
     assert any(data["relation"] == "FAILED_BECAUSE"

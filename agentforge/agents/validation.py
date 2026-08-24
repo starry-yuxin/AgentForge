@@ -110,11 +110,20 @@ class ValidationAgent:
         validation_metrics: dict[str, float] = {}
         test_metrics: dict[str, object] = {}
         selected_threshold = None
+        requested_hyperparameters: dict[str, object] = {}
+        effective_hyperparameters: dict[str, object] = {}
         if payload:
             evaluation = payload.get("evaluation", {})
+            train_result = payload.get("train_result", {})
             validation_metrics = evaluation.get("validation_metrics", {})
             test_metrics = evaluation.get("test_metrics", {})
             selected_threshold = evaluation.get("selected_threshold")
+            requested_hyperparameters = train_result.get(
+                "requested_hyperparameters", evaluation.get("requested_hyperparameters", {})
+            )
+            effective_hyperparameters = train_result.get(
+                "effective_hyperparameters", evaluation.get("effective_hyperparameters", {})
+            )
             expected_rows = sum(evaluation.get("split_sizes", {}).values())
             prediction_count = payload.get("prediction_count")
             labels = payload.get("prediction_labels", [])
@@ -178,4 +187,6 @@ class ValidationAgent:
             validation_checks=checks, final_code_path=artifact.code_path if passed else None,
             execution_logs=[str(Path(artifact.code_path).parent / "stdout.log"),
                             str(Path(artifact.code_path).parent / "stderr.log")],
+            requested_hyperparameters=requested_hyperparameters,
+            effective_hyperparameters=effective_hyperparameters,
         )
