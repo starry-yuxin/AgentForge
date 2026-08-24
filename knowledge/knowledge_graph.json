@@ -1,0 +1,1632 @@
+{
+  "directed": true,
+  "multigraph": true,
+  "graph": {},
+  "nodes": [
+    {
+      "name": "BinaryClassification",
+      "description": "Predict one of two classes and produce positive-class probabilities.",
+      "inputs": [
+        "tabular_features"
+      ],
+      "outputs": [
+        "binary_prediction",
+        "positive_probability"
+      ],
+      "applicable_tasks": [
+        "binary_classification",
+        "customer_churn"
+      ],
+      "applicable_conditions": [
+        "binary_target"
+      ],
+      "constraints": [
+        "stratified_split",
+        "test_isolation"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "metrics": [
+        "accuracy",
+        "precision",
+        "recall",
+        "f1",
+        "roc_auc"
+      ],
+      "source_document": "classification_model_guide.md",
+      "source_section": "F1 and ROC-AUC",
+      "version": "1.0.0",
+      "node_type": "Task",
+      "id": "binary_classification"
+    },
+    {
+      "node_type": "SourceDocument",
+      "name": "classification_model_guide.md",
+      "description": "Project built-in example source material",
+      "id": "document:classification_model_guide.md"
+    },
+    {
+      "node_type": "Dependency",
+      "name": "scikit-learn",
+      "id": "dependency:scikit_learn"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "stratified_split",
+      "id": "constraint:stratified_split"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "test_isolation",
+      "id": "constraint:test_isolation"
+    },
+    {
+      "name": "LogisticRegression",
+      "description": "Interpretable linear classifier with calibrated probability-like output and fast training.",
+      "inputs": [
+        "encoded_numeric_matrix"
+      ],
+      "outputs": [
+        "binary_prediction",
+        "positive_probability"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "tabular_data",
+        "interpretable_baseline",
+        "imbalanced_data"
+      ],
+      "constraints": [
+        "requires_numeric_features",
+        "validation_only_threshold"
+      ],
+      "dependencies": [
+        "scikit-learn",
+        "StandardScaling",
+        "OneHotEncoding",
+        "ClassWeightBalancing"
+      ],
+      "metrics": [
+        "f1",
+        "roc_auc"
+      ],
+      "source_document": "classification_model_guide.md",
+      "source_section": "Logistic Regression",
+      "version": "1.0.0",
+      "node_type": "Algorithm",
+      "id": "logistic_regression"
+    },
+    {
+      "name": "StandardScaling",
+      "description": "Standardize numeric features using training-set statistics.",
+      "inputs": [
+        "numeric_features"
+      ],
+      "outputs": [
+        "scaled_numeric_features"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "linear_model",
+        "numeric_features"
+      ],
+      "constraints": [
+        "fit_on_train_only"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "metrics": [],
+      "source_document": "tabular_preprocessing_guide.md",
+      "source_section": "Feature scaling",
+      "version": "1.0.0",
+      "node_type": "Preprocessor",
+      "id": "standard_scaling"
+    },
+    {
+      "name": "OneHotEncoding",
+      "description": "Encode unordered categories while ignoring unseen categories at inference time.",
+      "inputs": [
+        "categorical_features"
+      ],
+      "outputs": [
+        "encoded_numeric_features"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "categorical_features"
+      ],
+      "constraints": [
+        "handle_unknown_ignore",
+        "fit_on_train_only"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "metrics": [],
+      "source_document": "tabular_preprocessing_guide.md",
+      "source_section": "One-Hot Encoding",
+      "version": "1.0.0",
+      "node_type": "Preprocessor",
+      "id": "one_hot_encoding"
+    },
+    {
+      "name": "ClassWeightBalancing",
+      "description": "Increase minority-class importance during model fitting without resampling test data.",
+      "inputs": [
+        "imbalanced_training_labels"
+      ],
+      "outputs": [
+        "class_weight_configuration"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "imbalanced_data",
+        "low_minority_recall"
+      ],
+      "constraints": [
+        "train_only"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "metrics": [
+        "recall",
+        "f1"
+      ],
+      "source_document": "classification_model_guide.md",
+      "source_section": "Class imbalance and class weight",
+      "version": "1.0.0",
+      "node_type": "Preprocessor",
+      "id": "class_weight_balancing"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "requires_numeric_features",
+      "id": "constraint:requires_numeric_features"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "validation_only_threshold",
+      "id": "constraint:validation_only_threshold"
+    },
+    {
+      "name": "RandomForest",
+      "description": "Tree ensemble suited to nonlinear tabular relationships and feature interactions.",
+      "inputs": [
+        "encoded_tabular_matrix"
+      ],
+      "outputs": [
+        "binary_prediction",
+        "positive_probability"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "tabular_data",
+        "nonlinear_relationships",
+        "imbalanced_data"
+      ],
+      "constraints": [
+        "requires_numeric_features",
+        "validation_only_threshold"
+      ],
+      "dependencies": [
+        "scikit-learn",
+        "OneHotEncoding",
+        "ClassWeightBalancing"
+      ],
+      "metrics": [
+        "f1",
+        "roc_auc"
+      ],
+      "source_document": "classification_model_guide.md",
+      "source_section": "Random Forest",
+      "version": "1.0.0",
+      "node_type": "Algorithm",
+      "id": "random_forest"
+    },
+    {
+      "name": "NumericalImputation",
+      "description": "Fill numeric missing values with training-set median statistics.",
+      "inputs": [
+        "numeric_features_with_missing_values"
+      ],
+      "outputs": [
+        "complete_numeric_features"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "missing_values",
+        "numeric_features"
+      ],
+      "constraints": [
+        "fit_on_train_only"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "metrics": [],
+      "source_document": "tabular_preprocessing_guide.md",
+      "source_section": "Missing values",
+      "version": "1.0.0",
+      "node_type": "Preprocessor",
+      "id": "numerical_imputation"
+    },
+    {
+      "node_type": "SourceDocument",
+      "name": "tabular_preprocessing_guide.md",
+      "description": "Project built-in example source material",
+      "id": "document:tabular_preprocessing_guide.md"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "fit_on_train_only",
+      "id": "constraint:fit_on_train_only"
+    },
+    {
+      "name": "CategoricalImputation",
+      "description": "Fill categorical missing values with the training-set most frequent category.",
+      "inputs": [
+        "categorical_features_with_missing_values"
+      ],
+      "outputs": [
+        "complete_categorical_features"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "missing_values",
+        "categorical_features"
+      ],
+      "constraints": [
+        "fit_on_train_only"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "metrics": [],
+      "source_document": "tabular_preprocessing_guide.md",
+      "source_section": "Missing values",
+      "version": "1.0.0",
+      "node_type": "Preprocessor",
+      "id": "categorical_imputation"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "handle_unknown_ignore",
+      "id": "constraint:handle_unknown_ignore"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "train_only",
+      "id": "constraint:train_only"
+    },
+    {
+      "name": "ValidationThresholdOptimization",
+      "description": "Search candidate probability thresholds using validation F1 only.",
+      "inputs": [
+        "validation_labels",
+        "validation_probabilities"
+      ],
+      "outputs": [
+        "selected_threshold"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "imbalanced_data",
+        "low_f1_at_default_threshold"
+      ],
+      "constraints": [
+        "never_use_test_labels",
+        "validation_only_threshold"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "metrics": [
+        "f1"
+      ],
+      "source_document": "classification_model_guide.md",
+      "source_section": "Validation-based threshold selection",
+      "version": "1.0.0",
+      "node_type": "Preprocessor",
+      "id": "validation_threshold_optimization"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "never_use_test_labels",
+      "id": "constraint:never_use_test_labels"
+    },
+    {
+      "name": "Accuracy",
+      "description": "Fraction of correct predictions.",
+      "inputs": [
+        "labels",
+        "binary_predictions"
+      ],
+      "outputs": [
+        "score"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "balanced_error_costs"
+      ],
+      "constraints": [
+        "may_hide_minority_failure"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "metrics": [
+        "accuracy"
+      ],
+      "source_document": "classification_model_guide.md",
+      "source_section": "F1 and ROC-AUC",
+      "version": "1.0.0",
+      "node_type": "Metric",
+      "id": "accuracy"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "may_hide_minority_failure",
+      "id": "constraint:may_hide_minority_failure"
+    },
+    {
+      "name": "Precision",
+      "description": "Share of predicted positives that are correct.",
+      "inputs": [
+        "labels",
+        "binary_predictions"
+      ],
+      "outputs": [
+        "score"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "false_positive_cost"
+      ],
+      "constraints": [],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "metrics": [
+        "precision"
+      ],
+      "source_document": "classification_model_guide.md",
+      "source_section": "F1 and ROC-AUC",
+      "version": "1.0.0",
+      "node_type": "Metric",
+      "id": "precision"
+    },
+    {
+      "name": "Recall",
+      "description": "Share of actual positives that are detected.",
+      "inputs": [
+        "labels",
+        "binary_predictions"
+      ],
+      "outputs": [
+        "score"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "minority_detection",
+        "imbalanced_data"
+      ],
+      "constraints": [],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "metrics": [
+        "recall"
+      ],
+      "source_document": "classification_model_guide.md",
+      "source_section": "F1 and ROC-AUC",
+      "version": "1.0.0",
+      "node_type": "Metric",
+      "id": "recall"
+    },
+    {
+      "name": "F1",
+      "description": "Harmonic mean of precision and recall.",
+      "inputs": [
+        "labels",
+        "binary_predictions"
+      ],
+      "outputs": [
+        "score"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "imbalanced_data",
+        "precision_recall_tradeoff"
+      ],
+      "constraints": [
+        "threshold_dependent"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "metrics": [
+        "f1"
+      ],
+      "source_document": "classification_model_guide.md",
+      "source_section": "F1 and ROC-AUC",
+      "version": "1.0.0",
+      "node_type": "Metric",
+      "id": "f1"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "threshold_dependent",
+      "id": "constraint:threshold_dependent"
+    },
+    {
+      "name": "ROCAUC",
+      "description": "Ranking quality across thresholds using positive-class probabilities.",
+      "inputs": [
+        "labels",
+        "positive_probabilities"
+      ],
+      "outputs": [
+        "score"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "probability_output"
+      ],
+      "constraints": [
+        "must_use_probabilities"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "metrics": [
+        "roc_auc"
+      ],
+      "source_document": "classification_model_guide.md",
+      "source_section": "F1 and ROC-AUC",
+      "version": "1.0.0",
+      "node_type": "Metric",
+      "id": "roc_auc"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "must_use_probabilities",
+      "id": "constraint:must_use_probabilities"
+    },
+    {
+      "name": "MissingValueError",
+      "description": "Training fails because input contains unhandled NaN values.",
+      "inputs": [
+        "error_log"
+      ],
+      "outputs": [
+        "imputation_recommendation"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "missing_values"
+      ],
+      "constraints": [
+        "fit_imputer_on_train_only"
+      ],
+      "dependencies": [
+        "NumericalImputation",
+        "CategoricalImputation"
+      ],
+      "metrics": [],
+      "source_document": "failure_experience_guide.md",
+      "source_section": "MissingValueError",
+      "version": "1.0.0",
+      "node_type": "FailureExperience",
+      "id": "missing_value_error"
+    },
+    {
+      "node_type": "SourceDocument",
+      "name": "failure_experience_guide.md",
+      "description": "Project built-in example source material",
+      "id": "document:failure_experience_guide.md"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "fit_imputer_on_train_only",
+      "id": "constraint:fit_imputer_on_train_only"
+    },
+    {
+      "name": "CategoricalEncodingError",
+      "description": "Estimator cannot consume strings or encounters an unseen category.",
+      "inputs": [
+        "error_log"
+      ],
+      "outputs": [
+        "encoding_recommendation"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "categorical_features",
+        "unknown_categories"
+      ],
+      "constraints": [
+        "handle_unknown_ignore"
+      ],
+      "dependencies": [
+        "OneHotEncoding"
+      ],
+      "metrics": [],
+      "source_document": "failure_experience_guide.md",
+      "source_section": "CategoricalEncodingError",
+      "version": "1.0.0",
+      "node_type": "FailureExperience",
+      "id": "categorical_encoding_error"
+    },
+    {
+      "name": "LowMinorityRecall",
+      "description": "Minority-class recall is poor despite acceptable aggregate accuracy.",
+      "inputs": [
+        "validation_metrics"
+      ],
+      "outputs": [
+        "balancing_recommendation"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "imbalanced_data",
+        "low_minority_recall"
+      ],
+      "constraints": [
+        "evaluate_on_validation"
+      ],
+      "dependencies": [
+        "ClassWeightBalancing",
+        "ValidationThresholdOptimization"
+      ],
+      "metrics": [
+        "recall",
+        "f1"
+      ],
+      "source_document": "failure_experience_guide.md",
+      "source_section": "LowMinorityRecall",
+      "version": "1.0.0",
+      "node_type": "FailureExperience",
+      "id": "low_minority_recall"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "evaluate_on_validation",
+      "id": "constraint:evaluate_on_validation"
+    },
+    {
+      "name": "LowF1AtDefaultThreshold",
+      "description": "F1 is poor when a fixed 0.5 probability threshold is used.",
+      "inputs": [
+        "validation_labels",
+        "validation_probabilities"
+      ],
+      "outputs": [
+        "threshold_recommendation"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "low_f1_at_default_threshold",
+        "imbalanced_data"
+      ],
+      "constraints": [
+        "never_use_test_labels"
+      ],
+      "dependencies": [
+        "ValidationThresholdOptimization"
+      ],
+      "metrics": [
+        "f1"
+      ],
+      "source_document": "failure_experience_guide.md",
+      "source_section": "LowF1AtDefaultThreshold",
+      "version": "1.0.0",
+      "node_type": "FailureExperience",
+      "id": "low_f1_default_threshold"
+    },
+    {
+      "name": "DataLeakageRisk",
+      "description": "Evaluation is optimistic because validation or test information enters fitting or selection.",
+      "inputs": [
+        "workflow_definition"
+      ],
+      "outputs": [
+        "split_isolation_recommendation"
+      ],
+      "applicable_tasks": [
+        "binary_classification"
+      ],
+      "applicable_conditions": [
+        "data_leakage",
+        "test_reuse"
+      ],
+      "constraints": [
+        "train_validation_test_isolation",
+        "pipeline_preprocessing"
+      ],
+      "dependencies": [
+        "scikit-learn"
+      ],
+      "metrics": [],
+      "source_document": "failure_experience_guide.md",
+      "source_section": "DataLeakageRisk",
+      "version": "1.0.0",
+      "node_type": "FailureExperience",
+      "id": "data_leakage_risk"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "train_validation_test_isolation",
+      "id": "constraint:train_validation_test_isolation"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "pipeline_preprocessing",
+      "id": "constraint:pipeline_preprocessing"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "binary_target",
+      "id": "constraint:binary_target"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "tabular_data",
+      "id": "constraint:tabular_data"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "interpretable_baseline",
+      "id": "constraint:interpretable_baseline"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "imbalanced_data",
+      "id": "constraint:imbalanced_data"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "nonlinear_relationships",
+      "id": "constraint:nonlinear_relationships"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "missing_values",
+      "id": "constraint:missing_values"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "numeric_features",
+      "id": "constraint:numeric_features"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "categorical_features",
+      "id": "constraint:categorical_features"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "linear_model",
+      "id": "constraint:linear_model"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "low_minority_recall",
+      "id": "constraint:low_minority_recall"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "low_f1_at_default_threshold",
+      "id": "constraint:low_f1_at_default_threshold"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "balanced_error_costs",
+      "id": "constraint:balanced_error_costs"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "false_positive_cost",
+      "id": "constraint:false_positive_cost"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "minority_detection",
+      "id": "constraint:minority_detection"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "precision_recall_tradeoff",
+      "id": "constraint:precision_recall_tradeoff"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "probability_output",
+      "id": "constraint:probability_output"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "unknown_categories",
+      "id": "constraint:unknown_categories"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "data_leakage",
+      "id": "constraint:data_leakage"
+    },
+    {
+      "node_type": "Constraint",
+      "name": "test_reuse",
+      "id": "constraint:test_reuse"
+    },
+    {
+      "node_type": "ValidationRun",
+      "name": "Historical missing-value failure example",
+      "status": "failed",
+      "disclaimer": "Project built-in example failure, not a production run.",
+      "id": "historical_missing_value_failure"
+    },
+    {
+      "node_type": "Dataset",
+      "name": "customer_churn_sample",
+      "rows": 1200,
+      "positive_rate": 0.17666666666666667,
+      "characteristics": [
+        "tabular_data",
+        "missing_values",
+        "imbalanced_data"
+      ],
+      "id": "customer_churn_sample"
+    },
+    {
+      "node_type": "ValidationRun",
+      "name": "Stage 1 deterministic churn benchmark",
+      "status": "success",
+      "best_algorithm": "logistic_regression",
+      "random_state": 42,
+      "created_at": "2026-08-24T01:02:34.402084+00:00",
+      "disclaimer": "Fixed-random-seed synthetic-data demonstration; results do not represent real-business generalization performance.",
+      "split_sizes": {
+        "train": 720,
+        "validation": 240,
+        "test": 240
+      },
+      "id": "stage1_validation"
+    }
+  ],
+  "edges": [
+    {
+      "relation": "DERIVED_FROM",
+      "section": "F1 and ROC-AUC",
+      "source": "binary_classification",
+      "target": "document:classification_model_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "DEPENDS_ON",
+      "source": "binary_classification",
+      "target": "dependency:scikit_learn",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "binary_classification",
+      "target": "constraint:stratified_split",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "binary_classification",
+      "target": "constraint:test_isolation",
+      "key": 0
+    },
+    {
+      "relation": "EVALUATED_BY",
+      "source": "binary_classification",
+      "target": "accuracy",
+      "key": 0
+    },
+    {
+      "relation": "EVALUATED_BY",
+      "source": "binary_classification",
+      "target": "precision",
+      "key": 0
+    },
+    {
+      "relation": "EVALUATED_BY",
+      "source": "binary_classification",
+      "target": "recall",
+      "key": 0
+    },
+    {
+      "relation": "EVALUATED_BY",
+      "source": "binary_classification",
+      "target": "f1",
+      "key": 0
+    },
+    {
+      "relation": "EVALUATED_BY",
+      "source": "binary_classification",
+      "target": "roc_auc",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "binary_classification",
+      "target": "constraint:binary_target",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "Logistic Regression",
+      "source": "logistic_regression",
+      "target": "document:classification_model_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "DEPENDS_ON",
+      "source": "logistic_regression",
+      "target": "dependency:scikit_learn",
+      "key": 0
+    },
+    {
+      "relation": "REQUIRES",
+      "source": "logistic_regression",
+      "target": "standard_scaling",
+      "key": 0
+    },
+    {
+      "relation": "REQUIRES",
+      "source": "logistic_regression",
+      "target": "one_hot_encoding",
+      "key": 0
+    },
+    {
+      "relation": "REQUIRES",
+      "source": "logistic_regression",
+      "target": "class_weight_balancing",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "logistic_regression",
+      "target": "constraint:requires_numeric_features",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "logistic_regression",
+      "target": "constraint:validation_only_threshold",
+      "key": 0
+    },
+    {
+      "relation": "SUITABLE_FOR",
+      "source": "logistic_regression",
+      "target": "binary_classification",
+      "key": 0
+    },
+    {
+      "relation": "EVALUATED_BY",
+      "source": "logistic_regression",
+      "target": "f1",
+      "key": 0
+    },
+    {
+      "relation": "EVALUATED_BY",
+      "source": "logistic_regression",
+      "target": "roc_auc",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "logistic_regression",
+      "target": "constraint:tabular_data",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "logistic_regression",
+      "target": "constraint:interpretable_baseline",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "logistic_regression",
+      "target": "constraint:imbalanced_data",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "Feature scaling",
+      "source": "standard_scaling",
+      "target": "document:tabular_preprocessing_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "DEPENDS_ON",
+      "source": "standard_scaling",
+      "target": "dependency:scikit_learn",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "standard_scaling",
+      "target": "constraint:fit_on_train_only",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "standard_scaling",
+      "target": "constraint:linear_model",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "standard_scaling",
+      "target": "constraint:numeric_features",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "One-Hot Encoding",
+      "source": "one_hot_encoding",
+      "target": "document:tabular_preprocessing_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "DEPENDS_ON",
+      "source": "one_hot_encoding",
+      "target": "dependency:scikit_learn",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "one_hot_encoding",
+      "target": "constraint:handle_unknown_ignore",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "one_hot_encoding",
+      "target": "constraint:fit_on_train_only",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "one_hot_encoding",
+      "target": "constraint:categorical_features",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "Class imbalance and class weight",
+      "source": "class_weight_balancing",
+      "target": "document:classification_model_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "DEPENDS_ON",
+      "source": "class_weight_balancing",
+      "target": "dependency:scikit_learn",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "class_weight_balancing",
+      "target": "constraint:train_only",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "class_weight_balancing",
+      "target": "constraint:imbalanced_data",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "class_weight_balancing",
+      "target": "constraint:low_minority_recall",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "Random Forest",
+      "source": "random_forest",
+      "target": "document:classification_model_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "DEPENDS_ON",
+      "source": "random_forest",
+      "target": "dependency:scikit_learn",
+      "key": 0
+    },
+    {
+      "relation": "REQUIRES",
+      "source": "random_forest",
+      "target": "one_hot_encoding",
+      "key": 0
+    },
+    {
+      "relation": "REQUIRES",
+      "source": "random_forest",
+      "target": "class_weight_balancing",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "random_forest",
+      "target": "constraint:requires_numeric_features",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "random_forest",
+      "target": "constraint:validation_only_threshold",
+      "key": 0
+    },
+    {
+      "relation": "SUITABLE_FOR",
+      "source": "random_forest",
+      "target": "binary_classification",
+      "key": 0
+    },
+    {
+      "relation": "EVALUATED_BY",
+      "source": "random_forest",
+      "target": "f1",
+      "key": 0
+    },
+    {
+      "relation": "EVALUATED_BY",
+      "source": "random_forest",
+      "target": "roc_auc",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "random_forest",
+      "target": "constraint:tabular_data",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "random_forest",
+      "target": "constraint:nonlinear_relationships",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "random_forest",
+      "target": "constraint:imbalanced_data",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "Missing values",
+      "source": "numerical_imputation",
+      "target": "document:tabular_preprocessing_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "DEPENDS_ON",
+      "source": "numerical_imputation",
+      "target": "dependency:scikit_learn",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "numerical_imputation",
+      "target": "constraint:fit_on_train_only",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "numerical_imputation",
+      "target": "constraint:missing_values",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "numerical_imputation",
+      "target": "constraint:numeric_features",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "Missing values",
+      "source": "categorical_imputation",
+      "target": "document:tabular_preprocessing_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "DEPENDS_ON",
+      "source": "categorical_imputation",
+      "target": "dependency:scikit_learn",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "categorical_imputation",
+      "target": "constraint:fit_on_train_only",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "categorical_imputation",
+      "target": "constraint:missing_values",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "categorical_imputation",
+      "target": "constraint:categorical_features",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "Validation-based threshold selection",
+      "source": "validation_threshold_optimization",
+      "target": "document:classification_model_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "DEPENDS_ON",
+      "source": "validation_threshold_optimization",
+      "target": "dependency:scikit_learn",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "validation_threshold_optimization",
+      "target": "constraint:never_use_test_labels",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "validation_threshold_optimization",
+      "target": "constraint:validation_only_threshold",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "validation_threshold_optimization",
+      "target": "constraint:imbalanced_data",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "validation_threshold_optimization",
+      "target": "constraint:low_f1_at_default_threshold",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "F1 and ROC-AUC",
+      "source": "accuracy",
+      "target": "document:classification_model_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "DEPENDS_ON",
+      "source": "accuracy",
+      "target": "dependency:scikit_learn",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "accuracy",
+      "target": "constraint:may_hide_minority_failure",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "accuracy",
+      "target": "constraint:balanced_error_costs",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "F1 and ROC-AUC",
+      "source": "precision",
+      "target": "document:classification_model_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "DEPENDS_ON",
+      "source": "precision",
+      "target": "dependency:scikit_learn",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "precision",
+      "target": "constraint:false_positive_cost",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "F1 and ROC-AUC",
+      "source": "recall",
+      "target": "document:classification_model_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "DEPENDS_ON",
+      "source": "recall",
+      "target": "dependency:scikit_learn",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "recall",
+      "target": "constraint:minority_detection",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "recall",
+      "target": "constraint:imbalanced_data",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "F1 and ROC-AUC",
+      "source": "f1",
+      "target": "document:classification_model_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "DEPENDS_ON",
+      "source": "f1",
+      "target": "dependency:scikit_learn",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "f1",
+      "target": "constraint:threshold_dependent",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "f1",
+      "target": "constraint:imbalanced_data",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "f1",
+      "target": "constraint:precision_recall_tradeoff",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "F1 and ROC-AUC",
+      "source": "roc_auc",
+      "target": "document:classification_model_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "DEPENDS_ON",
+      "source": "roc_auc",
+      "target": "dependency:scikit_learn",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "roc_auc",
+      "target": "constraint:must_use_probabilities",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "roc_auc",
+      "target": "constraint:probability_output",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "MissingValueError",
+      "source": "missing_value_error",
+      "target": "document:failure_experience_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "REQUIRES",
+      "source": "missing_value_error",
+      "target": "numerical_imputation",
+      "key": 0
+    },
+    {
+      "relation": "IMPROVED_BY",
+      "source": "missing_value_error",
+      "target": "numerical_imputation",
+      "key": 1
+    },
+    {
+      "relation": "REQUIRES",
+      "source": "missing_value_error",
+      "target": "categorical_imputation",
+      "key": 0
+    },
+    {
+      "relation": "IMPROVED_BY",
+      "source": "missing_value_error",
+      "target": "categorical_imputation",
+      "key": 1
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "missing_value_error",
+      "target": "constraint:fit_imputer_on_train_only",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "missing_value_error",
+      "target": "constraint:missing_values",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "CategoricalEncodingError",
+      "source": "categorical_encoding_error",
+      "target": "document:failure_experience_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "REQUIRES",
+      "source": "categorical_encoding_error",
+      "target": "one_hot_encoding",
+      "key": 0
+    },
+    {
+      "relation": "IMPROVED_BY",
+      "source": "categorical_encoding_error",
+      "target": "one_hot_encoding",
+      "key": 1
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "categorical_encoding_error",
+      "target": "constraint:handle_unknown_ignore",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "categorical_encoding_error",
+      "target": "constraint:categorical_features",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "categorical_encoding_error",
+      "target": "constraint:unknown_categories",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "LowMinorityRecall",
+      "source": "low_minority_recall",
+      "target": "document:failure_experience_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "REQUIRES",
+      "source": "low_minority_recall",
+      "target": "class_weight_balancing",
+      "key": 0
+    },
+    {
+      "relation": "IMPROVED_BY",
+      "source": "low_minority_recall",
+      "target": "class_weight_balancing",
+      "key": 1
+    },
+    {
+      "relation": "REQUIRES",
+      "source": "low_minority_recall",
+      "target": "validation_threshold_optimization",
+      "key": 0
+    },
+    {
+      "relation": "IMPROVED_BY",
+      "source": "low_minority_recall",
+      "target": "validation_threshold_optimization",
+      "key": 1
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "low_minority_recall",
+      "target": "constraint:evaluate_on_validation",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "low_minority_recall",
+      "target": "constraint:imbalanced_data",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "low_minority_recall",
+      "target": "constraint:low_minority_recall",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "LowF1AtDefaultThreshold",
+      "source": "low_f1_default_threshold",
+      "target": "document:failure_experience_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "REQUIRES",
+      "source": "low_f1_default_threshold",
+      "target": "validation_threshold_optimization",
+      "key": 0
+    },
+    {
+      "relation": "IMPROVED_BY",
+      "source": "low_f1_default_threshold",
+      "target": "validation_threshold_optimization",
+      "key": 1
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "low_f1_default_threshold",
+      "target": "constraint:never_use_test_labels",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "low_f1_default_threshold",
+      "target": "constraint:low_f1_at_default_threshold",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "low_f1_default_threshold",
+      "target": "constraint:imbalanced_data",
+      "key": 0
+    },
+    {
+      "relation": "DERIVED_FROM",
+      "section": "DataLeakageRisk",
+      "source": "data_leakage_risk",
+      "target": "document:failure_experience_guide.md",
+      "key": 0
+    },
+    {
+      "relation": "DEPENDS_ON",
+      "source": "data_leakage_risk",
+      "target": "dependency:scikit_learn",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "data_leakage_risk",
+      "target": "constraint:train_validation_test_isolation",
+      "key": 0
+    },
+    {
+      "relation": "SATISFIES",
+      "source": "data_leakage_risk",
+      "target": "constraint:pipeline_preprocessing",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "data_leakage_risk",
+      "target": "constraint:data_leakage",
+      "key": 0
+    },
+    {
+      "relation": "HANDLES",
+      "source": "data_leakage_risk",
+      "target": "constraint:test_reuse",
+      "key": 0
+    },
+    {
+      "relation": "FAILED_BECAUSE",
+      "source": "historical_missing_value_failure",
+      "target": "missing_value_error",
+      "key": 0
+    },
+    {
+      "relation": "PERFORMED_ON",
+      "source": "stage1_validation",
+      "target": "customer_churn_sample",
+      "key": 0
+    },
+    {
+      "relation": "USED_ALGORITHM",
+      "selected_threshold": 0.6749999999999999,
+      "selected_as_best": true,
+      "source": "stage1_validation",
+      "target": "logistic_regression",
+      "key": 0
+    },
+    {
+      "relation": "ACHIEVED_METRIC",
+      "algorithm": "logistic_regression",
+      "value": 0.6739130434782609,
+      "split": "test",
+      "source": "stage1_validation",
+      "target": "f1",
+      "key": 0
+    },
+    {
+      "relation": "ACHIEVED_METRIC",
+      "algorithm": "random_forest",
+      "value": 0.6326530612244898,
+      "split": "test",
+      "source": "stage1_validation",
+      "target": "f1",
+      "key": 1
+    },
+    {
+      "relation": "ACHIEVED_METRIC",
+      "algorithm": "logistic_regression",
+      "value": 0.9145021645021645,
+      "split": "test",
+      "source": "stage1_validation",
+      "target": "roc_auc",
+      "key": 0
+    },
+    {
+      "relation": "ACHIEVED_METRIC",
+      "algorithm": "random_forest",
+      "value": 0.8857623857623858,
+      "split": "test",
+      "source": "stage1_validation",
+      "target": "roc_auc",
+      "key": 1
+    },
+    {
+      "relation": "USED_ALGORITHM",
+      "selected_threshold": 0.37499999999999994,
+      "selected_as_best": false,
+      "source": "stage1_validation",
+      "target": "random_forest",
+      "key": 0
+    }
+  ]
+}
