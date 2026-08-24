@@ -107,12 +107,14 @@ class GeneratedArtifact(WorkflowModel):
     code_path: str
     model_output_path: str
     result_output_path: str
-    generator_mode: Literal["deterministic_template"] = "deterministic_template"
+    generator_mode: Literal["deterministic_template", "llm"] = "deterministic_template"
     interface_spec: list[str]
     source_plan: CandidatePlan
     syntax_valid: bool
     attempt: int = Field(default=0, ge=0, le=2)
     failure_injection: str | None = None
+    llm_call_id: str | None = None
+    prompt_version: str | None = None
 
 
 class SecurityFinding(WorkflowModel):
@@ -179,7 +181,7 @@ class RepairRecord(WorkflowModel):
     error_summary: str
     retrieved_experience_ids: list[str] = Field(default_factory=list)
     repair_strategy: str
-    repair_mode: Literal["deterministic_rule"] = "deterministic_rule"
+    repair_mode: Literal["deterministic_rule", "llm"] = "deterministic_rule"
     source_code_path: str
     repaired_code_path: str
     diff_path: str
@@ -189,6 +191,9 @@ class RepairRecord(WorkflowModel):
     started_at: datetime
     finished_at: datetime
     duration_seconds: float = Field(ge=0.0)
+    llm_call_id: str | None = None
+    prompt_version: str | None = None
+    fallback_used: bool = False
 
 
 class CandidateResult(WorkflowModel):
@@ -247,3 +252,12 @@ class WorkflowState(WorkflowModel):
     unrepaired_failures: list[str] = Field(default_factory=list)
     security_summary: dict[str, Any] = Field(default_factory=dict)
     failure_injection: str | None = None
+    execution_mode: Literal["deterministic", "hybrid", "llm"] = "deterministic"
+    llm_provider: str = "deterministic"
+    llm_model: str | None = None
+    llm_calls: list[dict[str, Any]] = Field(default_factory=list)
+    llm_call_count: int = Field(default=0, ge=0)
+    llm_fallback_count: int = Field(default=0, ge=0)
+    llm_failures: list[str] = Field(default_factory=list)
+    generation_modes: dict[str, str] = Field(default_factory=dict)
+    repair_modes: list[str] = Field(default_factory=list)

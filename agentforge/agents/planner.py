@@ -5,6 +5,9 @@ from __future__ import annotations
 from uuid import uuid4
 
 from agentforge.models import AlgorithmRequirement, CandidatePlan, RetrievedKnowledge
+from agentforge.llm.parsing import extract_json
+from agentforge.llm.prompts import PLANNER
+import json
 
 
 ALGORITHM_REGISTRY = {
@@ -57,3 +60,24 @@ class PlannerAgent:
         if not plans:
             raise LookupError("no candidate is supported by both knowledge and algorithm registry")
         return plans
+
+    def plan_with_llm(self, requirement, knowledge, client):
+        allowed = [a for a in requirement.candidate_algorithms if a in ALGORITHM_REGISTRY]
+        call = client.call(purpose="candidate_planning", prompt_version=PLANNER.version,
+            system=PLANNER.system,
+            user=("Return a JSON object with key algorithms, an ordered list chosen only from "
+                  f"{allowed}. Do not invent algorithms or capabilities. Context: "
+                  f"{json.dumps([x.capability_id for x in knowledge.algorithms])}"))
+        if call.status != "success": return None, call
+        try:
+            payload = extract_json(call.response_text)
+            algorithms = payload["algorithms"]
+            if not isinstance(algorithms, list) or not algorithms or any(a not in allowed for a in algorithms):
+                raise ValueError("planner returned unsupported algorithms")
+            narrowed = requirement.model_copy(update={"candidate_algorithms": list(dict.fromkeys(algorithms))})
+            plans = self.plan(narrowed, knowledge)
+            call.parsed_output = [p.model_dump(mode="json") for p in plans]
+            return plans, call
+        except Exception as exc:
+            call.status, call.error_type, call.error_message = "failed", type(exc).__name__, str(exc)[:500]
+            return None, call

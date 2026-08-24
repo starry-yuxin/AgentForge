@@ -17,6 +17,8 @@ from agentforge.models import ExecutionResult, ValidationCheck
 from agentforge.repair import ErrorClassifier
 from agentforge.validation import AstSecurityChecker, InterfaceChecker, SubprocessRunner
 from agentforge.workflow.events import invoke_traced, record_skipped
+from agentforge.config import LLMConfig
+from agentforge.llm import create_llm_client
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -31,6 +33,8 @@ class WorkflowOrchestrator:
         graph_json_path: str | Path | None = None,
         requirement_agent: RequirementAgent | None = None,
         validation_agent: ValidationAgent | None = None,
+        llm_config: LLMConfig | None = None,
+        llm_client=None,
     ) -> None:
         self.output_root = Path(output_root or ROOT / "outputs" / "runs")
         self.graphml_path = Path(graphml_path or ROOT / "knowledge" / "knowledge_graph.graphml")
@@ -47,6 +51,19 @@ class WorkflowOrchestrator:
         self.interface_checker = InterfaceChecker()
         self.subprocess_runner = SubprocessRunner()
         self.error_classifier = ErrorClassifier()
+        self.llm_config = llm_config or LLMConfig()
+        self.llm_client = llm_client
+
+    @staticmethod
+    def _track_llm(state, call) -> None:
+        state.llm_calls.append(call.model_dump(mode="json"))
+        state.llm_call_count += 1
+        if call.status == "failed":
+            state.llm_failures.append(f"{call.purpose}: {call.error_type}: {call.error_message}")
+
+    def _fallback(self, state, purpose: str) -> None:
+        state.llm_fallback_count += 1
+        record_skipped(state, "LLMFallback", f"{purpose}: deterministic fallback selected.")
 
     def _new_run(self) -> tuple[str, Path]:
         while True:
@@ -69,13 +86,35 @@ class WorkflowOrchestrator:
     ) -> WorkflowState:
         run_id, run_dir = self._new_run()
         state = WorkflowState(
-            run_id=run_id, status="running", failure_injection=inject_failure
+            run_id=run_id, status="running", failure_injection=inject_failure,
+            execution_mode=self.llm_config.mode, llm_provider="deterministic",
+            llm_model=self.llm_config.model,
         )
         try:
-            state.request = invoke_traced(
-                state, "RequirementAgent", "natural-language request and explicit overrides",
-                self.requirement_agent.parse, request_text, overrides,
-            )
+            client = self.llm_client
+            if self.llm_config.mode != "deterministic" and client is None:
+                try:
+                    client = create_llm_client(self.llm_config)
+                except Exception as exc:
+                    state.llm_failures.append(f"configuration: {type(exc).__name__}: {exc}")
+                    if not self.llm_config.allow_fallback: raise
+                    self._fallback(state, "configuration")
+            self._active_llm_client = client
+            if client is not None and self.llm_config.mode != "deterministic":
+                parsed, call = invoke_traced(state, "LLMRequirementParser", "structured requirement",
+                    self.requirement_agent.parse_with_llm, request_text, client, overrides)
+                self._track_llm(state, call)
+                if parsed is not None:
+                    state.request, state.llm_provider = parsed, call.provider
+                elif self.llm_config.allow_fallback:
+                    self._fallback(state, "requirement_parsing")
+                    state.request = self.requirement_agent.parse(request_text, overrides)
+                else: raise RuntimeError(call.error_message or "LLM requirement parsing failed")
+            else:
+                state.request = invoke_traced(
+                    state, "RequirementAgent", "natural-language request and explicit overrides",
+                    self.requirement_agent.parse, request_text, overrides,
+                )
             store = KnowledgeGraphStore.load_graphml(self.graphml_path)
             knowledge_agent = KnowledgeAgent(KnowledgeRetriever(store))
             state.retrieved_knowledge = invoke_traced(
@@ -83,17 +122,38 @@ class WorkflowOrchestrator:
                 f"task={state.request.task_type}, metric={state.request.primary_metric}",
                 knowledge_agent.retrieve, state.request,
             )
-            state.candidate_plans = invoke_traced(
-                state, "PlannerAgent",
-                f"requested_candidates={len(state.request.candidate_algorithms)}",
-                self.planner_agent.plan, state.request, state.retrieved_knowledge,
-            )
-            for plan in state.candidate_plans:
-                artifact = invoke_traced(
-                    state, f"CodeAgent[{plan.algorithm}]", f"plan_id={plan.plan_id}",
-                    self.code_agent.generate, plan, run_id, run_dir,
-                    attempt=0, failure_injection=inject_failure,
+            if client is not None and self.llm_config.mode != "deterministic":
+                plans, call = invoke_traced(state, "LLMPlanner", "knowledge-grounded candidates",
+                    self.planner_agent.plan_with_llm, state.request, state.retrieved_knowledge, client)
+                self._track_llm(state, call)
+                if plans is not None: state.candidate_plans, state.llm_provider = plans, call.provider
+                elif self.llm_config.allow_fallback:
+                    self._fallback(state, "candidate_planning")
+                    state.candidate_plans = self.planner_agent.plan(state.request, state.retrieved_knowledge)
+                else: raise RuntimeError(call.error_message or "LLM planning failed")
+            else:
+                state.candidate_plans = invoke_traced(
+                    state, "PlannerAgent",
+                    f"requested_candidates={len(state.request.candidate_algorithms)}",
+                    self.planner_agent.plan, state.request, state.retrieved_knowledge,
                 )
+            for plan in state.candidate_plans:
+                artifact = None
+                if client is not None and self.llm_config.enable_code_generation:
+                    artifact, call = invoke_traced(state, f"LLMCodeGenerator[{plan.algorithm}]",
+                        f"plan_id={plan.plan_id}", self.code_agent.generate_with_llm,
+                        plan, run_id, run_dir, client, attempt=0)
+                    self._track_llm(state, call)
+                    if artifact is None and self.llm_config.allow_fallback:
+                        self._fallback(state, f"code_generation:{plan.algorithm}")
+                    elif artifact is None: raise RuntimeError(call.error_message or "LLM code generation failed")
+                if artifact is None:
+                    artifact = invoke_traced(
+                        state, f"CodeAgent[{plan.algorithm}]", f"plan_id={plan.plan_id}",
+                        self.code_agent.generate, plan, run_id, run_dir,
+                        attempt=0, failure_injection=inject_failure,
+                    )
+                state.generation_modes[plan.algorithm] = artifact.generator_mode
                 state.generated_artifacts.append(artifact)
                 if type(self.validation_agent) is ValidationAgent:
                     result, final_artifact = self._execute_with_repairs(
@@ -235,14 +295,32 @@ class WorkflowOrchestrator:
             }:
                 state.unrepaired_failures.append(plan.algorithm)
                 return result, current
-            record, repaired = invoke_traced(
-                state, f"RepairAgent[{plan.algorithm}:attempt-{attempt + 1}]",
-                f"failure_type={failure_type}", repair_agent.repair,
-                state.request, plan, current, failure_type, result.validation_checks,
-                attempt=attempt + 1, run_id=run_id, run_dir=run_dir,
-                error_summary=result.error or "validation failure",
-            )
+            record = repaired = None
+            llm_repair_fallback = False
+            if getattr(self, "_active_llm_client", None) is not None and self.llm_config.enable_code_repair:
+                record, repaired, call = invoke_traced(
+                    state, f"LLMRepairer[{plan.algorithm}:attempt-{attempt + 1}]",
+                    f"failure_type={failure_type}", repair_agent.repair_with_llm,
+                    state.request, plan, current, failure_type, result.validation_checks,
+                    self._active_llm_client, attempt=attempt + 1, run_id=run_id, run_dir=run_dir,
+                    error_summary=result.error or "validation failure")
+                self._track_llm(state, call)
+                if record is None and self.llm_config.allow_fallback:
+                    self._fallback(state, f"code_repair:{plan.algorithm}")
+                    llm_repair_fallback = True
+                elif record is None: raise RuntimeError(call.error_message or "LLM repair failed")
+            if record is None:
+                record, repaired = invoke_traced(
+                    state, f"RepairAgent[{plan.algorithm}:attempt-{attempt + 1}]",
+                    f"failure_type={failure_type}", repair_agent.repair,
+                    state.request, plan, current, failure_type, result.validation_checks,
+                    attempt=attempt + 1, run_id=run_id, run_dir=run_dir,
+                    error_summary=result.error or "validation failure",
+                )
+                if llm_repair_fallback:
+                    record = record.model_copy(update={"fallback_used": True})
             repair_records.append(record)
+            state.repair_modes.append(record.repair_mode)
             state.total_repair_attempts += 1
             current = repaired
         return final_result, current

@@ -18,18 +18,24 @@ class ReportAgent:
         request = state.request
         knowledge = state.retrieved_knowledge
         lines = [
-            "# AgentForge deterministic workflow report", "", f"- Run ID: `{state.run_id}`",
+            "# AgentForge workflow report", "", f"- Run ID: `{state.run_id}`",
             f"- Status: `{state.status}`", f"- Original request: {request.raw_text if request else ''}",
-            f"- Generator mode: `deterministic_template`", "",
+            f"- Requested mode: `{state.execution_mode}`",
+            f"- Effective LLM provider: `{state.llm_provider}`",
+            f"- LLM model: `{state.llm_model}`",
+            f"- LLM calls/fallbacks: `{state.llm_call_count}/{state.llm_fallback_count}`",
+            f"- Generation modes: `{state.generation_modes}`", "",
             "- Execution mode: `timeout_bounded_subprocess`",
             f"- Failure injection: `{state.failure_injection}`",
             "## Structured requirement", "",
-            f"- Task: `{request.task_type}`", f"- Dataset: `{request.dataset_path}`",
-            f"- Target: `{request.target_column}`", f"- Primary metric: `{request.primary_metric}`",
-            f"- Minimum score: `{request.minimum_score}`", "",
+            f"- Task: `{request.task_type if request else None}`",
+            f"- Dataset: `{request.dataset_path if request else None}`",
+            f"- Target: `{request.target_column if request else None}`",
+            f"- Primary metric: `{request.primary_metric if request else None}`",
+            f"- Minimum score: `{request.minimum_score if request else None}`", "",
             "### Field sources", "",
         ]
-        lines.extend(f"- `{key}`: `{value}`" for key, value in sorted(request.field_sources.items()))
+        lines.extend(f"- `{key}`: `{value}`" for key, value in sorted((request.field_sources if request else {}).items()))
         lines.extend(["", "## Retrieved knowledge", "",
                       knowledge.retrieval_summary if knowledge else "No knowledge retrieved."])
         if knowledge:
@@ -86,8 +92,8 @@ class ReportAgent:
             f"- Total repair attempts: `{state.total_repair_attempts}`",
             f"- Repaired candidates: `{state.repaired_candidates}`",
             f"- Unresolved failures: `{state.unrepaired_failures}`",
-            "- Generated code uses deterministic trusted templates; it is not LLM-generated.",
-            "- Repair mode is deterministic_rule; it is not LLM repair.",
+            f"- LLM failures: `{state.llm_failures}`",
+            f"- Repair modes: `{state.repair_modes}`",
             "- Subprocess isolation and AST checks reduce accidental risk but do not constitute a production-grade security sandbox.",
             "- No OS/container sandbox, real LLM, SQLite, or Web UI.",
             "- Metrics use fixed-random-seed synthetic data and do not demonstrate real-business generalization.",

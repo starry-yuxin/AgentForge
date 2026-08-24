@@ -9,6 +9,8 @@ from typing import Any
 from uuid import uuid4
 
 from agentforge.models import AlgorithmRequirement
+from agentforge.llm.parsing import extract_json
+from agentforge.llm.prompts import REQUIREMENT
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -157,3 +159,35 @@ class RequirementAgent:
             "field_sources": sources,
         })
         return AlgorithmRequirement.model_validate(values)
+
+    def parse_with_llm(self, text: str, client, overrides=None):
+        call = client.call(purpose="requirement_parsing", prompt_version=REQUIREMENT.version,
+            system=REQUIREMENT.system,
+            user=("Extract a JSON object containing only: task_type, industry, dataset_path, "
+                  "target_column, primary_metric, minimum_score, candidate_algorithms, "
+                  "data_characteristics, constraints, required_interfaces, max_runtime_seconds.\n"
+                  f"Request: {text}"))
+        if call.status != "success":
+            return None, call
+        try:
+            payload = extract_json(call.response_text)
+            if not isinstance(payload, dict): raise ValueError("requirement output must be an object")
+            unknown = set(payload) - set(DEFAULTS)
+            if unknown: raise ValueError(f"unknown requirement fields: {sorted(unknown)}")
+            values = {**DEFAULTS, **payload}
+            sources = {key: ("llm" if key in payload else "default_config") for key in DEFAULTS}
+            for key, value in (overrides or {}).items():
+                if value is not None:
+                    if key not in DEFAULTS: raise ValueError(f"unknown requirement override: {key}")
+                    values[key], sources[key] = value, "explicit_override"
+            dataset = Path(values["dataset_path"])
+            if not dataset.is_absolute(): dataset = (ROOT / dataset).resolve()
+            if not dataset.is_file(): raise ValueError("LLM-selected dataset does not exist")
+            values["dataset_path"] = str(dataset)
+            values.update(request_id=f"req-{uuid4().hex[:10]}", raw_text=text, field_sources=sources)
+            result = AlgorithmRequirement.model_validate(values)
+            call.parsed_output = result.model_dump(mode="json")
+            return result, call
+        except Exception as exc:
+            call.status, call.error_type, call.error_message = "failed", type(exc).__name__, str(exc)[:500]
+            return None, call

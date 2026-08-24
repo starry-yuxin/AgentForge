@@ -6,6 +6,7 @@ import argparse
 from pathlib import Path
 
 from agentforge.workflow import WorkflowOrchestrator
+from agentforge.config import LLMConfig
 
 
 DEMO_REQUEST = (
@@ -27,11 +28,26 @@ def _parser() -> argparse.ArgumentParser:
     run.add_argument("--output-root")
     run.add_argument("--no-persist", action="store_true")
     run.add_argument("--inject-failure", choices=["missing_imputer"])
+    for command in (demo, run):
+        command.add_argument("--mode", choices=["deterministic", "hybrid", "llm"], default="deterministic")
+        command.add_argument("--llm-provider", choices=["openai", "openai-compatible"])
+        command.add_argument("--llm-model")
+        command.add_argument("--llm-api-mode", choices=["responses", "chat_completions"])
+        command.add_argument("--allow-llm-fallback", action="store_true")
+        command.add_argument("--enable-llm-code-generation", action="store_true")
+        command.add_argument("--enable-llm-code-repair", action="store_true")
     return parser
 
 
 def _print_summary(state) -> None:
     print(f"run_id: {state.run_id}")
+    print(f"mode: {state.execution_mode}")
+    print(f"llm_provider: {state.llm_provider}")
+    print(f"llm_model: {state.llm_model}")
+    print(f"llm_calls: {state.llm_call_count}")
+    print(f"llm_fallbacks: {state.llm_fallback_count}")
+    print(f"generation_modes: {state.generation_modes}")
+    print(f"repair_modes: {state.repair_modes}")
     if state.request:
         print(f"requirement: task={state.request.task_type}, metric={state.request.primary_metric}")
     print(f"retrieved_capabilities: {state.retrieved_knowledge.total_matches if state.retrieved_knowledge else 0}")
@@ -81,8 +97,14 @@ def _print_summary(state) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    config = LLMConfig.from_env({
+        "mode": args.mode, "provider": args.llm_provider, "model": args.llm_model,
+        "api_mode": args.llm_api_mode, "allow_fallback": args.allow_llm_fallback,
+        "enable_code_generation": args.enable_llm_code_generation,
+        "enable_code_repair": args.enable_llm_code_repair,
+    })
     if args.command == "demo":
-        orchestrator = WorkflowOrchestrator()
+        orchestrator = WorkflowOrchestrator(llm_config=config)
         state = orchestrator.run(
             DEMO_REQUEST, persist=False, inject_failure=args.inject_failure
         )
@@ -92,7 +114,7 @@ def main(argv: list[str] | None = None) -> int:
             "primary_metric": args.metric,
             "minimum_score": args.minimum_score,
         }
-        orchestrator = WorkflowOrchestrator(output_root=args.output_root)
+        orchestrator = WorkflowOrchestrator(output_root=args.output_root, llm_config=config)
         state = orchestrator.run(
             args.request, overrides=overrides, persist=not args.no_persist,
             inject_failure=args.inject_failure,
