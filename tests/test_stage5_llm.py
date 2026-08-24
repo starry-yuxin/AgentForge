@@ -11,6 +11,7 @@ from agentforge.llm.parsing import extract_json, parse_model
 from agentforge.llm.openai_responses import OpenAIResponsesClient
 from agentforge.llm.openai_compatible import OpenAICompatibleClient
 from agentforge.workflow import WorkflowOrchestrator
+from agentforge.agents.requirement import RequirementAgent, normalize_llm_requirement
 
 
 class Schema(BaseModel):
@@ -65,12 +66,96 @@ def test_base_client_records_failure_without_throwing():
     assert call.status == "failed" and call.provider == "fake" and call.error_type == "StopIteration"
 
 
+def test_requirement_llm_null_fields_use_trusted_defaults():
+    payload = json.loads(requirement_json())
+    payload["dataset_path"] = None
+    requirement, call = RequirementAgent().parse_with_llm(
+        "customer churn", FakeClient([json.dumps(payload)]))
+    assert call.status == "success"
+    assert requirement is not None
+    assert requirement.dataset_path.endswith("data/churn_sample.csv")
+    assert requirement.field_sources["dataset_path"] == "default_config"
+
+
+@pytest.mark.parametrize("display, canonical", [
+    ("F1", "f1"), (" f1 ", "f1"), ("F1 Score", "f1"), ("f1_score", "f1"),
+    ("ROC-AUC", "roc_auc"), ("ROC AUC", "roc_auc"), ("roc_auc", "roc_auc"),
+    ("AUC", "roc_auc"), ("Accuracy", "accuracy"), ("Precision", "precision"),
+    ("Recall", "recall"),
+])
+def test_llm_metric_aliases(display, canonical):
+    assert normalize_llm_requirement({"primary_metric": display})["primary_metric"] == canonical
+
+
+@pytest.mark.parametrize("display, canonical", [
+    ("Logistic Regression", "logistic_regression"),
+    ("logistic-regression", "logistic_regression"),
+    ("logistic_regression", "logistic_regression"),
+    ("Random Forest", "random_forest"),
+    ("random-forest", "random_forest"),
+    ("random_forest", "random_forest"),
+])
+def test_llm_algorithm_aliases(display, canonical):
+    result = normalize_llm_requirement({"candidate_algorithms": [display]})
+    assert result["candidate_algorithms"] == [canonical]
+
+
+@pytest.mark.parametrize("display", [
+    "Binary Classification", "binary-classification", "binary_classification",
+    "Tabular Binary Classification",
+])
+def test_llm_task_aliases(display):
+    assert normalize_llm_requirement({"task_type": display})["task_type"] == "binary_classification"
+
+
+def test_llm_algorithm_normalization_deduplicates_in_first_seen_order():
+    result = normalize_llm_requirement({"candidate_algorithms": [
+        "Random Forest", "logistic-regression", "random_forest", "Logistic Regression",
+    ]})
+    assert result["candidate_algorithms"] == ["random_forest", "logistic_regression"]
+
+
+@pytest.mark.parametrize("payload", [
+    {"primary_metric": "balanced accuracy"},
+    {"candidate_algorithms": ["gradient boosting"]},
+    {"task_type": "multiclass classification"},
+])
+def test_llm_unknown_aliases_are_rejected(payload):
+    with pytest.raises(ValueError, match="unsupported"):
+        normalize_llm_requirement(payload)
+
+
+def test_llm_display_names_normalize_and_preserve_sources():
+    payload = json.loads(requirement_json())
+    payload.update({
+        "task_type": " Binary-Classification ",
+        "primary_metric": "F1 Score",
+        "candidate_algorithms": ["Logistic Regression", "Random-Forest"],
+        "dataset_path": None,
+    })
+    requirement, call = RequirementAgent().parse_with_llm(
+        "customer churn", FakeClient([json.dumps(payload)]))
+    assert call.status == "success"
+    assert requirement.task_type == "binary_classification"
+    assert requirement.primary_metric == "f1"
+    assert requirement.candidate_algorithms == ["logistic_regression", "random_forest"]
+    assert requirement.field_sources["task_type"] == "llm"
+    assert requirement.field_sources["primary_metric"] == "llm"
+    assert requirement.field_sources["candidate_algorithms"] == "llm"
+    assert requirement.field_sources["dataset_path"] == "default_config"
+
+
 def test_responses_adapter_uses_output_text():
-    api = SimpleNamespace(responses=SimpleNamespace(create=lambda **kw:
-        SimpleNamespace(output_text='{"value": 1}', usage=SimpleNamespace(input_tokens=2, output_tokens=3, total_tokens=5))))
+    captured = {}
+    def create(**kwargs):
+        captured.update(kwargs)
+        return SimpleNamespace(output_text='{"value": 1}', usage=SimpleNamespace(
+            input_tokens=2, output_tokens=3, total_tokens=5))
+    api = SimpleNamespace(responses=SimpleNamespace(create=create))
     cfg = LLMConfig(mode="llm", model="m", api_key="key")
     result = OpenAIResponsesClient(cfg, api).call(purpose="x", prompt_version="v", system="s", user="u")
     assert result.status == "success" and result.usage["total_tokens"] == 5
+    assert captured == {"model": "m", "instructions": "s", "input": "u"}
 
 
 def test_provider_error_redacts_api_key():
@@ -83,11 +168,69 @@ def test_provider_error_redacts_api_key():
 
 
 def test_chat_adapter_uses_message_content():
+    captured = {}
     completion = SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content='{"value": 1}'))], usage=None)
-    api = SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=lambda **kw: completion)))
+    def create(**kwargs):
+        captured.update(kwargs)
+        return completion
+    api = SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create)))
     cfg = LLMConfig(mode="llm", provider="openai-compatible", api_mode="chat_completions",
                     base_url="https://example.invalid/v1", model="m", api_key="key")
-    assert OpenAICompatibleClient(cfg, api).call(purpose="x", prompt_version="v", system="s", user="u").status == "success"
+    client = OpenAICompatibleClient(cfg, api)
+    assert client.call(purpose="x", prompt_version="v", system="s", user="u").status == "success"
+    assert captured["model"] == "m"
+    assert captured["messages"] == [
+        {"role": "system", "content": "s"},
+        {"role": "user", "content": "u"},
+    ]
+    assert all(message["role"] != "developer" for message in captured["messages"])
+    assert client.base_url == "https://example.invalid/v1"
+
+
+def test_compatible_message_conversion_preserves_order_and_content():
+    messages = [
+        {"role": "developer", "content": "first"},
+        {"role": "user", "content": "question"},
+        {"role": "developer", "content": "second", "name": "policy"},
+        {"role": "assistant", "content": "answer"},
+    ]
+    assert OpenAICompatibleClient.compatible_messages(messages) == [
+        {"role": "system", "content": "first"},
+        {"role": "user", "content": "question"},
+        {"role": "system", "content": "second", "name": "policy"},
+        {"role": "assistant", "content": "answer"},
+    ]
+    assert messages[0]["role"] == "developer"
+
+
+def test_dotenv_loads_mode_and_process_environment_wins(tmp_path, monkeypatch):
+    dotenv = tmp_path / ".env"
+    dotenv.write_text(
+        "AGENTFORGE_MODE=hybrid\nLLM_PROVIDER=openai\nOPENAI_MODEL=dotenv-model\n"
+        "OPENAI_API_MODE=chat_completions\nOPENAI_API_KEY=dotenv-secret\n",
+        encoding="utf-8",
+    )
+    for name in ("AGENTFORGE_MODE", "LLM_PROVIDER", "OPENAI_MODEL", "OPENAI_API_MODE",
+                 "OPENAI_API_KEY"):
+        monkeypatch.delenv(name, raising=False)
+    config = LLMConfig.from_env(env_file=dotenv)
+    assert config.mode == "hybrid" and config.model == "dotenv-model"
+    assert config.api_key.get_secret_value() == "dotenv-secret"
+    monkeypatch.setenv("OPENAI_MODEL", "process-model")
+    config = LLMConfig.from_env({"model": "override-model"}, env_file=dotenv)
+    assert config.model == "override-model"
+    config = LLMConfig.from_env(env_file=dotenv)
+    assert config.model == "process-model"
+
+
+def test_explicit_deterministic_skips_dotenv(tmp_path, monkeypatch):
+    dotenv = tmp_path / ".env"
+    dotenv.write_text("AGENTFORGE_MODE=hybrid\nOPENAI_API_KEY=must-not-load\n", encoding="utf-8")
+    monkeypatch.delenv("AGENTFORGE_MODE", raising=False)
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    config = LLMConfig.from_env({"mode": "deterministic"}, env_file=dotenv)
+    assert config.mode == "deterministic" and config.api_key is None
+    assert "OPENAI_API_KEY" not in __import__("os").environ
 
 
 def test_hybrid_fake_client_end_to_end(tmp_path):

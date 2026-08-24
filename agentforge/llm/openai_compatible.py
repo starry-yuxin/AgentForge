@@ -8,12 +8,26 @@ class OpenAICompatibleClient(BaseLLMClient):
     provider, api_mode = "openai-compatible", "chat_completions"
     def __init__(self, config, client=None):
         self.model = config.model
+        self.base_url = config.base_url
         self._secret_values = (config.api_key.get_secret_value(),)
         self.client = client or OpenAI(api_key=config.api_key.get_secret_value(),
             base_url=config.base_url, timeout=config.timeout_seconds, max_retries=config.max_retries)
+
+    @staticmethod
+    def compatible_messages(messages):
+        """Map OpenAI developer instructions to broadly compatible system messages."""
+        return [
+            {**message, "role": "system"} if message.get("role") == "developer" else dict(message)
+            for message in messages
+        ]
+
     def _request(self, system, user):
+        messages = self.compatible_messages([
+            {"role": "developer", "content": system},
+            {"role": "user", "content": user},
+        ])
         response = self.client.chat.completions.create(model=self.model,
-            messages=[{"role": "developer", "content": system}, {"role": "user", "content": user}])
+            messages=messages)
         usage_obj = getattr(response, "usage", None)
         usage = {name: int(getattr(usage_obj, name, 0) or 0) for name in
                  ("prompt_tokens", "completion_tokens", "total_tokens")} if usage_obj else {}

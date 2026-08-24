@@ -61,11 +61,23 @@ class LLMConfig(BaseModel):
         return value.strip() or None if isinstance(value, str) else value
 
     @classmethod
-    def from_env(cls, overrides: dict[str, Any] | None = None) -> "LLMConfig":
+    def from_env(
+        cls,
+        overrides: dict[str, Any] | None = None,
+        *,
+        env_file: str | Path | None = ROOT / ".env",
+    ) -> "LLMConfig":
+        """Load explicit overrides, process environment, dotenv, then defaults.
+
+        An explicit deterministic mode skips dotenv loading so the no-secret/no-network
+        default path remains isolated. ``load_dotenv(override=False)`` preserves values
+        already supplied by the process environment.
+        """
         overrides = {key: value for key, value in (overrides or {}).items() if value is not None}
-        requested_mode = overrides.get("mode") or os.getenv("AGENTFORGE_MODE", "deterministic")
-        if requested_mode != "deterministic":
-            load_dotenv(ROOT / ".env", override=False)
+        explicit_mode = overrides.get("mode")
+        if explicit_mode != "deterministic" and env_file is not None:
+            load_dotenv(Path(env_file), override=False)
+        requested_mode = explicit_mode or os.getenv("AGENTFORGE_MODE", "deterministic")
         values: dict[str, Any] = {
             "mode": requested_mode,
             "provider": overrides.get("provider") or os.getenv("LLM_PROVIDER", "openai"),

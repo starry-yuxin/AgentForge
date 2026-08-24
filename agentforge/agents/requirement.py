@@ -30,6 +30,61 @@ DEFAULTS = {
     "max_runtime_seconds": 120.0,
 }
 
+METRIC_ALIASES = {
+    "f1": "f1",
+    "f1 score": "f1",
+    "roc auc": "roc_auc",
+    "auc": "roc_auc",
+    "accuracy": "accuracy",
+    "precision": "precision",
+    "recall": "recall",
+}
+ALGORITHM_ALIASES = {
+    "logistic regression": "logistic_regression",
+    "random forest": "random_forest",
+}
+TASK_ALIASES = {
+    "binary classification": "binary_classification",
+    "tabular binary classification": "binary_classification",
+}
+
+
+def _alias_key(value: Any, *, field: str) -> str:
+    if not isinstance(value, str):
+        raise ValueError(f"{field} must be a string")
+    return re.sub(r"\s+", " ", re.sub(r"[-_]+", " ", value.strip().lower())).strip()
+
+
+def _normalize_alias(value: Any, aliases: dict[str, str], *, field: str) -> str:
+    key = _alias_key(value, field=field)
+    try:
+        return aliases[key]
+    except KeyError as exc:
+        raise ValueError(f"unsupported {field}: {value!r}") from exc
+
+
+def normalize_llm_requirement(payload: dict[str, Any]) -> dict[str, Any]:
+    """Normalize only explicitly supported LLM display names before strict validation."""
+    normalized = dict(payload)
+    if "task_type" in normalized:
+        normalized["task_type"] = _normalize_alias(
+            normalized["task_type"], TASK_ALIASES, field="task_type"
+        )
+    if "primary_metric" in normalized:
+        normalized["primary_metric"] = _normalize_alias(
+            normalized["primary_metric"], METRIC_ALIASES, field="primary_metric"
+        )
+    if "candidate_algorithms" in normalized:
+        candidates = normalized["candidate_algorithms"]
+        if not isinstance(candidates, list):
+            raise ValueError("candidate_algorithms must be a list")
+        normalized_candidates = [
+            _normalize_alias(item, ALGORITHM_ALIASES, field="candidate_algorithm")
+            for item in candidates
+        ]
+        normalized["candidate_algorithms"] = list(dict.fromkeys(normalized_candidates))
+    return normalized
+
 
 class RequirementAgent:
     def __init__(self, config_path: str | Path | None = None) -> None:
@@ -174,6 +229,8 @@ class RequirementAgent:
             if not isinstance(payload, dict): raise ValueError("requirement output must be an object")
             unknown = set(payload) - set(DEFAULTS)
             if unknown: raise ValueError(f"unknown requirement fields: {sorted(unknown)}")
+            payload = {key: value for key, value in payload.items() if value is not None}
+            payload = normalize_llm_requirement(payload)
             values = {**DEFAULTS, **payload}
             sources = {key: ("llm" if key in payload else "default_config") for key in DEFAULTS}
             for key, value in (overrides or {}).items():
