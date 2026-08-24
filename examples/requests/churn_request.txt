@@ -1,0 +1,1 @@
+请构建客户流失预测模型，比较Logistic Regression和Random Forest，以F1作为主要指标，最低要求为0.60，数据包含缺失值、类别特征和类别不平衡

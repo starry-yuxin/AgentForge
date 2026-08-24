@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1050" viewBox="0 0 1600 1050" role="img" aria-labelledby="title desc">
+<title id="title">AgentForge knowledge graph</title>
+<desc id="desc">Representative subgraph generated from the committed AgentForge knowledge graph.</desc>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<g stroke="#cbd5e1" stroke-width="1" stroke-opacity="0.55">
+<line x1="900.9" y1="861.1" x2="808.8" y2="821.5"/>
+<line x1="900.9" y1="861.1" x2="825.3" y2="907.1"/>
+<line x1="900.9" y1="861.1" x2="909.4" y2="924.5"/>
+<line x1="900.9" y1="861.1" x2="983.7" y2="888.2"/>
+<line x1="900.9" y1="861.1" x2="949.4" y2="841.8"/>
+<line x1="900.9" y1="861.1" x2="1000.3" y2="860.0"/>
+<line x1="931.7" y1="880.8" x2="825.3" y2="907.1"/>
+<line x1="931.7" y1="880.8" x2="909.4" y2="924.5"/>
+<line x1="931.7" y1="880.8" x2="983.7" y2="888.2"/>
+<line x1="931.7" y1="880.8" x2="949.4" y2="841.8"/>
+<line x1="931.7" y1="880.8" x2="1000.3" y2="860.0"/>
+<line x1="983.7" y1="888.2" x2="949.4" y2="841.8"/>
+<line x1="983.7" y1="888.2" x2="1000.3" y2="860.0"/>
+<line x1="132.6" y1="324.2" x2="100.0" y2="365.9"/>
+<line x1="132.6" y1="324.2" x2="100.0" y2="365.9"/>
+<line x1="132.6" y1="324.2" x2="208.2" y2="311.7"/>
+<line x1="132.6" y1="324.2" x2="208.2" y2="311.7"/>
+<line x1="740.0" y1="950.0" x2="825.3" y2="907.1"/>
+<line x1="740.0" y1="950.0" x2="825.3" y2="907.1"/>
+<line x1="988.8" y1="820.7" x2="1067.7" y2="771.6"/>
+<line x1="988.8" y1="820.7" x2="900.9" y2="861.1"/>
+<line x1="988.8" y1="820.7" x2="949.4" y2="841.8"/>
+<line x1="988.8" y1="820.7" x2="949.4" y2="841.8"/>
+<line x1="988.8" y1="820.7" x2="1000.3" y2="860.0"/>
+<line x1="988.8" y1="820.7" x2="1000.3" y2="860.0"/>
+<line x1="988.8" y1="820.7" x2="931.7" y2="880.8"/>
+</g>
+<circle cx="900.9" cy="861.1" r="11" fill="#2563eb" stroke="#ffffff" stroke-width="2"><title>LogisticRegression (Algorithm)</title></circle>
+<text x="915.9" y="865.1" font-family="system-ui,sans-serif" font-size="12" fill="#0f172a">LogisticRegression</text>
+<circle cx="909.4" cy="924.5" r="11" fill="#7c3aed" stroke="#ffffff" stroke-width="2"><title>ClassWeightBalancing (Preprocessor)</title></circle>
+<text x="924.4" y="928.5" font-family="system-ui,sans-serif" font-size="12" fill="#0f172a">ClassWeightBalancing</text>
+<circle cx="396.2" cy="100.0" r="11" fill="#dc2626" stroke="#ffffff" stroke-width="2"><title>DataLeakageRisk (FailureExperience)</title></circle>
+<text x="411.2" y="104.0" font-family="system-ui,sans-serif" font-size="12" fill="#0f172a">DataLeakageRisk</text>
+<circle cx="100.0" cy="365.9" r="11" fill="#7c3aed" stroke="#ffffff" stroke-width="2"><title>NumericalImputation (Preprocessor)</title></circle>
+<text x="115.0" y="369.9" font-family="system-ui,sans-serif" font-size="12" fill="#0f172a">NumericalImputation</text>
+<circle cx="931.7" cy="880.8" r="11" fill="#2563eb" stroke="#ffffff" stroke-width="2"><title>RandomForest (Algorithm)</title></circle>
+<text x="946.7" y="884.8" font-family="system-ui,sans-serif" font-size="12" fill="#0f172a">RandomForest</text>
+<circle cx="983.7" cy="888.2" r="11" fill="#0f766e" stroke="#ffffff" stroke-width="2"><title>BinaryClassification (Task)</title></circle>
+<text x="998.7" y="892.2" font-family="system-ui,sans-serif" font-size="12" fill="#0f172a">BinaryClassification</text>
+<circle cx="208.2" cy="311.7" r="11" fill="#7c3aed" stroke="#ffffff" stroke-width="2"><title>CategoricalImputation (Preprocessor)</title></circle>
+<text x="223.2" y="315.7" font-family="system-ui,sans-serif" font-size="12" fill="#0f172a">CategoricalImputation</text>
+<circle cx="808.8" cy="821.5" r="11" fill="#7c3aed" stroke="#ffffff" stroke-width="2"><title>StandardScaling (Preprocessor)</title></circle>
+<text x="823.8" y="825.5" font-family="system-ui,sans-serif" font-size="12" fill="#0f172a">StandardScaling</text>
+<circle cx="132.6" cy="324.2" r="11" fill="#dc2626" stroke="#ffffff" stroke-width="2"><title>MissingValueError (FailureExperience)</title></circle>
+<text x="147.6" y="328.2" font-family="system-ui,sans-serif" font-size="12" fill="#0f172a">MissingValueError</text>
+<circle cx="1067.7" cy="771.6" r="11" fill="#0891b2" stroke="#ffffff" stroke-width="2"><title>customer_churn_sample (Dataset)</title></circle>
+<text x="1082.7" y="775.6" font-family="system-ui,sans-serif" font-size="12" fill="#0f172a">customer_churn_sample</text>
+<circle cx="1000.3" cy="860.0" r="11" fill="#db2777" stroke="#ffffff" stroke-width="2"><title>ROCAUC (Metric)</title></circle>
+<text x="1015.3" y="864.0" font-family="system-ui,sans-serif" font-size="12" fill="#0f172a">ROCAUC</text>
+<circle cx="740.0" cy="950.0" r="11" fill="#dc2626" stroke="#ffffff" stroke-width="2"><title>CategoricalEncodingError (FailureExperience)</title></circle>
+<text x="755.0" y="954.0" font-family="system-ui,sans-serif" font-size="12" fill="#0f172a">CategoricalEncodingError</text>
+<circle cx="988.8" cy="820.7" r="6" fill="#ea580c" stroke="#ffffff" stroke-width="2"><title>Stage 1 deterministic churn benchmark (ValidationRun)</title></circle>
+<circle cx="825.3" cy="907.1" r="11" fill="#7c3aed" stroke="#ffffff" stroke-width="2"><title>OneHotEncoding (Preprocessor)</title></circle>
+<text x="840.3" y="911.1" font-family="system-ui,sans-serif" font-size="12" fill="#0f172a">OneHotEncoding</text>
+<circle cx="949.4" cy="841.8" r="11" fill="#db2777" stroke="#ffffff" stroke-width="2"><title>F1 (Metric)</title></circle>
+<text x="964.4" y="845.8" font-family="system-ui,sans-serif" font-size="12" fill="#0f172a">F1</text>
+<circle cx="1500.0" cy="308.4" r="11" fill="#7c3aed" stroke="#ffffff" stroke-width="2"><title>ValidationThresholdOptimization (Preprocessor)</title></circle>
+<text x="1515.0" y="312.4" font-family="system-ui,sans-serif" font-size="12" fill="#0f172a">ValidationThresholdOptimization</text>
+<g font-family="system-ui,sans-serif" font-size="13" fill="#0f172a">
+<text x="30" y="30" font-size="18" font-weight="600">AgentForge Knowledge Graph</text>
+<text x="30" y="54">Representative: 16 of 62 nodes · 26 edges</text>
+<circle cx="36" cy="76" r="6" fill="#2563eb"/>
+<text x="48" y="80">Algorithm (2)</text>
+<circle cx="36" cy="96" r="6" fill="#0891b2"/>
+<text x="48" y="100">Dataset (1)</text>
+<circle cx="36" cy="116" r="6" fill="#dc2626"/>
+<text x="48" y="120">FailureExperience (3)</text>
+<circle cx="36" cy="136" r="6" fill="#db2777"/>
+<text x="48" y="140">Metric (2)</text>
+<circle cx="36" cy="156" r="6" fill="#7c3aed"/>
+<text x="48" y="160">Preprocessor (6)</text>
+<circle cx="36" cy="176" r="6" fill="#0f766e"/>
+<text x="48" y="180">Task (1)</text>
+<circle cx="36" cy="196" r="6" fill="#ea580c"/>
+<text x="48" y="200">ValidationRun (1)</text>
+</g></svg>

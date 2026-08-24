@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.0",
+  "example": true,
+  "data_notice": "Synthetic customer churn data; not evidence of business generalization.",
+  "execution_mode": "deterministic",
+  "llm_call_count": 0,
+  "request": {
+    "task_type": "binary_classification",
+    "dataset_path": "data/churn_sample.csv",
+    "target_column": "churn",
+    "primary_metric": "f1",
+    "minimum_score": 0.6,
+    "candidate_algorithms": [
+      "logistic_regression",
+      "random_forest"
+    ]
+  },
+  "selection_policy": "Candidates and thresholds are selected on validation only.",
+  "test_policy": "Test data is used only for final reporting after selection.",
+  "candidates": [
+    {
+      "algorithm": "logistic_regression",
+      "status": "completed",
+      "selection_metric_on_validation": {
+        "name": "f1",
+        "value": 0.6956521739130435
+      },
+      "validation_metrics": {
+        "accuracy": 0.8833333333333333,
+        "precision": 0.64,
+        "recall": 0.7619047619047619,
+        "f1": 0.6956521739130435,
+        "roc_auc": 0.9095719095719096,
+        "runtime_seconds": 0.0
+      },
+      "final_metrics_on_test": {
+        "accuracy": 0.875,
+        "precision": 0.62,
+        "recall": 0.7380952380952381,
+        "f1": 0.6739130434782609,
+        "roc_auc": 0.9145021645021645,
+        "runtime_seconds": 0.0,
+        "confusion_matrix": [
+          [
+            179,
+            19
+          ],
+          [
+            11,
+            31
+          ]
+        ]
+      },
+      "selected_threshold": 0.6749999999999998,
+      "minimum_score_met": true,
+      "security_passed": true,
+      "interface_passed": true,
+      "attempt_count": 1
+    },
+    {
+      "algorithm": "random_forest",
+      "status": "completed",
+      "selection_metric_on_validation": {
+        "name": "f1",
+        "value": 0.631578947368421
+      },
+      "validation_metrics": {
+        "accuracy": 0.8541666666666666,
+        "precision": 0.5660377358490566,
+        "recall": 0.7142857142857143,
+        "f1": 0.631578947368421,
+        "roc_auc": 0.8798701298701299,
+        "runtime_seconds": 0.0
+      },
+      "final_metrics_on_test": {
+        "accuracy": 0.8583333333333333,
+        "precision": 0.5909090909090909,
+        "recall": 0.6190476190476191,
+        "f1": 0.6046511627906976,
+        "roc_auc": 0.8857623857623858,
+        "runtime_seconds": 0.0,
+        "confusion_matrix": [
+          [
+            180,
+            18
+          ],
+          [
+            16,
+            26
+          ]
+        ]
+      },
+      "selected_threshold": 0.3999999999999999,
+      "minimum_score_met": true,
+      "security_passed": true,
+      "interface_passed": true,
+      "attempt_count": 1
+    }
+  ],
+  "best_candidate": "logistic_regression",
+  "knowledge_persisted": false
+}

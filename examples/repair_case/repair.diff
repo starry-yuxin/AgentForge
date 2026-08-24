@@ -1,0 +1,18 @@
+--- attempt-0/candidate.py
++++ attempt-1/candidate.py
+@@ -1,13 +1,13 @@
+ """Generated deterministic interface for logistic_regression."""
+ 
+-from agentforge.generated_runtime import evaluate_candidate_model, predict_candidate, train_candidate_missing_imputer
++from agentforge.generated_runtime import evaluate_candidate_model, predict_candidate, train_candidate
+ 
+ ALGORITHM = "logistic_regression"
+ HYPERPARAMETERS = {'max_iter': 1000, 'class_weight': 'balanced', 'random_state': 42}
+ 
+ 
+ def train(data_path: str, model_path: str) -> dict:
+-    return train_candidate_missing_imputer(ALGORITHM, data_path, model_path)
++    return train_candidate(ALGORITHM, data_path, model_path)
+ 
+ 
+ def predict(model_path: str, data_path: str) -> list:
