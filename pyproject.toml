@@ -6,7 +6,18 @@ build-backend = "setuptools.build_meta"
 name = "agentforge"
 version = "0.1.0"
 description = "A lightweight algorithm capability factory for tabular machine learning"
-requires-python = ">=3.10"
+requires-python = ">=3.11,<3.15"
+dependencies = [
+    "numpy>=2.5,<2.6",
+    "pandas>=3.0,<3.1",
+    "scipy>=1.18,<1.19",
+    "scikit-learn>=1.9,<2.0",
+    "pydantic>=2.12,<3.0",
+    "networkx>=3.5,<4.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=9.0,<10.0"]
 
 [tool.setuptools.packages.find]
 where = ["."]
@@ -15,4 +26,3 @@ include = ["agentforge*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "--strict-markers"
-

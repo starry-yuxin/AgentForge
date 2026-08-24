@@ -820,7 +820,7 @@
       "status": "success",
       "best_algorithm": "logistic_regression",
       "random_state": 42,
-      "created_at": "2026-08-24T01:02:34.402084+00:00",
+      "created_at": "2026-08-24T02:38:43.859114+00:00",
       "disclaimer": "Fixed-random-seed synthetic-data demonstration; results do not represent real-business generalization performance.",
       "split_sizes": {
         "train": 720,
@@ -1578,7 +1578,7 @@
     },
     {
       "relation": "USED_ALGORITHM",
-      "selected_threshold": 0.6749999999999999,
+      "selected_threshold": 0.6749999999999998,
       "selected_as_best": true,
       "source": "stage1_validation",
       "target": "logistic_regression",
@@ -1596,7 +1596,7 @@
     {
       "relation": "ACHIEVED_METRIC",
       "algorithm": "random_forest",
-      "value": 0.6326530612244898,
+      "value": 0.6046511627906976,
       "split": "test",
       "source": "stage1_validation",
       "target": "f1",
@@ -1622,7 +1622,7 @@
     },
     {
       "relation": "USED_ALGORITHM",
-      "selected_threshold": 0.37499999999999994,
+      "selected_threshold": 0.3999999999999999,
       "selected_as_best": false,
       "source": "stage1_validation",
       "target": "random_forest",

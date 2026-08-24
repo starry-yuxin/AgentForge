@@ -1,912 +1,915 @@
 <?xml version='1.0' encoding='utf-8'?>
-<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><key id="d29" for="edge" attr.name="split" attr.type="string"/>
-<key id="d28" for="edge" attr.name="value" attr.type="double"/>
-<key id="d27" for="edge" attr.name="algorithm" attr.type="string"/>
-<key id="d26" for="edge" attr.name="selected_as_best" attr.type="boolean"/>
-<key id="d25" for="edge" attr.name="selected_threshold" attr.type="double"/>
-<key id="d24" for="edge" attr.name="section" attr.type="string"/>
-<key id="d23" for="edge" attr.name="relation" attr.type="string"/>
-<key id="d22" for="node" attr.name="split_sizes" attr.type="string"/>
-<key id="d21" for="node" attr.name="created_at" attr.type="string"/>
-<key id="d20" for="node" attr.name="random_state" attr.type="long"/>
-<key id="d19" for="node" attr.name="best_algorithm" attr.type="string"/>
-<key id="d18" for="node" attr.name="characteristics" attr.type="string"/>
-<key id="d17" for="node" attr.name="positive_rate" attr.type="double"/>
-<key id="d16" for="node" attr.name="rows" attr.type="long"/>
-<key id="d15" for="node" attr.name="disclaimer" attr.type="string"/>
-<key id="d14" for="node" attr.name="status" attr.type="string"/>
-<key id="d13" for="node" attr.name="node_type" attr.type="string"/>
-<key id="d12" for="node" attr.name="version" attr.type="string"/>
-<key id="d11" for="node" attr.name="source_section" attr.type="string"/>
-<key id="d10" for="node" attr.name="source_document" attr.type="string"/>
-<key id="d9" for="node" attr.name="metrics" attr.type="string"/>
-<key id="d8" for="node" attr.name="dependencies" attr.type="string"/>
-<key id="d7" for="node" attr.name="constraints" attr.type="string"/>
-<key id="d6" for="node" attr.name="applicable_conditions" attr.type="string"/>
-<key id="d5" for="node" attr.name="applicable_tasks" attr.type="string"/>
-<key id="d4" for="node" attr.name="outputs" attr.type="string"/>
-<key id="d3" for="node" attr.name="inputs" attr.type="string"/>
-<key id="d2" for="node" attr.name="description" attr.type="string"/>
-<key id="d1" for="node" attr.name="name" attr.type="string"/>
-<key id="d0" for="graph" attr.name="name" attr.type="string"/>
-<graph edgedefault="directed"><data key="d0">AgentForge Knowledge Graph</data>
-<node id="binary_classification">
-  <data key="d1">BinaryClassification</data>
-  <data key="d2">Predict one of two classes and produce positive-class probabilities.</data>
-  <data key="d3">__json__:["tabular_features"]</data>
-  <data key="d4">__json__:["binary_prediction", "positive_probability"]</data>
-  <data key="d5">__json__:["binary_classification", "customer_churn"]</data>
-  <data key="d6">__json__:["binary_target"]</data>
-  <data key="d7">__json__:["stratified_split", "test_isolation"]</data>
-  <data key="d8">__json__:["scikit-learn"]</data>
-  <data key="d9">__json__:["accuracy", "precision", "recall", "f1", "roc_auc"]</data>
-  <data key="d10">classification_model_guide.md</data>
-  <data key="d11">F1 and ROC-AUC</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">Task</data>
-</node>
-<node id="document:classification_model_guide.md">
-  <data key="d13">SourceDocument</data>
-  <data key="d1">classification_model_guide.md</data>
-  <data key="d2">Project built-in example source material</data>
-</node>
-<node id="dependency:scikit_learn">
-  <data key="d13">Dependency</data>
-  <data key="d1">scikit-learn</data>
-</node>
-<node id="constraint:stratified_split">
-  <data key="d13">Constraint</data>
-  <data key="d1">stratified_split</data>
-</node>
-<node id="constraint:test_isolation">
-  <data key="d13">Constraint</data>
-  <data key="d1">test_isolation</data>
-</node>
-<node id="logistic_regression">
-  <data key="d1">LogisticRegression</data>
-  <data key="d2">Interpretable linear classifier with calibrated probability-like output and fast training.</data>
-  <data key="d3">__json__:["encoded_numeric_matrix"]</data>
-  <data key="d4">__json__:["binary_prediction", "positive_probability"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["tabular_data", "interpretable_baseline", "imbalanced_data"]</data>
-  <data key="d7">__json__:["requires_numeric_features", "validation_only_threshold"]</data>
-  <data key="d8">__json__:["scikit-learn", "StandardScaling", "OneHotEncoding", "ClassWeightBalancing"]</data>
-  <data key="d9">__json__:["f1", "roc_auc"]</data>
-  <data key="d10">classification_model_guide.md</data>
-  <data key="d11">Logistic Regression</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">Algorithm</data>
-</node>
-<node id="standard_scaling">
-  <data key="d1">StandardScaling</data>
-  <data key="d2">Standardize numeric features using training-set statistics.</data>
-  <data key="d3">__json__:["numeric_features"]</data>
-  <data key="d4">__json__:["scaled_numeric_features"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["linear_model", "numeric_features"]</data>
-  <data key="d7">__json__:["fit_on_train_only"]</data>
-  <data key="d8">__json__:["scikit-learn"]</data>
-  <data key="d9">__json__:[]</data>
-  <data key="d10">tabular_preprocessing_guide.md</data>
-  <data key="d11">Feature scaling</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">Preprocessor</data>
-</node>
-<node id="one_hot_encoding">
-  <data key="d1">OneHotEncoding</data>
-  <data key="d2">Encode unordered categories while ignoring unseen categories at inference time.</data>
-  <data key="d3">__json__:["categorical_features"]</data>
-  <data key="d4">__json__:["encoded_numeric_features"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["categorical_features"]</data>
-  <data key="d7">__json__:["handle_unknown_ignore", "fit_on_train_only"]</data>
-  <data key="d8">__json__:["scikit-learn"]</data>
-  <data key="d9">__json__:[]</data>
-  <data key="d10">tabular_preprocessing_guide.md</data>
-  <data key="d11">One-Hot Encoding</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">Preprocessor</data>
-</node>
-<node id="class_weight_balancing">
-  <data key="d1">ClassWeightBalancing</data>
-  <data key="d2">Increase minority-class importance during model fitting without resampling test data.</data>
-  <data key="d3">__json__:["imbalanced_training_labels"]</data>
-  <data key="d4">__json__:["class_weight_configuration"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["imbalanced_data", "low_minority_recall"]</data>
-  <data key="d7">__json__:["train_only"]</data>
-  <data key="d8">__json__:["scikit-learn"]</data>
-  <data key="d9">__json__:["recall", "f1"]</data>
-  <data key="d10">classification_model_guide.md</data>
-  <data key="d11">Class imbalance and class weight</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">Preprocessor</data>
-</node>
-<node id="constraint:requires_numeric_features">
-  <data key="d13">Constraint</data>
-  <data key="d1">requires_numeric_features</data>
-</node>
-<node id="constraint:validation_only_threshold">
-  <data key="d13">Constraint</data>
-  <data key="d1">validation_only_threshold</data>
-</node>
-<node id="random_forest">
-  <data key="d1">RandomForest</data>
-  <data key="d2">Tree ensemble suited to nonlinear tabular relationships and feature interactions.</data>
-  <data key="d3">__json__:["encoded_tabular_matrix"]</data>
-  <data key="d4">__json__:["binary_prediction", "positive_probability"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["tabular_data", "nonlinear_relationships", "imbalanced_data"]</data>
-  <data key="d7">__json__:["requires_numeric_features", "validation_only_threshold"]</data>
-  <data key="d8">__json__:["scikit-learn", "OneHotEncoding", "ClassWeightBalancing"]</data>
-  <data key="d9">__json__:["f1", "roc_auc"]</data>
-  <data key="d10">classification_model_guide.md</data>
-  <data key="d11">Random Forest</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">Algorithm</data>
-</node>
-<node id="numerical_imputation">
-  <data key="d1">NumericalImputation</data>
-  <data key="d2">Fill numeric missing values with training-set median statistics.</data>
-  <data key="d3">__json__:["numeric_features_with_missing_values"]</data>
-  <data key="d4">__json__:["complete_numeric_features"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["missing_values", "numeric_features"]</data>
-  <data key="d7">__json__:["fit_on_train_only"]</data>
-  <data key="d8">__json__:["scikit-learn"]</data>
-  <data key="d9">__json__:[]</data>
-  <data key="d10">tabular_preprocessing_guide.md</data>
-  <data key="d11">Missing values</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">Preprocessor</data>
-</node>
-<node id="document:tabular_preprocessing_guide.md">
-  <data key="d13">SourceDocument</data>
-  <data key="d1">tabular_preprocessing_guide.md</data>
-  <data key="d2">Project built-in example source material</data>
-</node>
-<node id="constraint:fit_on_train_only">
-  <data key="d13">Constraint</data>
-  <data key="d1">fit_on_train_only</data>
-</node>
-<node id="categorical_imputation">
-  <data key="d1">CategoricalImputation</data>
-  <data key="d2">Fill categorical missing values with the training-set most frequent category.</data>
-  <data key="d3">__json__:["categorical_features_with_missing_values"]</data>
-  <data key="d4">__json__:["complete_categorical_features"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["missing_values", "categorical_features"]</data>
-  <data key="d7">__json__:["fit_on_train_only"]</data>
-  <data key="d8">__json__:["scikit-learn"]</data>
-  <data key="d9">__json__:[]</data>
-  <data key="d10">tabular_preprocessing_guide.md</data>
-  <data key="d11">Missing values</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">Preprocessor</data>
-</node>
-<node id="constraint:handle_unknown_ignore">
-  <data key="d13">Constraint</data>
-  <data key="d1">handle_unknown_ignore</data>
-</node>
-<node id="constraint:train_only">
-  <data key="d13">Constraint</data>
-  <data key="d1">train_only</data>
-</node>
-<node id="validation_threshold_optimization">
-  <data key="d1">ValidationThresholdOptimization</data>
-  <data key="d2">Search candidate probability thresholds using validation F1 only.</data>
-  <data key="d3">__json__:["validation_labels", "validation_probabilities"]</data>
-  <data key="d4">__json__:["selected_threshold"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["imbalanced_data", "low_f1_at_default_threshold"]</data>
-  <data key="d7">__json__:["never_use_test_labels", "validation_only_threshold"]</data>
-  <data key="d8">__json__:["scikit-learn"]</data>
-  <data key="d9">__json__:["f1"]</data>
-  <data key="d10">classification_model_guide.md</data>
-  <data key="d11">Validation-based threshold selection</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">Preprocessor</data>
-</node>
-<node id="constraint:never_use_test_labels">
-  <data key="d13">Constraint</data>
-  <data key="d1">never_use_test_labels</data>
-</node>
-<node id="accuracy">
-  <data key="d1">Accuracy</data>
-  <data key="d2">Fraction of correct predictions.</data>
-  <data key="d3">__json__:["labels", "binary_predictions"]</data>
-  <data key="d4">__json__:["score"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["balanced_error_costs"]</data>
-  <data key="d7">__json__:["may_hide_minority_failure"]</data>
-  <data key="d8">__json__:["scikit-learn"]</data>
-  <data key="d9">__json__:["accuracy"]</data>
-  <data key="d10">classification_model_guide.md</data>
-  <data key="d11">F1 and ROC-AUC</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">Metric</data>
-</node>
-<node id="constraint:may_hide_minority_failure">
-  <data key="d13">Constraint</data>
-  <data key="d1">may_hide_minority_failure</data>
-</node>
-<node id="precision">
-  <data key="d1">Precision</data>
-  <data key="d2">Share of predicted positives that are correct.</data>
-  <data key="d3">__json__:["labels", "binary_predictions"]</data>
-  <data key="d4">__json__:["score"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["false_positive_cost"]</data>
-  <data key="d7">__json__:[]</data>
-  <data key="d8">__json__:["scikit-learn"]</data>
-  <data key="d9">__json__:["precision"]</data>
-  <data key="d10">classification_model_guide.md</data>
-  <data key="d11">F1 and ROC-AUC</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">Metric</data>
-</node>
-<node id="recall">
-  <data key="d1">Recall</data>
-  <data key="d2">Share of actual positives that are detected.</data>
-  <data key="d3">__json__:["labels", "binary_predictions"]</data>
-  <data key="d4">__json__:["score"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["minority_detection", "imbalanced_data"]</data>
-  <data key="d7">__json__:[]</data>
-  <data key="d8">__json__:["scikit-learn"]</data>
-  <data key="d9">__json__:["recall"]</data>
-  <data key="d10">classification_model_guide.md</data>
-  <data key="d11">F1 and ROC-AUC</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">Metric</data>
-</node>
-<node id="f1">
-  <data key="d1">F1</data>
-  <data key="d2">Harmonic mean of precision and recall.</data>
-  <data key="d3">__json__:["labels", "binary_predictions"]</data>
-  <data key="d4">__json__:["score"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["imbalanced_data", "precision_recall_tradeoff"]</data>
-  <data key="d7">__json__:["threshold_dependent"]</data>
-  <data key="d8">__json__:["scikit-learn"]</data>
-  <data key="d9">__json__:["f1"]</data>
-  <data key="d10">classification_model_guide.md</data>
-  <data key="d11">F1 and ROC-AUC</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">Metric</data>
-</node>
-<node id="constraint:threshold_dependent">
-  <data key="d13">Constraint</data>
-  <data key="d1">threshold_dependent</data>
-</node>
-<node id="roc_auc">
-  <data key="d1">ROCAUC</data>
-  <data key="d2">Ranking quality across thresholds using positive-class probabilities.</data>
-  <data key="d3">__json__:["labels", "positive_probabilities"]</data>
-  <data key="d4">__json__:["score"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["probability_output"]</data>
-  <data key="d7">__json__:["must_use_probabilities"]</data>
-  <data key="d8">__json__:["scikit-learn"]</data>
-  <data key="d9">__json__:["roc_auc"]</data>
-  <data key="d10">classification_model_guide.md</data>
-  <data key="d11">F1 and ROC-AUC</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">Metric</data>
-</node>
-<node id="constraint:must_use_probabilities">
-  <data key="d13">Constraint</data>
-  <data key="d1">must_use_probabilities</data>
-</node>
-<node id="missing_value_error">
-  <data key="d1">MissingValueError</data>
-  <data key="d2">Training fails because input contains unhandled NaN values.</data>
-  <data key="d3">__json__:["error_log"]</data>
-  <data key="d4">__json__:["imputation_recommendation"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["missing_values"]</data>
-  <data key="d7">__json__:["fit_imputer_on_train_only"]</data>
-  <data key="d8">__json__:["NumericalImputation", "CategoricalImputation"]</data>
-  <data key="d9">__json__:[]</data>
-  <data key="d10">failure_experience_guide.md</data>
-  <data key="d11">MissingValueError</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">FailureExperience</data>
-</node>
-<node id="document:failure_experience_guide.md">
-  <data key="d13">SourceDocument</data>
-  <data key="d1">failure_experience_guide.md</data>
-  <data key="d2">Project built-in example source material</data>
-</node>
-<node id="constraint:fit_imputer_on_train_only">
-  <data key="d13">Constraint</data>
-  <data key="d1">fit_imputer_on_train_only</data>
-</node>
-<node id="categorical_encoding_error">
-  <data key="d1">CategoricalEncodingError</data>
-  <data key="d2">Estimator cannot consume strings or encounters an unseen category.</data>
-  <data key="d3">__json__:["error_log"]</data>
-  <data key="d4">__json__:["encoding_recommendation"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["categorical_features", "unknown_categories"]</data>
-  <data key="d7">__json__:["handle_unknown_ignore"]</data>
-  <data key="d8">__json__:["OneHotEncoding"]</data>
-  <data key="d9">__json__:[]</data>
-  <data key="d10">failure_experience_guide.md</data>
-  <data key="d11">CategoricalEncodingError</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">FailureExperience</data>
-</node>
-<node id="low_minority_recall">
-  <data key="d1">LowMinorityRecall</data>
-  <data key="d2">Minority-class recall is poor despite acceptable aggregate accuracy.</data>
-  <data key="d3">__json__:["validation_metrics"]</data>
-  <data key="d4">__json__:["balancing_recommendation"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["imbalanced_data", "low_minority_recall"]</data>
-  <data key="d7">__json__:["evaluate_on_validation"]</data>
-  <data key="d8">__json__:["ClassWeightBalancing", "ValidationThresholdOptimization"]</data>
-  <data key="d9">__json__:["recall", "f1"]</data>
-  <data key="d10">failure_experience_guide.md</data>
-  <data key="d11">LowMinorityRecall</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">FailureExperience</data>
-</node>
-<node id="constraint:evaluate_on_validation">
-  <data key="d13">Constraint</data>
-  <data key="d1">evaluate_on_validation</data>
-</node>
-<node id="low_f1_default_threshold">
-  <data key="d1">LowF1AtDefaultThreshold</data>
-  <data key="d2">F1 is poor when a fixed 0.5 probability threshold is used.</data>
-  <data key="d3">__json__:["validation_labels", "validation_probabilities"]</data>
-  <data key="d4">__json__:["threshold_recommendation"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["low_f1_at_default_threshold", "imbalanced_data"]</data>
-  <data key="d7">__json__:["never_use_test_labels"]</data>
-  <data key="d8">__json__:["ValidationThresholdOptimization"]</data>
-  <data key="d9">__json__:["f1"]</data>
-  <data key="d10">failure_experience_guide.md</data>
-  <data key="d11">LowF1AtDefaultThreshold</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">FailureExperience</data>
-</node>
-<node id="data_leakage_risk">
-  <data key="d1">DataLeakageRisk</data>
-  <data key="d2">Evaluation is optimistic because validation or test information enters fitting or selection.</data>
-  <data key="d3">__json__:["workflow_definition"]</data>
-  <data key="d4">__json__:["split_isolation_recommendation"]</data>
-  <data key="d5">__json__:["binary_classification"]</data>
-  <data key="d6">__json__:["data_leakage", "test_reuse"]</data>
-  <data key="d7">__json__:["train_validation_test_isolation", "pipeline_preprocessing"]</data>
-  <data key="d8">__json__:["scikit-learn"]</data>
-  <data key="d9">__json__:[]</data>
-  <data key="d10">failure_experience_guide.md</data>
-  <data key="d11">DataLeakageRisk</data>
-  <data key="d12">1.0.0</data>
-  <data key="d13">FailureExperience</data>
-</node>
-<node id="constraint:train_validation_test_isolation">
-  <data key="d13">Constraint</data>
-  <data key="d1">train_validation_test_isolation</data>
-</node>
-<node id="constraint:pipeline_preprocessing">
-  <data key="d13">Constraint</data>
-  <data key="d1">pipeline_preprocessing</data>
-</node>
-<node id="constraint:binary_target">
-  <data key="d13">Constraint</data>
-  <data key="d1">binary_target</data>
-</node>
-<node id="constraint:tabular_data">
-  <data key="d13">Constraint</data>
-  <data key="d1">tabular_data</data>
-</node>
-<node id="constraint:interpretable_baseline">
-  <data key="d13">Constraint</data>
-  <data key="d1">interpretable_baseline</data>
-</node>
-<node id="constraint:imbalanced_data">
-  <data key="d13">Constraint</data>
-  <data key="d1">imbalanced_data</data>
-</node>
-<node id="constraint:nonlinear_relationships">
-  <data key="d13">Constraint</data>
-  <data key="d1">nonlinear_relationships</data>
-</node>
-<node id="constraint:missing_values">
-  <data key="d13">Constraint</data>
-  <data key="d1">missing_values</data>
-</node>
-<node id="constraint:numeric_features">
-  <data key="d13">Constraint</data>
-  <data key="d1">numeric_features</data>
-</node>
-<node id="constraint:categorical_features">
-  <data key="d13">Constraint</data>
-  <data key="d1">categorical_features</data>
-</node>
-<node id="constraint:linear_model">
-  <data key="d13">Constraint</data>
-  <data key="d1">linear_model</data>
-</node>
-<node id="constraint:low_minority_recall">
-  <data key="d13">Constraint</data>
-  <data key="d1">low_minority_recall</data>
-</node>
-<node id="constraint:low_f1_at_default_threshold">
-  <data key="d13">Constraint</data>
-  <data key="d1">low_f1_at_default_threshold</data>
-</node>
-<node id="constraint:balanced_error_costs">
-  <data key="d13">Constraint</data>
-  <data key="d1">balanced_error_costs</data>
-</node>
-<node id="constraint:false_positive_cost">
-  <data key="d13">Constraint</data>
-  <data key="d1">false_positive_cost</data>
-</node>
-<node id="constraint:minority_detection">
-  <data key="d13">Constraint</data>
-  <data key="d1">minority_detection</data>
-</node>
-<node id="constraint:precision_recall_tradeoff">
-  <data key="d13">Constraint</data>
-  <data key="d1">precision_recall_tradeoff</data>
-</node>
-<node id="constraint:probability_output">
-  <data key="d13">Constraint</data>
-  <data key="d1">probability_output</data>
-</node>
-<node id="constraint:unknown_categories">
-  <data key="d13">Constraint</data>
-  <data key="d1">unknown_categories</data>
-</node>
-<node id="constraint:data_leakage">
-  <data key="d13">Constraint</data>
-  <data key="d1">data_leakage</data>
-</node>
-<node id="constraint:test_reuse">
-  <data key="d13">Constraint</data>
-  <data key="d1">test_reuse</data>
-</node>
-<node id="historical_missing_value_failure">
-  <data key="d13">ValidationRun</data>
-  <data key="d1">Historical missing-value failure example</data>
-  <data key="d14">failed</data>
-  <data key="d15">Project built-in example failure, not a production run.</data>
-</node>
-<node id="customer_churn_sample">
-  <data key="d13">Dataset</data>
-  <data key="d1">customer_churn_sample</data>
-  <data key="d16">1200</data>
-  <data key="d17">0.17666666666666667</data>
-  <data key="d18">__json__:["tabular_data", "missing_values", "imbalanced_data"]</data>
-</node>
-<node id="stage1_validation">
-  <data key="d13">ValidationRun</data>
-  <data key="d1">Stage 1 deterministic churn benchmark</data>
-  <data key="d14">success</data>
-  <data key="d19">logistic_regression</data>
-  <data key="d20">42</data>
-  <data key="d21">2026-08-24T01:02:34.402084+00:00</data>
-  <data key="d15">Fixed-random-seed synthetic-data demonstration; results do not represent real-business generalization performance.</data>
-  <data key="d22">__json__:{"test": 240, "train": 720, "validation": 240}</data>
-</node>
-<edge source="binary_classification" target="document:classification_model_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">F1 and ROC-AUC</data>
-</edge>
-<edge source="binary_classification" target="dependency:scikit_learn" id="0">
-  <data key="d23">DEPENDS_ON</data>
-</edge>
-<edge source="binary_classification" target="constraint:stratified_split" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="binary_classification" target="constraint:test_isolation" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="binary_classification" target="accuracy" id="0">
-  <data key="d23">EVALUATED_BY</data>
-</edge>
-<edge source="binary_classification" target="precision" id="0">
-  <data key="d23">EVALUATED_BY</data>
-</edge>
-<edge source="binary_classification" target="recall" id="0">
-  <data key="d23">EVALUATED_BY</data>
-</edge>
-<edge source="binary_classification" target="f1" id="0">
-  <data key="d23">EVALUATED_BY</data>
-</edge>
-<edge source="binary_classification" target="roc_auc" id="0">
-  <data key="d23">EVALUATED_BY</data>
-</edge>
-<edge source="binary_classification" target="constraint:binary_target" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="logistic_regression" target="document:classification_model_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">Logistic Regression</data>
-</edge>
-<edge source="logistic_regression" target="dependency:scikit_learn" id="0">
-  <data key="d23">DEPENDS_ON</data>
-</edge>
-<edge source="logistic_regression" target="standard_scaling" id="0">
-  <data key="d23">REQUIRES</data>
-</edge>
-<edge source="logistic_regression" target="one_hot_encoding" id="0">
-  <data key="d23">REQUIRES</data>
-</edge>
-<edge source="logistic_regression" target="class_weight_balancing" id="0">
-  <data key="d23">REQUIRES</data>
-</edge>
-<edge source="logistic_regression" target="constraint:requires_numeric_features" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="logistic_regression" target="constraint:validation_only_threshold" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="logistic_regression" target="binary_classification" id="0">
-  <data key="d23">SUITABLE_FOR</data>
-</edge>
-<edge source="logistic_regression" target="f1" id="0">
-  <data key="d23">EVALUATED_BY</data>
-</edge>
-<edge source="logistic_regression" target="roc_auc" id="0">
-  <data key="d23">EVALUATED_BY</data>
-</edge>
-<edge source="logistic_regression" target="constraint:tabular_data" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="logistic_regression" target="constraint:interpretable_baseline" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="logistic_regression" target="constraint:imbalanced_data" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="standard_scaling" target="document:tabular_preprocessing_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">Feature scaling</data>
-</edge>
-<edge source="standard_scaling" target="dependency:scikit_learn" id="0">
-  <data key="d23">DEPENDS_ON</data>
-</edge>
-<edge source="standard_scaling" target="constraint:fit_on_train_only" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="standard_scaling" target="constraint:linear_model" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="standard_scaling" target="constraint:numeric_features" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="one_hot_encoding" target="document:tabular_preprocessing_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">One-Hot Encoding</data>
-</edge>
-<edge source="one_hot_encoding" target="dependency:scikit_learn" id="0">
-  <data key="d23">DEPENDS_ON</data>
-</edge>
-<edge source="one_hot_encoding" target="constraint:handle_unknown_ignore" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="one_hot_encoding" target="constraint:fit_on_train_only" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="one_hot_encoding" target="constraint:categorical_features" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="class_weight_balancing" target="document:classification_model_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">Class imbalance and class weight</data>
-</edge>
-<edge source="class_weight_balancing" target="dependency:scikit_learn" id="0">
-  <data key="d23">DEPENDS_ON</data>
-</edge>
-<edge source="class_weight_balancing" target="constraint:train_only" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="class_weight_balancing" target="constraint:imbalanced_data" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="class_weight_balancing" target="constraint:low_minority_recall" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="random_forest" target="document:classification_model_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">Random Forest</data>
-</edge>
-<edge source="random_forest" target="dependency:scikit_learn" id="0">
-  <data key="d23">DEPENDS_ON</data>
-</edge>
-<edge source="random_forest" target="one_hot_encoding" id="0">
-  <data key="d23">REQUIRES</data>
-</edge>
-<edge source="random_forest" target="class_weight_balancing" id="0">
-  <data key="d23">REQUIRES</data>
-</edge>
-<edge source="random_forest" target="constraint:requires_numeric_features" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="random_forest" target="constraint:validation_only_threshold" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="random_forest" target="binary_classification" id="0">
-  <data key="d23">SUITABLE_FOR</data>
-</edge>
-<edge source="random_forest" target="f1" id="0">
-  <data key="d23">EVALUATED_BY</data>
-</edge>
-<edge source="random_forest" target="roc_auc" id="0">
-  <data key="d23">EVALUATED_BY</data>
-</edge>
-<edge source="random_forest" target="constraint:tabular_data" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="random_forest" target="constraint:nonlinear_relationships" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="random_forest" target="constraint:imbalanced_data" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="numerical_imputation" target="document:tabular_preprocessing_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">Missing values</data>
-</edge>
-<edge source="numerical_imputation" target="dependency:scikit_learn" id="0">
-  <data key="d23">DEPENDS_ON</data>
-</edge>
-<edge source="numerical_imputation" target="constraint:fit_on_train_only" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="numerical_imputation" target="constraint:missing_values" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="numerical_imputation" target="constraint:numeric_features" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="categorical_imputation" target="document:tabular_preprocessing_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">Missing values</data>
-</edge>
-<edge source="categorical_imputation" target="dependency:scikit_learn" id="0">
-  <data key="d23">DEPENDS_ON</data>
-</edge>
-<edge source="categorical_imputation" target="constraint:fit_on_train_only" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="categorical_imputation" target="constraint:missing_values" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="categorical_imputation" target="constraint:categorical_features" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="validation_threshold_optimization" target="document:classification_model_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">Validation-based threshold selection</data>
-</edge>
-<edge source="validation_threshold_optimization" target="dependency:scikit_learn" id="0">
-  <data key="d23">DEPENDS_ON</data>
-</edge>
-<edge source="validation_threshold_optimization" target="constraint:never_use_test_labels" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="validation_threshold_optimization" target="constraint:validation_only_threshold" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="validation_threshold_optimization" target="constraint:imbalanced_data" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="validation_threshold_optimization" target="constraint:low_f1_at_default_threshold" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="accuracy" target="document:classification_model_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">F1 and ROC-AUC</data>
-</edge>
-<edge source="accuracy" target="dependency:scikit_learn" id="0">
-  <data key="d23">DEPENDS_ON</data>
-</edge>
-<edge source="accuracy" target="constraint:may_hide_minority_failure" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="accuracy" target="constraint:balanced_error_costs" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="precision" target="document:classification_model_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">F1 and ROC-AUC</data>
-</edge>
-<edge source="precision" target="dependency:scikit_learn" id="0">
-  <data key="d23">DEPENDS_ON</data>
-</edge>
-<edge source="precision" target="constraint:false_positive_cost" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="recall" target="document:classification_model_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">F1 and ROC-AUC</data>
-</edge>
-<edge source="recall" target="dependency:scikit_learn" id="0">
-  <data key="d23">DEPENDS_ON</data>
-</edge>
-<edge source="recall" target="constraint:minority_detection" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="recall" target="constraint:imbalanced_data" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="f1" target="document:classification_model_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">F1 and ROC-AUC</data>
-</edge>
-<edge source="f1" target="dependency:scikit_learn" id="0">
-  <data key="d23">DEPENDS_ON</data>
-</edge>
-<edge source="f1" target="constraint:threshold_dependent" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="f1" target="constraint:imbalanced_data" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="f1" target="constraint:precision_recall_tradeoff" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="roc_auc" target="document:classification_model_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">F1 and ROC-AUC</data>
-</edge>
-<edge source="roc_auc" target="dependency:scikit_learn" id="0">
-  <data key="d23">DEPENDS_ON</data>
-</edge>
-<edge source="roc_auc" target="constraint:must_use_probabilities" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="roc_auc" target="constraint:probability_output" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="missing_value_error" target="document:failure_experience_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">MissingValueError</data>
-</edge>
-<edge source="missing_value_error" target="numerical_imputation" id="0">
-  <data key="d23">REQUIRES</data>
-</edge>
-<edge source="missing_value_error" target="numerical_imputation" id="1">
-  <data key="d23">IMPROVED_BY</data>
-</edge>
-<edge source="missing_value_error" target="categorical_imputation" id="0">
-  <data key="d23">REQUIRES</data>
-</edge>
-<edge source="missing_value_error" target="categorical_imputation" id="1">
-  <data key="d23">IMPROVED_BY</data>
-</edge>
-<edge source="missing_value_error" target="constraint:fit_imputer_on_train_only" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="missing_value_error" target="constraint:missing_values" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="categorical_encoding_error" target="document:failure_experience_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">CategoricalEncodingError</data>
-</edge>
-<edge source="categorical_encoding_error" target="one_hot_encoding" id="0">
-  <data key="d23">REQUIRES</data>
-</edge>
-<edge source="categorical_encoding_error" target="one_hot_encoding" id="1">
-  <data key="d23">IMPROVED_BY</data>
-</edge>
-<edge source="categorical_encoding_error" target="constraint:handle_unknown_ignore" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="categorical_encoding_error" target="constraint:categorical_features" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="categorical_encoding_error" target="constraint:unknown_categories" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="low_minority_recall" target="document:failure_experience_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">LowMinorityRecall</data>
-</edge>
-<edge source="low_minority_recall" target="class_weight_balancing" id="0">
-  <data key="d23">REQUIRES</data>
-</edge>
-<edge source="low_minority_recall" target="class_weight_balancing" id="1">
-  <data key="d23">IMPROVED_BY</data>
-</edge>
-<edge source="low_minority_recall" target="validation_threshold_optimization" id="0">
-  <data key="d23">REQUIRES</data>
-</edge>
-<edge source="low_minority_recall" target="validation_threshold_optimization" id="1">
-  <data key="d23">IMPROVED_BY</data>
-</edge>
-<edge source="low_minority_recall" target="constraint:evaluate_on_validation" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="low_minority_recall" target="constraint:imbalanced_data" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="low_minority_recall" target="constraint:low_minority_recall" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="low_f1_default_threshold" target="document:failure_experience_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">LowF1AtDefaultThreshold</data>
-</edge>
-<edge source="low_f1_default_threshold" target="validation_threshold_optimization" id="0">
-  <data key="d23">REQUIRES</data>
-</edge>
-<edge source="low_f1_default_threshold" target="validation_threshold_optimization" id="1">
-  <data key="d23">IMPROVED_BY</data>
-</edge>
-<edge source="low_f1_default_threshold" target="constraint:never_use_test_labels" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="low_f1_default_threshold" target="constraint:low_f1_at_default_threshold" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="low_f1_default_threshold" target="constraint:imbalanced_data" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="data_leakage_risk" target="document:failure_experience_guide.md" id="0">
-  <data key="d23">DERIVED_FROM</data>
-  <data key="d24">DataLeakageRisk</data>
-</edge>
-<edge source="data_leakage_risk" target="dependency:scikit_learn" id="0">
-  <data key="d23">DEPENDS_ON</data>
-</edge>
-<edge source="data_leakage_risk" target="constraint:train_validation_test_isolation" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="data_leakage_risk" target="constraint:pipeline_preprocessing" id="0">
-  <data key="d23">SATISFIES</data>
-</edge>
-<edge source="data_leakage_risk" target="constraint:data_leakage" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="data_leakage_risk" target="constraint:test_reuse" id="0">
-  <data key="d23">HANDLES</data>
-</edge>
-<edge source="historical_missing_value_failure" target="missing_value_error" id="0">
-  <data key="d23">FAILED_BECAUSE</data>
-</edge>
-<edge source="stage1_validation" target="customer_churn_sample" id="0">
-  <data key="d23">PERFORMED_ON</data>
-</edge>
-<edge source="stage1_validation" target="logistic_regression" id="0">
-  <data key="d23">USED_ALGORITHM</data>
-  <data key="d25">0.6749999999999999</data>
-  <data key="d26">True</data>
-</edge>
-<edge source="stage1_validation" target="f1" id="0">
-  <data key="d23">ACHIEVED_METRIC</data>
-  <data key="d27">logistic_regression</data>
-  <data key="d28">0.6739130434782609</data>
-  <data key="d29">test</data>
-</edge>
-<edge source="stage1_validation" target="f1" id="1">
-  <data key="d23">ACHIEVED_METRIC</data>
-  <data key="d27">random_forest</data>
-  <data key="d28">0.6326530612244898</data>
-  <data key="d29">test</data>
-</edge>
-<edge source="stage1_validation" target="roc_auc" id="0">
-  <data key="d23">ACHIEVED_METRIC</data>
-  <data key="d27">logistic_regression</data>
-  <data key="d28">0.9145021645021645</data>
-  <data key="d29">test</data>
-</edge>
-<edge source="stage1_validation" target="roc_auc" id="1">
-  <data key="d23">ACHIEVED_METRIC</data>
-  <data key="d27">random_forest</data>
-  <data key="d28">0.8857623857623858</data>
-  <data key="d29">test</data>
-</edge>
-<edge source="stage1_validation" target="random_forest" id="0">
-  <data key="d23">USED_ALGORITHM</data>
-  <data key="d25">0.37499999999999994</data>
-  <data key="d26">False</data>
-</edge>
-</graph></graphml>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d29" for="edge" attr.name="split" attr.type="string" />
+  <key id="d28" for="edge" attr.name="value" attr.type="double" />
+  <key id="d27" for="edge" attr.name="algorithm" attr.type="string" />
+  <key id="d26" for="edge" attr.name="selected_as_best" attr.type="boolean" />
+  <key id="d25" for="edge" attr.name="selected_threshold" attr.type="double" />
+  <key id="d24" for="edge" attr.name="section" attr.type="string" />
+  <key id="d23" for="edge" attr.name="relation" attr.type="string" />
+  <key id="d22" for="node" attr.name="split_sizes" attr.type="string" />
+  <key id="d21" for="node" attr.name="created_at" attr.type="string" />
+  <key id="d20" for="node" attr.name="random_state" attr.type="long" />
+  <key id="d19" for="node" attr.name="best_algorithm" attr.type="string" />
+  <key id="d18" for="node" attr.name="characteristics" attr.type="string" />
+  <key id="d17" for="node" attr.name="positive_rate" attr.type="double" />
+  <key id="d16" for="node" attr.name="rows" attr.type="long" />
+  <key id="d15" for="node" attr.name="disclaimer" attr.type="string" />
+  <key id="d14" for="node" attr.name="status" attr.type="string" />
+  <key id="d13" for="node" attr.name="node_type" attr.type="string" />
+  <key id="d12" for="node" attr.name="version" attr.type="string" />
+  <key id="d11" for="node" attr.name="source_section" attr.type="string" />
+  <key id="d10" for="node" attr.name="source_document" attr.type="string" />
+  <key id="d9" for="node" attr.name="metrics" attr.type="string" />
+  <key id="d8" for="node" attr.name="dependencies" attr.type="string" />
+  <key id="d7" for="node" attr.name="constraints" attr.type="string" />
+  <key id="d6" for="node" attr.name="applicable_conditions" attr.type="string" />
+  <key id="d5" for="node" attr.name="applicable_tasks" attr.type="string" />
+  <key id="d4" for="node" attr.name="outputs" attr.type="string" />
+  <key id="d3" for="node" attr.name="inputs" attr.type="string" />
+  <key id="d2" for="node" attr.name="description" attr.type="string" />
+  <key id="d1" for="node" attr.name="name" attr.type="string" />
+  <key id="d0" for="graph" attr.name="name" attr.type="string" />
+  <graph edgedefault="directed">
+    <node id="binary_classification">
+      <data key="d1">BinaryClassification</data>
+      <data key="d2">Predict one of two classes and produce positive-class probabilities.</data>
+      <data key="d3">__json__:["tabular_features"]</data>
+      <data key="d4">__json__:["binary_prediction", "positive_probability"]</data>
+      <data key="d5">__json__:["binary_classification", "customer_churn"]</data>
+      <data key="d6">__json__:["binary_target"]</data>
+      <data key="d7">__json__:["stratified_split", "test_isolation"]</data>
+      <data key="d8">__json__:["scikit-learn"]</data>
+      <data key="d9">__json__:["accuracy", "precision", "recall", "f1", "roc_auc"]</data>
+      <data key="d10">classification_model_guide.md</data>
+      <data key="d11">F1 and ROC-AUC</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">Task</data>
+    </node>
+    <node id="document:classification_model_guide.md">
+      <data key="d13">SourceDocument</data>
+      <data key="d1">classification_model_guide.md</data>
+      <data key="d2">Project built-in example source material</data>
+    </node>
+    <node id="dependency:scikit_learn">
+      <data key="d13">Dependency</data>
+      <data key="d1">scikit-learn</data>
+    </node>
+    <node id="constraint:stratified_split">
+      <data key="d13">Constraint</data>
+      <data key="d1">stratified_split</data>
+    </node>
+    <node id="constraint:test_isolation">
+      <data key="d13">Constraint</data>
+      <data key="d1">test_isolation</data>
+    </node>
+    <node id="logistic_regression">
+      <data key="d1">LogisticRegression</data>
+      <data key="d2">Interpretable linear classifier with calibrated probability-like output and fast training.</data>
+      <data key="d3">__json__:["encoded_numeric_matrix"]</data>
+      <data key="d4">__json__:["binary_prediction", "positive_probability"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["tabular_data", "interpretable_baseline", "imbalanced_data"]</data>
+      <data key="d7">__json__:["requires_numeric_features", "validation_only_threshold"]</data>
+      <data key="d8">__json__:["scikit-learn", "StandardScaling", "OneHotEncoding", "ClassWeightBalancing"]</data>
+      <data key="d9">__json__:["f1", "roc_auc"]</data>
+      <data key="d10">classification_model_guide.md</data>
+      <data key="d11">Logistic Regression</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">Algorithm</data>
+    </node>
+    <node id="standard_scaling">
+      <data key="d1">StandardScaling</data>
+      <data key="d2">Standardize numeric features using training-set statistics.</data>
+      <data key="d3">__json__:["numeric_features"]</data>
+      <data key="d4">__json__:["scaled_numeric_features"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["linear_model", "numeric_features"]</data>
+      <data key="d7">__json__:["fit_on_train_only"]</data>
+      <data key="d8">__json__:["scikit-learn"]</data>
+      <data key="d9">__json__:[]</data>
+      <data key="d10">tabular_preprocessing_guide.md</data>
+      <data key="d11">Feature scaling</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">Preprocessor</data>
+    </node>
+    <node id="one_hot_encoding">
+      <data key="d1">OneHotEncoding</data>
+      <data key="d2">Encode unordered categories while ignoring unseen categories at inference time.</data>
+      <data key="d3">__json__:["categorical_features"]</data>
+      <data key="d4">__json__:["encoded_numeric_features"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["categorical_features"]</data>
+      <data key="d7">__json__:["handle_unknown_ignore", "fit_on_train_only"]</data>
+      <data key="d8">__json__:["scikit-learn"]</data>
+      <data key="d9">__json__:[]</data>
+      <data key="d10">tabular_preprocessing_guide.md</data>
+      <data key="d11">One-Hot Encoding</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">Preprocessor</data>
+    </node>
+    <node id="class_weight_balancing">
+      <data key="d1">ClassWeightBalancing</data>
+      <data key="d2">Increase minority-class importance during model fitting without resampling test data.</data>
+      <data key="d3">__json__:["imbalanced_training_labels"]</data>
+      <data key="d4">__json__:["class_weight_configuration"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["imbalanced_data", "low_minority_recall"]</data>
+      <data key="d7">__json__:["train_only"]</data>
+      <data key="d8">__json__:["scikit-learn"]</data>
+      <data key="d9">__json__:["recall", "f1"]</data>
+      <data key="d10">classification_model_guide.md</data>
+      <data key="d11">Class imbalance and class weight</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">Preprocessor</data>
+    </node>
+    <node id="constraint:requires_numeric_features">
+      <data key="d13">Constraint</data>
+      <data key="d1">requires_numeric_features</data>
+    </node>
+    <node id="constraint:validation_only_threshold">
+      <data key="d13">Constraint</data>
+      <data key="d1">validation_only_threshold</data>
+    </node>
+    <node id="random_forest">
+      <data key="d1">RandomForest</data>
+      <data key="d2">Tree ensemble suited to nonlinear tabular relationships and feature interactions.</data>
+      <data key="d3">__json__:["encoded_tabular_matrix"]</data>
+      <data key="d4">__json__:["binary_prediction", "positive_probability"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["tabular_data", "nonlinear_relationships", "imbalanced_data"]</data>
+      <data key="d7">__json__:["requires_numeric_features", "validation_only_threshold"]</data>
+      <data key="d8">__json__:["scikit-learn", "OneHotEncoding", "ClassWeightBalancing"]</data>
+      <data key="d9">__json__:["f1", "roc_auc"]</data>
+      <data key="d10">classification_model_guide.md</data>
+      <data key="d11">Random Forest</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">Algorithm</data>
+    </node>
+    <node id="numerical_imputation">
+      <data key="d1">NumericalImputation</data>
+      <data key="d2">Fill numeric missing values with training-set median statistics.</data>
+      <data key="d3">__json__:["numeric_features_with_missing_values"]</data>
+      <data key="d4">__json__:["complete_numeric_features"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["missing_values", "numeric_features"]</data>
+      <data key="d7">__json__:["fit_on_train_only"]</data>
+      <data key="d8">__json__:["scikit-learn"]</data>
+      <data key="d9">__json__:[]</data>
+      <data key="d10">tabular_preprocessing_guide.md</data>
+      <data key="d11">Missing values</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">Preprocessor</data>
+    </node>
+    <node id="document:tabular_preprocessing_guide.md">
+      <data key="d13">SourceDocument</data>
+      <data key="d1">tabular_preprocessing_guide.md</data>
+      <data key="d2">Project built-in example source material</data>
+    </node>
+    <node id="constraint:fit_on_train_only">
+      <data key="d13">Constraint</data>
+      <data key="d1">fit_on_train_only</data>
+    </node>
+    <node id="categorical_imputation">
+      <data key="d1">CategoricalImputation</data>
+      <data key="d2">Fill categorical missing values with the training-set most frequent category.</data>
+      <data key="d3">__json__:["categorical_features_with_missing_values"]</data>
+      <data key="d4">__json__:["complete_categorical_features"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["missing_values", "categorical_features"]</data>
+      <data key="d7">__json__:["fit_on_train_only"]</data>
+      <data key="d8">__json__:["scikit-learn"]</data>
+      <data key="d9">__json__:[]</data>
+      <data key="d10">tabular_preprocessing_guide.md</data>
+      <data key="d11">Missing values</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">Preprocessor</data>
+    </node>
+    <node id="constraint:handle_unknown_ignore">
+      <data key="d13">Constraint</data>
+      <data key="d1">handle_unknown_ignore</data>
+    </node>
+    <node id="constraint:train_only">
+      <data key="d13">Constraint</data>
+      <data key="d1">train_only</data>
+    </node>
+    <node id="validation_threshold_optimization">
+      <data key="d1">ValidationThresholdOptimization</data>
+      <data key="d2">Search candidate probability thresholds using validation F1 only.</data>
+      <data key="d3">__json__:["validation_labels", "validation_probabilities"]</data>
+      <data key="d4">__json__:["selected_threshold"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["imbalanced_data", "low_f1_at_default_threshold"]</data>
+      <data key="d7">__json__:["never_use_test_labels", "validation_only_threshold"]</data>
+      <data key="d8">__json__:["scikit-learn"]</data>
+      <data key="d9">__json__:["f1"]</data>
+      <data key="d10">classification_model_guide.md</data>
+      <data key="d11">Validation-based threshold selection</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">Preprocessor</data>
+    </node>
+    <node id="constraint:never_use_test_labels">
+      <data key="d13">Constraint</data>
+      <data key="d1">never_use_test_labels</data>
+    </node>
+    <node id="accuracy">
+      <data key="d1">Accuracy</data>
+      <data key="d2">Fraction of correct predictions.</data>
+      <data key="d3">__json__:["labels", "binary_predictions"]</data>
+      <data key="d4">__json__:["score"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["balanced_error_costs"]</data>
+      <data key="d7">__json__:["may_hide_minority_failure"]</data>
+      <data key="d8">__json__:["scikit-learn"]</data>
+      <data key="d9">__json__:["accuracy"]</data>
+      <data key="d10">classification_model_guide.md</data>
+      <data key="d11">F1 and ROC-AUC</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">Metric</data>
+    </node>
+    <node id="constraint:may_hide_minority_failure">
+      <data key="d13">Constraint</data>
+      <data key="d1">may_hide_minority_failure</data>
+    </node>
+    <node id="precision">
+      <data key="d1">Precision</data>
+      <data key="d2">Share of predicted positives that are correct.</data>
+      <data key="d3">__json__:["labels", "binary_predictions"]</data>
+      <data key="d4">__json__:["score"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["false_positive_cost"]</data>
+      <data key="d7">__json__:[]</data>
+      <data key="d8">__json__:["scikit-learn"]</data>
+      <data key="d9">__json__:["precision"]</data>
+      <data key="d10">classification_model_guide.md</data>
+      <data key="d11">F1 and ROC-AUC</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">Metric</data>
+    </node>
+    <node id="recall">
+      <data key="d1">Recall</data>
+      <data key="d2">Share of actual positives that are detected.</data>
+      <data key="d3">__json__:["labels", "binary_predictions"]</data>
+      <data key="d4">__json__:["score"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["minority_detection", "imbalanced_data"]</data>
+      <data key="d7">__json__:[]</data>
+      <data key="d8">__json__:["scikit-learn"]</data>
+      <data key="d9">__json__:["recall"]</data>
+      <data key="d10">classification_model_guide.md</data>
+      <data key="d11">F1 and ROC-AUC</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">Metric</data>
+    </node>
+    <node id="f1">
+      <data key="d1">F1</data>
+      <data key="d2">Harmonic mean of precision and recall.</data>
+      <data key="d3">__json__:["labels", "binary_predictions"]</data>
+      <data key="d4">__json__:["score"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["imbalanced_data", "precision_recall_tradeoff"]</data>
+      <data key="d7">__json__:["threshold_dependent"]</data>
+      <data key="d8">__json__:["scikit-learn"]</data>
+      <data key="d9">__json__:["f1"]</data>
+      <data key="d10">classification_model_guide.md</data>
+      <data key="d11">F1 and ROC-AUC</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">Metric</data>
+    </node>
+    <node id="constraint:threshold_dependent">
+      <data key="d13">Constraint</data>
+      <data key="d1">threshold_dependent</data>
+    </node>
+    <node id="roc_auc">
+      <data key="d1">ROCAUC</data>
+      <data key="d2">Ranking quality across thresholds using positive-class probabilities.</data>
+      <data key="d3">__json__:["labels", "positive_probabilities"]</data>
+      <data key="d4">__json__:["score"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["probability_output"]</data>
+      <data key="d7">__json__:["must_use_probabilities"]</data>
+      <data key="d8">__json__:["scikit-learn"]</data>
+      <data key="d9">__json__:["roc_auc"]</data>
+      <data key="d10">classification_model_guide.md</data>
+      <data key="d11">F1 and ROC-AUC</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">Metric</data>
+    </node>
+    <node id="constraint:must_use_probabilities">
+      <data key="d13">Constraint</data>
+      <data key="d1">must_use_probabilities</data>
+    </node>
+    <node id="missing_value_error">
+      <data key="d1">MissingValueError</data>
+      <data key="d2">Training fails because input contains unhandled NaN values.</data>
+      <data key="d3">__json__:["error_log"]</data>
+      <data key="d4">__json__:["imputation_recommendation"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["missing_values"]</data>
+      <data key="d7">__json__:["fit_imputer_on_train_only"]</data>
+      <data key="d8">__json__:["NumericalImputation", "CategoricalImputation"]</data>
+      <data key="d9">__json__:[]</data>
+      <data key="d10">failure_experience_guide.md</data>
+      <data key="d11">MissingValueError</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">FailureExperience</data>
+    </node>
+    <node id="document:failure_experience_guide.md">
+      <data key="d13">SourceDocument</data>
+      <data key="d1">failure_experience_guide.md</data>
+      <data key="d2">Project built-in example source material</data>
+    </node>
+    <node id="constraint:fit_imputer_on_train_only">
+      <data key="d13">Constraint</data>
+      <data key="d1">fit_imputer_on_train_only</data>
+    </node>
+    <node id="categorical_encoding_error">
+      <data key="d1">CategoricalEncodingError</data>
+      <data key="d2">Estimator cannot consume strings or encounters an unseen category.</data>
+      <data key="d3">__json__:["error_log"]</data>
+      <data key="d4">__json__:["encoding_recommendation"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["categorical_features", "unknown_categories"]</data>
+      <data key="d7">__json__:["handle_unknown_ignore"]</data>
+      <data key="d8">__json__:["OneHotEncoding"]</data>
+      <data key="d9">__json__:[]</data>
+      <data key="d10">failure_experience_guide.md</data>
+      <data key="d11">CategoricalEncodingError</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">FailureExperience</data>
+    </node>
+    <node id="low_minority_recall">
+      <data key="d1">LowMinorityRecall</data>
+      <data key="d2">Minority-class recall is poor despite acceptable aggregate accuracy.</data>
+      <data key="d3">__json__:["validation_metrics"]</data>
+      <data key="d4">__json__:["balancing_recommendation"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["imbalanced_data", "low_minority_recall"]</data>
+      <data key="d7">__json__:["evaluate_on_validation"]</data>
+      <data key="d8">__json__:["ClassWeightBalancing", "ValidationThresholdOptimization"]</data>
+      <data key="d9">__json__:["recall", "f1"]</data>
+      <data key="d10">failure_experience_guide.md</data>
+      <data key="d11">LowMinorityRecall</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">FailureExperience</data>
+    </node>
+    <node id="constraint:evaluate_on_validation">
+      <data key="d13">Constraint</data>
+      <data key="d1">evaluate_on_validation</data>
+    </node>
+    <node id="low_f1_default_threshold">
+      <data key="d1">LowF1AtDefaultThreshold</data>
+      <data key="d2">F1 is poor when a fixed 0.5 probability threshold is used.</data>
+      <data key="d3">__json__:["validation_labels", "validation_probabilities"]</data>
+      <data key="d4">__json__:["threshold_recommendation"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["low_f1_at_default_threshold", "imbalanced_data"]</data>
+      <data key="d7">__json__:["never_use_test_labels"]</data>
+      <data key="d8">__json__:["ValidationThresholdOptimization"]</data>
+      <data key="d9">__json__:["f1"]</data>
+      <data key="d10">failure_experience_guide.md</data>
+      <data key="d11">LowF1AtDefaultThreshold</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">FailureExperience</data>
+    </node>
+    <node id="data_leakage_risk">
+      <data key="d1">DataLeakageRisk</data>
+      <data key="d2">Evaluation is optimistic because validation or test information enters fitting or selection.</data>
+      <data key="d3">__json__:["workflow_definition"]</data>
+      <data key="d4">__json__:["split_isolation_recommendation"]</data>
+      <data key="d5">__json__:["binary_classification"]</data>
+      <data key="d6">__json__:["data_leakage", "test_reuse"]</data>
+      <data key="d7">__json__:["train_validation_test_isolation", "pipeline_preprocessing"]</data>
+      <data key="d8">__json__:["scikit-learn"]</data>
+      <data key="d9">__json__:[]</data>
+      <data key="d10">failure_experience_guide.md</data>
+      <data key="d11">DataLeakageRisk</data>
+      <data key="d12">1.0.0</data>
+      <data key="d13">FailureExperience</data>
+    </node>
+    <node id="constraint:train_validation_test_isolation">
+      <data key="d13">Constraint</data>
+      <data key="d1">train_validation_test_isolation</data>
+    </node>
+    <node id="constraint:pipeline_preprocessing">
+      <data key="d13">Constraint</data>
+      <data key="d1">pipeline_preprocessing</data>
+    </node>
+    <node id="constraint:binary_target">
+      <data key="d13">Constraint</data>
+      <data key="d1">binary_target</data>
+    </node>
+    <node id="constraint:tabular_data">
+      <data key="d13">Constraint</data>
+      <data key="d1">tabular_data</data>
+    </node>
+    <node id="constraint:interpretable_baseline">
+      <data key="d13">Constraint</data>
+      <data key="d1">interpretable_baseline</data>
+    </node>
+    <node id="constraint:imbalanced_data">
+      <data key="d13">Constraint</data>
+      <data key="d1">imbalanced_data</data>
+    </node>
+    <node id="constraint:nonlinear_relationships">
+      <data key="d13">Constraint</data>
+      <data key="d1">nonlinear_relationships</data>
+    </node>
+    <node id="constraint:missing_values">
+      <data key="d13">Constraint</data>
+      <data key="d1">missing_values</data>
+    </node>
+    <node id="constraint:numeric_features">
+      <data key="d13">Constraint</data>
+      <data key="d1">numeric_features</data>
+    </node>
+    <node id="constraint:categorical_features">
+      <data key="d13">Constraint</data>
+      <data key="d1">categorical_features</data>
+    </node>
+    <node id="constraint:linear_model">
+      <data key="d13">Constraint</data>
+      <data key="d1">linear_model</data>
+    </node>
+    <node id="constraint:low_minority_recall">
+      <data key="d13">Constraint</data>
+      <data key="d1">low_minority_recall</data>
+    </node>
+    <node id="constraint:low_f1_at_default_threshold">
+      <data key="d13">Constraint</data>
+      <data key="d1">low_f1_at_default_threshold</data>
+    </node>
+    <node id="constraint:balanced_error_costs">
+      <data key="d13">Constraint</data>
+      <data key="d1">balanced_error_costs</data>
+    </node>
+    <node id="constraint:false_positive_cost">
+      <data key="d13">Constraint</data>
+      <data key="d1">false_positive_cost</data>
+    </node>
+    <node id="constraint:minority_detection">
+      <data key="d13">Constraint</data>
+      <data key="d1">minority_detection</data>
+    </node>
+    <node id="constraint:precision_recall_tradeoff">
+      <data key="d13">Constraint</data>
+      <data key="d1">precision_recall_tradeoff</data>
+    </node>
+    <node id="constraint:probability_output">
+      <data key="d13">Constraint</data>
+      <data key="d1">probability_output</data>
+    </node>
+    <node id="constraint:unknown_categories">
+      <data key="d13">Constraint</data>
+      <data key="d1">unknown_categories</data>
+    </node>
+    <node id="constraint:data_leakage">
+      <data key="d13">Constraint</data>
+      <data key="d1">data_leakage</data>
+    </node>
+    <node id="constraint:test_reuse">
+      <data key="d13">Constraint</data>
+      <data key="d1">test_reuse</data>
+    </node>
+    <node id="historical_missing_value_failure">
+      <data key="d13">ValidationRun</data>
+      <data key="d1">Historical missing-value failure example</data>
+      <data key="d14">failed</data>
+      <data key="d15">Project built-in example failure, not a production run.</data>
+    </node>
+    <node id="customer_churn_sample">
+      <data key="d13">Dataset</data>
+      <data key="d1">customer_churn_sample</data>
+      <data key="d16">1200</data>
+      <data key="d17">0.17666666666666667</data>
+      <data key="d18">__json__:["tabular_data", "missing_values", "imbalanced_data"]</data>
+    </node>
+    <node id="stage1_validation">
+      <data key="d13">ValidationRun</data>
+      <data key="d1">Stage 1 deterministic churn benchmark</data>
+      <data key="d14">success</data>
+      <data key="d19">logistic_regression</data>
+      <data key="d20">42</data>
+      <data key="d21">2026-08-24T02:38:43.859114+00:00</data>
+      <data key="d15">Fixed-random-seed synthetic-data demonstration; results do not represent real-business generalization performance.</data>
+      <data key="d22">__json__:{"test": 240, "train": 720, "validation": 240}</data>
+    </node>
+    <edge source="binary_classification" target="document:classification_model_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">F1 and ROC-AUC</data>
+    </edge>
+    <edge source="binary_classification" target="dependency:scikit_learn" id="0">
+      <data key="d23">DEPENDS_ON</data>
+    </edge>
+    <edge source="binary_classification" target="constraint:stratified_split" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="binary_classification" target="constraint:test_isolation" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="binary_classification" target="accuracy" id="0">
+      <data key="d23">EVALUATED_BY</data>
+    </edge>
+    <edge source="binary_classification" target="precision" id="0">
+      <data key="d23">EVALUATED_BY</data>
+    </edge>
+    <edge source="binary_classification" target="recall" id="0">
+      <data key="d23">EVALUATED_BY</data>
+    </edge>
+    <edge source="binary_classification" target="f1" id="0">
+      <data key="d23">EVALUATED_BY</data>
+    </edge>
+    <edge source="binary_classification" target="roc_auc" id="0">
+      <data key="d23">EVALUATED_BY</data>
+    </edge>
+    <edge source="binary_classification" target="constraint:binary_target" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="logistic_regression" target="document:classification_model_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">Logistic Regression</data>
+    </edge>
+    <edge source="logistic_regression" target="dependency:scikit_learn" id="0">
+      <data key="d23">DEPENDS_ON</data>
+    </edge>
+    <edge source="logistic_regression" target="standard_scaling" id="0">
+      <data key="d23">REQUIRES</data>
+    </edge>
+    <edge source="logistic_regression" target="one_hot_encoding" id="0">
+      <data key="d23">REQUIRES</data>
+    </edge>
+    <edge source="logistic_regression" target="class_weight_balancing" id="0">
+      <data key="d23">REQUIRES</data>
+    </edge>
+    <edge source="logistic_regression" target="constraint:requires_numeric_features" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="logistic_regression" target="constraint:validation_only_threshold" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="logistic_regression" target="binary_classification" id="0">
+      <data key="d23">SUITABLE_FOR</data>
+    </edge>
+    <edge source="logistic_regression" target="f1" id="0">
+      <data key="d23">EVALUATED_BY</data>
+    </edge>
+    <edge source="logistic_regression" target="roc_auc" id="0">
+      <data key="d23">EVALUATED_BY</data>
+    </edge>
+    <edge source="logistic_regression" target="constraint:tabular_data" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="logistic_regression" target="constraint:interpretable_baseline" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="logistic_regression" target="constraint:imbalanced_data" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="standard_scaling" target="document:tabular_preprocessing_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">Feature scaling</data>
+    </edge>
+    <edge source="standard_scaling" target="dependency:scikit_learn" id="0">
+      <data key="d23">DEPENDS_ON</data>
+    </edge>
+    <edge source="standard_scaling" target="constraint:fit_on_train_only" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="standard_scaling" target="constraint:linear_model" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="standard_scaling" target="constraint:numeric_features" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="one_hot_encoding" target="document:tabular_preprocessing_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">One-Hot Encoding</data>
+    </edge>
+    <edge source="one_hot_encoding" target="dependency:scikit_learn" id="0">
+      <data key="d23">DEPENDS_ON</data>
+    </edge>
+    <edge source="one_hot_encoding" target="constraint:handle_unknown_ignore" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="one_hot_encoding" target="constraint:fit_on_train_only" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="one_hot_encoding" target="constraint:categorical_features" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="class_weight_balancing" target="document:classification_model_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">Class imbalance and class weight</data>
+    </edge>
+    <edge source="class_weight_balancing" target="dependency:scikit_learn" id="0">
+      <data key="d23">DEPENDS_ON</data>
+    </edge>
+    <edge source="class_weight_balancing" target="constraint:train_only" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="class_weight_balancing" target="constraint:imbalanced_data" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="class_weight_balancing" target="constraint:low_minority_recall" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="random_forest" target="document:classification_model_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">Random Forest</data>
+    </edge>
+    <edge source="random_forest" target="dependency:scikit_learn" id="0">
+      <data key="d23">DEPENDS_ON</data>
+    </edge>
+    <edge source="random_forest" target="one_hot_encoding" id="0">
+      <data key="d23">REQUIRES</data>
+    </edge>
+    <edge source="random_forest" target="class_weight_balancing" id="0">
+      <data key="d23">REQUIRES</data>
+    </edge>
+    <edge source="random_forest" target="constraint:requires_numeric_features" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="random_forest" target="constraint:validation_only_threshold" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="random_forest" target="binary_classification" id="0">
+      <data key="d23">SUITABLE_FOR</data>
+    </edge>
+    <edge source="random_forest" target="f1" id="0">
+      <data key="d23">EVALUATED_BY</data>
+    </edge>
+    <edge source="random_forest" target="roc_auc" id="0">
+      <data key="d23">EVALUATED_BY</data>
+    </edge>
+    <edge source="random_forest" target="constraint:tabular_data" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="random_forest" target="constraint:nonlinear_relationships" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="random_forest" target="constraint:imbalanced_data" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="numerical_imputation" target="document:tabular_preprocessing_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">Missing values</data>
+    </edge>
+    <edge source="numerical_imputation" target="dependency:scikit_learn" id="0">
+      <data key="d23">DEPENDS_ON</data>
+    </edge>
+    <edge source="numerical_imputation" target="constraint:fit_on_train_only" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="numerical_imputation" target="constraint:missing_values" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="numerical_imputation" target="constraint:numeric_features" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="categorical_imputation" target="document:tabular_preprocessing_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">Missing values</data>
+    </edge>
+    <edge source="categorical_imputation" target="dependency:scikit_learn" id="0">
+      <data key="d23">DEPENDS_ON</data>
+    </edge>
+    <edge source="categorical_imputation" target="constraint:fit_on_train_only" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="categorical_imputation" target="constraint:missing_values" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="categorical_imputation" target="constraint:categorical_features" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="validation_threshold_optimization" target="document:classification_model_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">Validation-based threshold selection</data>
+    </edge>
+    <edge source="validation_threshold_optimization" target="dependency:scikit_learn" id="0">
+      <data key="d23">DEPENDS_ON</data>
+    </edge>
+    <edge source="validation_threshold_optimization" target="constraint:never_use_test_labels" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="validation_threshold_optimization" target="constraint:validation_only_threshold" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="validation_threshold_optimization" target="constraint:imbalanced_data" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="validation_threshold_optimization" target="constraint:low_f1_at_default_threshold" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="accuracy" target="document:classification_model_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">F1 and ROC-AUC</data>
+    </edge>
+    <edge source="accuracy" target="dependency:scikit_learn" id="0">
+      <data key="d23">DEPENDS_ON</data>
+    </edge>
+    <edge source="accuracy" target="constraint:may_hide_minority_failure" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="accuracy" target="constraint:balanced_error_costs" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="precision" target="document:classification_model_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">F1 and ROC-AUC</data>
+    </edge>
+    <edge source="precision" target="dependency:scikit_learn" id="0">
+      <data key="d23">DEPENDS_ON</data>
+    </edge>
+    <edge source="precision" target="constraint:false_positive_cost" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="recall" target="document:classification_model_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">F1 and ROC-AUC</data>
+    </edge>
+    <edge source="recall" target="dependency:scikit_learn" id="0">
+      <data key="d23">DEPENDS_ON</data>
+    </edge>
+    <edge source="recall" target="constraint:minority_detection" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="recall" target="constraint:imbalanced_data" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="f1" target="document:classification_model_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">F1 and ROC-AUC</data>
+    </edge>
+    <edge source="f1" target="dependency:scikit_learn" id="0">
+      <data key="d23">DEPENDS_ON</data>
+    </edge>
+    <edge source="f1" target="constraint:threshold_dependent" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="f1" target="constraint:imbalanced_data" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="f1" target="constraint:precision_recall_tradeoff" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="roc_auc" target="document:classification_model_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">F1 and ROC-AUC</data>
+    </edge>
+    <edge source="roc_auc" target="dependency:scikit_learn" id="0">
+      <data key="d23">DEPENDS_ON</data>
+    </edge>
+    <edge source="roc_auc" target="constraint:must_use_probabilities" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="roc_auc" target="constraint:probability_output" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="missing_value_error" target="document:failure_experience_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">MissingValueError</data>
+    </edge>
+    <edge source="missing_value_error" target="numerical_imputation" id="0">
+      <data key="d23">REQUIRES</data>
+    </edge>
+    <edge source="missing_value_error" target="numerical_imputation" id="1">
+      <data key="d23">IMPROVED_BY</data>
+    </edge>
+    <edge source="missing_value_error" target="categorical_imputation" id="0">
+      <data key="d23">REQUIRES</data>
+    </edge>
+    <edge source="missing_value_error" target="categorical_imputation" id="1">
+      <data key="d23">IMPROVED_BY</data>
+    </edge>
+    <edge source="missing_value_error" target="constraint:fit_imputer_on_train_only" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="missing_value_error" target="constraint:missing_values" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="categorical_encoding_error" target="document:failure_experience_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">CategoricalEncodingError</data>
+    </edge>
+    <edge source="categorical_encoding_error" target="one_hot_encoding" id="0">
+      <data key="d23">REQUIRES</data>
+    </edge>
+    <edge source="categorical_encoding_error" target="one_hot_encoding" id="1">
+      <data key="d23">IMPROVED_BY</data>
+    </edge>
+    <edge source="categorical_encoding_error" target="constraint:handle_unknown_ignore" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="categorical_encoding_error" target="constraint:categorical_features" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="categorical_encoding_error" target="constraint:unknown_categories" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="low_minority_recall" target="document:failure_experience_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">LowMinorityRecall</data>
+    </edge>
+    <edge source="low_minority_recall" target="class_weight_balancing" id="0">
+      <data key="d23">REQUIRES</data>
+    </edge>
+    <edge source="low_minority_recall" target="class_weight_balancing" id="1">
+      <data key="d23">IMPROVED_BY</data>
+    </edge>
+    <edge source="low_minority_recall" target="validation_threshold_optimization" id="0">
+      <data key="d23">REQUIRES</data>
+    </edge>
+    <edge source="low_minority_recall" target="validation_threshold_optimization" id="1">
+      <data key="d23">IMPROVED_BY</data>
+    </edge>
+    <edge source="low_minority_recall" target="constraint:evaluate_on_validation" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="low_minority_recall" target="constraint:imbalanced_data" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="low_minority_recall" target="constraint:low_minority_recall" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="low_f1_default_threshold" target="document:failure_experience_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">LowF1AtDefaultThreshold</data>
+    </edge>
+    <edge source="low_f1_default_threshold" target="validation_threshold_optimization" id="0">
+      <data key="d23">REQUIRES</data>
+    </edge>
+    <edge source="low_f1_default_threshold" target="validation_threshold_optimization" id="1">
+      <data key="d23">IMPROVED_BY</data>
+    </edge>
+    <edge source="low_f1_default_threshold" target="constraint:never_use_test_labels" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="low_f1_default_threshold" target="constraint:low_f1_at_default_threshold" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="low_f1_default_threshold" target="constraint:imbalanced_data" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="data_leakage_risk" target="document:failure_experience_guide.md" id="0">
+      <data key="d23">DERIVED_FROM</data>
+      <data key="d24">DataLeakageRisk</data>
+    </edge>
+    <edge source="data_leakage_risk" target="dependency:scikit_learn" id="0">
+      <data key="d23">DEPENDS_ON</data>
+    </edge>
+    <edge source="data_leakage_risk" target="constraint:train_validation_test_isolation" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="data_leakage_risk" target="constraint:pipeline_preprocessing" id="0">
+      <data key="d23">SATISFIES</data>
+    </edge>
+    <edge source="data_leakage_risk" target="constraint:data_leakage" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="data_leakage_risk" target="constraint:test_reuse" id="0">
+      <data key="d23">HANDLES</data>
+    </edge>
+    <edge source="historical_missing_value_failure" target="missing_value_error" id="0">
+      <data key="d23">FAILED_BECAUSE</data>
+    </edge>
+    <edge source="stage1_validation" target="customer_churn_sample" id="0">
+      <data key="d23">PERFORMED_ON</data>
+    </edge>
+    <edge source="stage1_validation" target="logistic_regression" id="0">
+      <data key="d23">USED_ALGORITHM</data>
+      <data key="d25">0.6749999999999998</data>
+      <data key="d26">True</data>
+    </edge>
+    <edge source="stage1_validation" target="f1" id="0">
+      <data key="d23">ACHIEVED_METRIC</data>
+      <data key="d27">logistic_regression</data>
+      <data key="d28">0.6739130434782609</data>
+      <data key="d29">test</data>
+    </edge>
+    <edge source="stage1_validation" target="f1" id="1">
+      <data key="d23">ACHIEVED_METRIC</data>
+      <data key="d27">random_forest</data>
+      <data key="d28">0.6046511627906976</data>
+      <data key="d29">test</data>
+    </edge>
+    <edge source="stage1_validation" target="roc_auc" id="0">
+      <data key="d23">ACHIEVED_METRIC</data>
+      <data key="d27">logistic_regression</data>
+      <data key="d28">0.9145021645021645</data>
+      <data key="d29">test</data>
+    </edge>
+    <edge source="stage1_validation" target="roc_auc" id="1">
+      <data key="d23">ACHIEVED_METRIC</data>
+      <data key="d27">random_forest</data>
+      <data key="d28">0.8857623857623858</data>
+      <data key="d29">test</data>
+    </edge>
+    <edge source="stage1_validation" target="random_forest" id="0">
+      <data key="d23">USED_ALGORITHM</data>
+      <data key="d25">0.3999999999999999</data>
+      <data key="d26">False</data>
+    </edge>
+    <data key="d0">AgentForge Knowledge Graph</data>
+  </graph>
+</graphml>
