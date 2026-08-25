@@ -50,7 +50,7 @@ python scripts/visualize_knowledge_graph.py
 
 ## 4:00–4:30 可选 LLM 与安全边界
 
-项目支持 OpenAI Responses 与 OpenAI-compatible Chat Completions。DeepSeek 的 HTTP/SDK 连接和 `system` 角色兼容已真实验证；空值、展示名称和新增任务别名通过离线回归测试。不要声称最后一次真实结构化解析已完整成功。
+项目支持 OpenAI Responses 与 OpenAI-compatible Chat Completions。DeepSeek 的 HTTP/SDK 连接和 `system` 角色兼容已真实验证；空值、展示名称和新增任务别名通过离线回归测试。RequirementAgent已完成一次真实DeepSeek结构化需求解析；该证据仅覆盖需求理解，不覆盖LLM自由代码生成或代码修复。
 
 AST 与 subprocess 只能降低意外风险，不是容器或生产级沙箱，不应执行任意不可信代码。
 
@@ -61,7 +61,7 @@ AST 与 subprocess 只能降低意外风险，不是容器或生产级沙箱，�
 3. **为什么选择 NetworkX？** 离线、零服务依赖，适合小规模笔试原型与 GraphML/JSON 交付。
 4. **能否执行任意 LLM 代码？** 不建议；现有 AST 与 subprocess 不是生产沙箱。
 5. **修复是否无限循环？** 否，最多两轮，且仅处理白名单失败类型。
-6. **DeepSeek 是否完全验证？** 连接和消息角色已真实验证；最新别名补充只有离线回归验证。
+6. **DeepSeek 是否完全验证？** 已真实验证一次RequirementAgent结构化需求解析；未验证LLM自由代码生成或LLM代码修复，供应商行为和模型输出仍可能变化。
 7. **没有 Key 能否演示？** 可以，裸 demo 是完整 deterministic 工作流。
 8. **为什么有两个报告格式？** JSON 供机器审计，Markdown 供人阅读。
 9. **指标能代表业务效果吗？** 不能，当前使用固定种子的合成数据，只证明流程正确和可复现。
