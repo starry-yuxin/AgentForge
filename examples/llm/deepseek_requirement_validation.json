@@ -1,0 +1,41 @@
+{
+  "validation_type": "requirement_agent_structured_parsing",
+  "provider": "openai-compatible",
+  "api_mode": "chat_completions",
+  "model": "deepseek-v4-flash",
+  "timestamp_utc": "2026-08-25T01:44:50Z",
+  "request_count": 1,
+  "fallback_used": false,
+  "latency_seconds": 16.185908,
+  "token_usage": {
+    "prompt_tokens": 237,
+    "completion_tokens": 1723,
+    "total_tokens": 1960
+  },
+  "structured_requirement": {
+    "task_type": "binary_classification",
+    "primary_metric": "f1",
+    "minimum_score": 0.65,
+    "candidate_algorithms": [
+      "logistic_regression",
+      "random_forest"
+    ],
+    "dataset_path": "data/churn_sample.csv",
+    "required_interfaces": [
+      "train",
+      "predict",
+      "evaluate"
+    ],
+    "field_sources": {
+      "task_type": "llm",
+      "primary_metric": "llm",
+      "minimum_score": "llm",
+      "candidate_algorithms": "llm",
+      "dataset_path": "default_config",
+      "required_interfaces": "llm"
+    }
+  },
+  "normalization_applied": "strict local whitelist normalization was enabled before model validation",
+  "secret_leak_found": false,
+  "disclaimer": "This sanitized record proves one RequirementAgent parsing call only; it does not prove LLM code generation, LLM repair, or stable future provider behavior."
+}

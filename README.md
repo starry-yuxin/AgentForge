@@ -179,10 +179,19 @@ python -m agentforge.cli run \
 详见 [真实数据说明、泄漏审查与复现边界](docs/real-world-data.md)。该结果只证明
 公开数据上的可复现运行，不代表生产性能、业务泛化能力或部署就绪。
 
-2026-08-24 的固定种子复验中，Logistic Regression 的 validation/test F1 为
-0.686192/0.669456，Random Forest 为 0.861386/0.882353；后者仅凭 validation F1
-被选中，test ROC-AUC 为 0.980350。模拟数据继续用于零下载、故障注入和稳定回归；
-真实公开数据用于验证外部 schema 适配能力，两者用途不同。
+2026-08-24 的固定种子复验结果如下。标准分层切分存在相同特征签名跨集合，
+因此其结果可能略微乐观；敏感性实验不代表生产泛化能力。`Status` 仅被视为
+潜在代理字段，未被证明为目标泄漏。
+
+| UCI 设置 | Random Forest test F1 |
+|---|---:|
+| 标准分层、完整特征 | 0.882353 |
+| 重复组隔离 | 0.833333 |
+| 重复组隔离并移除 `status` 与 `customer_value` | 0.823529 |
+
+完整的 Logistic Regression、validation、ROC-AUC、阈值和重复组统计见
+[UCI 数据可信度审计](docs/uci-data-audit.md)。模拟数据继续用于零下载、故障注入
+和稳定回归；真实公开数据用于验证外部 schema 适配能力，两者用途不同。
 
 实际 CLI 参数以以下命令为准：
 
@@ -196,6 +205,9 @@ python -m agentforge.cli run --help
 仅在明确希望产生真实 API 调用时，才复制 `.env.example` 并在本地填写配置。不要提交 `.env`。ChatGPT 订阅与 API 计费相互独立。
 
 DeepSeek 使用 OpenAI-compatible Chat Completions，安全示例配置如下；Key 只保存在本地 `.env`：
+
+仓库同时提供一份[真实需求解析的脱敏验证记录](examples/llm/README.md)。该记录只证明
+RequirementAgent 曾完成一次兼容端点调用，不代表 LLM 代码生成或修复已被验证。
 
 ```dotenv
 AGENTFORGE_MODE=hybrid
@@ -260,7 +272,7 @@ outputs/runs/<run-id>/
 
 ## 测试与复现
 
-当前全量离线测试为 **116 项**，所有 LLM 测试均使用 fake/mock 客户端。
+当前全量离线测试为 **160 项**，所有 LLM 测试均使用 fake/mock 客户端。
 
 ```bash
 python -m pytest -q
