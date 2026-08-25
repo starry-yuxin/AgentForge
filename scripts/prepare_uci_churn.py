@@ -23,8 +23,9 @@ def main() -> int:
     processed, metadata = prepare_uci_iranian_churn(
         root=args.output_root, force=args.force, timeout=args.timeout
     )
-    print(f"processed_dataset: {processed.relative_to(ROOT)}")
-    print(f"metadata: {metadata.relative_to(ROOT)}")
+    display_root = Path(args.output_root).resolve() if args.output_root else ROOT
+    print(f"processed_dataset: {processed.resolve().relative_to(display_root)}")
+    print(f"metadata: {metadata.resolve().relative_to(display_root)}")
     return 0
 
 

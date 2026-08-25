@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import os
 import shutil
+import ssl
 import tempfile
 import urllib.request
 import zipfile
@@ -13,6 +14,7 @@ from pathlib import Path, PurePosixPath
 from typing import BinaryIO, Callable
 
 import pandas as pd
+import certifi
 
 from agentforge.datasets.models import DatasetMetadata, LeakageReview
 from agentforge.datasets.registry import ROOT, get_dataset_spec
@@ -80,7 +82,7 @@ def _download_atomic(
 
 def prepare_uci_iranian_churn(
     *, root: str | Path | None = None, force: bool = False, timeout: float = 30.0,
-    opener: Callable[..., BinaryIO] = urllib.request.urlopen,
+    opener: Callable[..., BinaryIO] | None = None,
 ) -> tuple[Path, Path]:
     """Download, validate and normalize the registered dataset without fitting ML state."""
     spec = get_dataset_spec("uci_iranian_churn")
@@ -89,6 +91,15 @@ def prepare_uci_iranian_churn(
     raw_csv_path = base / "raw" / spec.archive_member_name
     processed_path = base / "processed" / "uci_iranian_churn.csv"
     metadata_path = base / "metadata" / "dataset_metadata.json"
+    if opener is None:
+        context = ssl.create_default_context(cafile=certifi.where())
+        if context.verify_mode != ssl.CERT_REQUIRED or not context.check_hostname:
+            raise RuntimeError("secure TLS verification context could not be established")
+
+        def verified_opener(url: str, *, timeout: float) -> BinaryIO:
+            return urllib.request.urlopen(url, timeout=timeout, context=context)
+
+        opener = verified_opener
     _download_atomic(spec.download_url, archive_path, timeout=timeout, opener=opener, force=force)
 
     with zipfile.ZipFile(archive_path) as archive:

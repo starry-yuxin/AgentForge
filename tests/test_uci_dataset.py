@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import io
 import json
+import ssl
 import zipfile
 from pathlib import Path
 
@@ -89,6 +90,23 @@ def test_prepare_maps_schema_and_writes_auditable_metadata(tmp_path: Path):
     assert metadata.processed_file_sha256 == hashlib.sha256(processed.read_bytes()).hexdigest()
     assert metadata.feature_mapping["Churn"] == "churn"
     assert metadata.leakage_review.target_removed_from_features
+
+
+def test_default_download_uses_verified_certifi_context(tmp_path: Path, monkeypatch):
+    captured = {}
+
+    def fake_urlopen(url: str, *, timeout: float, context: ssl.SSLContext):
+        captured.update(url=url, timeout=timeout, context=context)
+        return Response(_zip())
+
+    monkeypatch.setattr("agentforge.datasets.uci_iranian_churn.urllib.request.urlopen", fake_urlopen)
+    prepare_uci_iranian_churn(root=tmp_path, timeout=3.5)
+
+    context = captured["context"]
+    assert captured["url"].startswith("https://archive.ics.uci.edu/")
+    assert captured["timeout"] == 3.5
+    assert context.verify_mode == ssl.CERT_REQUIRED
+    assert context.check_hostname is True
 
 
 def test_existing_archive_is_not_downloaded_and_output_is_stable(tmp_path: Path):

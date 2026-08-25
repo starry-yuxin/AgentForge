@@ -7,3 +7,4 @@ networkx>=3.5,<4.0
 pytest>=9.0,<10.0
 openai>=3.3,<4.0
 python-dotenv>=1.2,<2.0
+certifi>=2025.11.12
