@@ -220,7 +220,7 @@ LLM_ENABLE_CODE_GENERATION=false
 LLM_ENABLE_CODE_REPAIR=false
 ```
 
-DeepSeek HTTP/SDK 连接和 Chat Completions 的 `system` 角色兼容已通过真实请求验证；LLM 返回 `null`、展示名称的本地规范化已有回归测试，最后补充的 `tabular binary classification` 任务别名仅完成离线回归。项目不声称最后一次真实需求解析已完整成功。
+DeepSeek HTTP/SDK连接、Chat Completions的`system`角色兼容，以及一次RequirementAgent结构化需求解析已通过真实请求验证。该证据仅验证需求理解，不代表LLM自由代码生成或LLM代码修复已经验证；外部服务和模型输出仍可能随时间变化。
 
 ```bash
 # 无 Key 的受控降级演示；不会启用 LLM 代码生成或修复
